@@ -1,6 +1,6 @@
 ---
 name: cc-native
-description: Reference for Claude Code native features — agentic loop, plan mode, subagents, skills, hooks, MCP, plugins, permission modes, scheduled tasks, settings. Use when answering questions about how Claude Code itself works or designing CC-native automation (hooks, skills, agents, MCP).
+description: TRIGGER for any question about Claude Code features — hooks, skills, subagents, agent teams, MCP, plugins, permission modes, plan mode, auto mode, scheduled tasks, settings, agentic loop, worktrees, checkpointing, memory, context management. Read the matching file in references/ before answering — do not answer from training memory; CC features change weekly. Also TRIGGER when designing or editing CC config under .claude/ or .mcp.json.
 ---
 
 # Claude Code Native Architecture
