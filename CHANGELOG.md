@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.3] — 2026-05-05
+
+- chore(metadata): sync `keywords` between `plugin.json` and `marketplace.json` (marketplace was advertising 3, manifest had 7) and add the `audit` keyword to reflect the auditor subagent. Marketplace listings are populated from `marketplace.json`, so this widens discoverability for users searching `skills`, `hooks`, `agents`, `docs`, `linting`, or `audit`.
+- chore(metadata): mirror `category: "developer-tools"` from `marketplace.json` into `plugin.json` so both manifests agree.
+
+Pre-submission cleanup ahead of the official Anthropic marketplace form (https://claude.ai/settings/plugins/submit). No behavior change.
+
 ## [0.1.2] — 2026-05-05
 
 - fix(windows): `hooks.json` now invokes `python` instead of `python3`. On Windows the `python3` command resolves to the Microsoft Store install stub (which exits non-zero) — every hook was silently failing on Windows installs.

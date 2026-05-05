@@ -6,9 +6,9 @@
       "name": "cc-native",
       "source": { "source": "github", "repo": "GarySonyak/cc-native" },
       "description": "CC feature-awareness pack: feature-guide skill + edit guard + lint/audit.",
-      "version": "0.1.2",
+      "version": "0.1.3",
       "category": "developer-tools",
-      "keywords": ["claude-code", "meta", "lint"]
+      "keywords": ["claude-code", "skills", "hooks", "agents", "docs", "linting", "audit", "meta"]
     }
   ]
 }

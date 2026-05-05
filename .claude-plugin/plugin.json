@@ -1,10 +1,11 @@
 {
   "name": "cc-native",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Keep Claude Code feature-aware against weekly releases: feature-guide skill, edit-time reminder + lint + audit for .claude/ artifacts.",
   "author": { "name": "Gary Sonyak", "url": "https://github.com/GarySonyak" },
   "homepage": "https://github.com/GarySonyak/cc-native",
   "repository": "https://github.com/GarySonyak/cc-native",
   "license": "MIT",
-  "keywords": ["claude-code", "skills", "hooks", "agents", "docs", "linting", "meta"]
+  "category": "developer-tools",
+  "keywords": ["claude-code", "skills", "hooks", "agents", "docs", "linting", "audit", "meta"]
 }
