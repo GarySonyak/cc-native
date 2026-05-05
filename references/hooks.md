@@ -4,7 +4,7 @@
 
 ## Events by category
 
-- Session: `SessionStart`, `SessionEnd`, `InstructionsLoaded`, `ConfigChange`, `CwdChanged`
+- Session: `SessionStart`, `SessionEnd`, `Setup` (matcher: `init`/`maintenance` -- fires on `--init-only`/`--init`/`--maintenance` flags), `InstructionsLoaded`, `ConfigChange`, `CwdChanged`
 - User input: `UserPromptSubmit`, `UserPromptExpansion` (fires when user command expands; can block), `Elicitation`, `ElicitationResult`
 - Tool: `PreToolUse`, `PermissionRequest`, `PostToolUse`, `PostToolUseFailure`, `PostToolBatch` (fires after full parallel tool batch, before next model call; no matcher -- always fires) (v2.1.121)
 - Notification: `Notification`
@@ -22,7 +22,7 @@
 
 ## Matchers
 
-Regex on tool name (PreToolUse/PostToolUse), session source (SessionStart), agent type (SubagentStart/Stop), etc. `if` field (v2.1.85+): permission rule syntax for tool name + argument filtering. Only works on tool events (PreToolUse, PostToolUse, PostToolUseFailure, PermissionRequest).
+Regex on event metadata: tool name (`PreToolUse`/`PostToolUse`/`PostToolUseFailure`/`PermissionRequest`/`PermissionDenied`), session source (`SessionStart`), agent type (`SubagentStart`/`SubagentStop`), MCP server name (`Elicitation`/`ElicitationResult`), notification type (`Notification`), command name (`UserPromptExpansion`), `manual`/`auto` (`PreCompact`/`PostCompact`), `init`/`maintenance` (`Setup`). Exact-string match when matcher uses only letters/digits/`_`/`|`. Per-event notes below cover `ConfigChange`/`InstructionsLoaded`/`SessionEnd`/`StopFailure`/`FileChanged` matcher values. `if` field (v2.1.85+): permission rule syntax for tool name + argument filtering. Only works on tool events (PreToolUse, PostToolUse, PostToolUseFailure, PermissionRequest).
 
 ## Exit codes
 
@@ -30,7 +30,7 @@ Regex on tool name (PreToolUse/PostToolUse), session source (SessionStart), agen
 
 ## Structured JSON output
 
-`permissionDecision` (allow/deny/ask/defer) for PreToolUse; `decision: "block"` for PostToolUse/Stop; `behavior` for PermissionRequest. `defer` (PreToolUse, non-interactive `-p` only): pauses for SDK wrapper to collect input and resume. `PermissionRequest` hook can return `updatedPermissions: [{type: "setMode", mode: "acceptEdits|auto|...", destination: "session"}]` to programmatically change permission mode.
+`permissionDecision` (allow/deny/ask/defer) for PreToolUse; `decision: "block"` for `UserPromptSubmit`, `UserPromptExpansion`, `PostToolUse`, `PostToolUseFailure`, `PostToolBatch`, `Stop`, `SubagentStop`, `ConfigChange`, `PreCompact`; `behavior` for PermissionRequest. `defer` (PreToolUse, non-interactive `-p` only): pauses for SDK wrapper to collect input and resume. `PermissionRequest` hook can return `updatedPermissions: [{type: "setMode", mode: "acceptEdits|auto|...", destination: "session"}]` to programmatically change permission mode.
 
 ## Location hierarchy
 
@@ -50,3 +50,5 @@ Browse: `/hooks`. Disable all: `disableAllHooks: true`.
 - `PreCompact`: exit code 2 to block compaction (v2.1.105).
 - `StopFailure`: matcher filters by error type: `rate_limit`, `authentication_failed`, `billing_error`, `invalid_request`, `server_error`, `max_output_tokens`, `unknown`.
 - `PostToolUse`/`PostToolUseFailure`: include `duration_ms` (v2.1.119); `PostToolUse` can replace tool output for any tool (v2.1.121).
+- `WorktreeCreate`: command hooks return path on stdout; HTTP hooks return `hookSpecificOutput.worktreePath`. Hook failure or missing path fails worktree creation.
+- `SessionStart`/`Setup`: `hookSpecificOutput.additionalContext` injects text into Claude's context. `SessionStart` also accepts plain stdout (single hook); `Setup` concatenates `additionalContext` from multiple hooks.

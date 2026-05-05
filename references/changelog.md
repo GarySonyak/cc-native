@@ -24,10 +24,12 @@
 
 ## Version notes
 
+- **v2.1.113**: security hardening -- `sandbox.network.deniedDomains` setting; `Bash(find:*)` no longer auto-approves `find -exec`/`-delete`; deny rules now match commands wrapped in `env`/`sudo`/`watch`/`ionice`/`setsid`; macOS `/private/{etc,var,tmp,home}` treated as dangerous.
+- **v2.1.114** (2026-04-18): `/less-permission-prompts` renamed to `/fewer-permission-prompts`; permission-dialog crash fix when teammate requested tool permission.
 - **v2.1.116** (2026-04-20): `/resume` 67% faster; `/reload-plugins` auto-installs missing plugin deps; agent `hooks:` frontmatter fires via `--agent`.
 - **v2.1.117**: `CLAUDE_CODE_FORK_SUBAGENT=1` enables forked subagents on external/non-Anthropic builds.
 - **v2.1.118** (2026-04-23): new `mcp_tool` hook type; hooks `"$defaults"` in auto mode rules; `/usage`; custom themes at `~/.claude/themes/`; `DISABLE_UPDATES` env var; Vim visual mode (v, V).
-- **v2.1.119** (2026-04-24): `PostToolUse`/`PostToolUseFailure` hooks include `duration_ms`; `prUrlTemplate` setting; `--from-pr` accepts GitLab MRs/Bitbucket PRs/GHE; `/config` persists to `~/.claude/settings.json`; new index pages: `admin-setup`, `auto-mode-config`.
+- **v2.1.119** (2026-04-23): `PostToolUse`/`PostToolUseFailure` hooks include `duration_ms`; `prUrlTemplate` setting; `--from-pr` accepts GitLab MRs/Bitbucket PRs/GHE; `/config` persists to `~/.claude/settings.json`; new index pages: `admin-setup`, `auto-mode-config`.
 - **v2.1.120** (2026-04-28): Windows no longer requires Git Bash to launch CC (PowerShell default); `claude ultrareview [target]` non-interactive; `${CLAUDE_EFFORT}` in skills.
 - **v2.1.121** (2026-04-28): `alwaysLoad` MCP option; `PostToolBatch` hook event; `PostToolUse` hooks can replace tool output for any tool; `claude plugin prune` removes orphaned deps; type-to-filter in `/skills`.
 - **v2.1.122** (2026-04-28): `ANTHROPIC_BEDROCK_SERVICE_TIER` env var; PR URL search in `/resume`; `/mcp` duplicate server detection.

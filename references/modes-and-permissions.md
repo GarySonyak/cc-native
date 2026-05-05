@@ -2,7 +2,7 @@
 
 ## Plan Mode
 
-Read-only exploration -- no edits allowed. Outputs plan file to `.claude/plans/`. Exit with `ExitPlanMode` when ready. On exit: choose auto, acceptEdits, or manual review for implementation. Cycle modes with **Shift+Tab**: default -> acceptEdits -> plan -> auto. Enter plan mode for one request with `/plan <description>`.
+Read-only exploration -- no edits allowed. Outputs plan file to `.claude/plans/`. Exit with `ExitPlanMode` when ready. On exit: choose auto, acceptEdits, or manual review for implementation. Cycle modes with **Shift+Tab**: default -> acceptEdits -> plan (auto only enters cycle with `--enable-auto-mode`). Enter plan mode for one request with `/plan <description>`.
 
 ## Permission Modes
 
@@ -21,7 +21,7 @@ CLI: `--permission-mode <mode>`. Setting: `permissions.defaultMode`. Scheduled t
 
 ## Protected files & dirs
 
-Protected files (never auto-approved in most modes): `.gitconfig`, `.gitmodules`, `.bashrc`, `.bash_profile`, `.zshrc`, `.zprofile`, `.profile`, `.ripgreprc`, `.mcp.json`, `.claude.json`. Protected dirs: `.vscode .idea .husky` and `.claude` (except `.claude/commands agents skills worktrees`). Note: `.claude-plugin` removed from protected dirs. `bypassPermissions` bypasses ALL protected paths as of v2.1.126 (only `rm -rf /` and `rm -rf ~` still prompt). (v2.1.126)
+Protected files (never auto-approved in most modes): `.gitconfig`, `.gitmodules`, `.bashrc`, `.bash_profile`, `.zshrc`, `.zprofile`, `.profile`, `.ripgreprc`, `.mcp.json`, `.claude.json`. Protected dirs: `.git`, `.vscode`, `.idea`, `.husky`, and `.claude` (except `.claude/commands`, `.claude/agents`, `.claude/skills`, `.claude/worktrees` where Claude routinely creates content). Note: `.claude-plugin` removed from protected dirs. `bypassPermissions` bypasses ALL protected paths as of v2.1.126 (only `rm -rf /` and `rm -rf ~` still prompt). (v2.1.126)
 
 `acceptEdits` auto-approves: `mkdir touch rm rmdir mv cp sed` (and env-var/process-wrapper prefixes) inside working directory.
 

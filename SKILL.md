@@ -6,7 +6,7 @@ description: TRIGGER for any question about Claude Code features — hooks, skil
 # Claude Code Native Architecture
 
 Quick reference for CC's native features. Source: code.claude.com/docs/en/. Updated by docs-monitor agent.
-Last updated: 2026-04-29
+Last updated: 2026-05-05
 
 ## Agentic Loop (always-loaded summary)
 

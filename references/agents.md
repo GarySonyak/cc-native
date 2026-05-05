@@ -2,14 +2,13 @@
 
 ## Subagents
 
-6 built-in types -- use via Agent tool with `subagent_type`:
+5 built-in types -- use via Agent tool with `subagent_type`:
 
 | Type | Model | Access | Purpose |
 |------|-------|--------|---------|
 | `Explore` | Haiku | Read-only | Fast codebase search/analysis |
 | `Plan` | Inherits | Read-only | Research for plan mode |
 | `General-purpose` | Inherits | All tools | Complex multi-step tasks |
-| `Bash` | Inherits | Terminal | Commands in separate context |
 | `statusline-setup` | Sonnet | Read/Edit | `/statusline` configuration |
 | `Claude Code Guide` | Haiku | Read-only | CC feature questions |
 
@@ -28,7 +27,7 @@
 
 File: `.claude/agents/<name>.md` or `~/.claude/agents/<name>.md`. YAML frontmatter + markdown system prompt.
 
-Key frontmatter fields: `name` (required), `description` (required), `model` (opus/sonnet/haiku/inherit), `tools`, `disallowedTools`, `memory` (user/project/local), `permissionMode`, `maxTurns`, `skills` (preload into context), `mcpServers` (scope MCP -- inline defs or name references), `hooks` (scoped lifecycle hooks), `background`, `effort` (low/medium/high/max), `isolation` (worktree), `initialPrompt`.
+Key frontmatter fields: `name` (required), `description` (required), `model` (opus/sonnet/haiku/inherit), `tools`, `disallowedTools`, `memory` (user/project/local), `permissionMode`, `maxTurns`, `skills` (preload into context), `mcpServers` (scope MCP -- inline defs or name references), `hooks` (scoped lifecycle hooks), `background`, `effort` (low/medium/high/max), `isolation` (worktree), `initialPrompt`, `color` (red/blue/green/yellow/purple/orange/pink/cyan -- display color in task list and transcript).
 
 Restrict spawnable subagents: `tools: Agent(worker, researcher), Read, Bash` -- allowlist syntax.
 Manage interactively: `/agents` command.

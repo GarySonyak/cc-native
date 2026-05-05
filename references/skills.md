@@ -25,7 +25,7 @@ Reference supporting files from `SKILL.md` so Claude knows what each contains an
 
 ## Frontmatter
 
-Key fields: `name`, `description` (recommended, cap 250 chars), `when_to_use` (extra trigger context, appended to description), `argument-hint`, `arguments` (named positional args for `$name` substitution; space-separated or YAML list), `disable-model-invocation` (true = user-only), `user-invocable` (false = Claude-only), `allowed-tools`, `model`, `effort`, `context` (fork = run in subagent), `agent` (which subagent for context:fork), `hooks`, `paths` (glob patterns for auto-activation), `shell` (bash or powershell), `once` (run only once per session -- skills only).
+Key fields: `name`, `description` (recommended, cap 250 chars), `when_to_use` (extra trigger context, appended to description), `argument-hint`, `arguments` (named positional args for `$name` substitution; space-separated or YAML list), `disable-model-invocation` (true = user-only), `user-invocable` (false = Claude-only), `allowed-tools`, `model`, `effort`, `context` (fork = run in subagent), `agent` (which subagent for context:fork), `hooks`, `paths` (glob patterns for auto-activation), `shell` (bash or powershell).
 
 `description` + `when_to_use` combined are capped at **1536 chars** in the skill listing — put the key use case first.
 

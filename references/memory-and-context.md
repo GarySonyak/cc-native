@@ -2,7 +2,7 @@
 
 ## Memory & Instructions
 
-Hierarchy: `~/.claude/CLAUDE.md` (global) > `project/CLAUDE.md` (project) > `.claude/rules/*.md` (scoped or always-loaded). Rules with `paths:` frontmatter are scoped to those files; without `paths:` = always loaded. HTML block comments stripped before injection (saves tokens). `claudeMdExcludes` setting to skip CLAUDE.md files by path/glob.
+4-tier hierarchy (most specific wins): `./CLAUDE.local.md` (local, gitignored) > `./CLAUDE.md` or `./.claude/CLAUDE.md` (project, team-shared) > `~/.claude/CLAUDE.md` (user) > managed policy (`/Library/Application Support/ClaudeCode/CLAUDE.md` macOS, `/etc/claude-code/CLAUDE.md` Linux/WSL, `C:\Program Files\ClaudeCode\CLAUDE.md` Windows — cannot be excluded). Files are concatenated, not overridden; closer-to-cwd loads last. `.claude/rules/*.md`: scoped via `paths:` frontmatter, otherwise always loaded. HTML block comments stripped before injection (saves tokens). `claudeMdExcludes` setting skips files by path/glob (cannot exclude managed policy).
 
 ### Auto memory (v2.1.59+)
 
@@ -10,7 +10,7 @@ Claude writes notes to `~/.claude/projects/<project>/memory/MEMORY.md` automatic
 
 ### CLAUDE.md tips
 
-Target under 200 lines; use `@path/to/file` imports; `/init` generates initial file (set `CLAUDE_CODE_NEW_INIT=true` for interactive flow). AGENTS.md: CC reads CLAUDE.md, import AGENTS.md with `@AGENTS.md` for cross-agent compatibility.
+Target under 200 lines; use `@path/to/file` imports; `/init` generates initial file (set `CLAUDE_CODE_NEW_INIT=true` for interactive flow). `--add-dir` directories don't load CLAUDE.md by default -- set `CLAUDE_CODE_ADDITIONAL_DIRECTORIES_CLAUDE_MD=1` to load `CLAUDE.md`/`.claude/CLAUDE.md`/`.claude/rules/*.md`/`CLAUDE.local.md` from them. AGENTS.md: CC reads CLAUDE.md, import AGENTS.md with `@AGENTS.md` for cross-agent compatibility.
 
 ## Context Management
 

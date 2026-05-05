@@ -23,6 +23,8 @@ Compare options: **Routines** (Cloud, `/schedule`): Anthropic-managed, durable, 
 
 `loop.md` customization: `.claude/loop.md` (project) or `~/.claude/loop.md` (user) replaces built-in `/loop` maintenance prompt; edits take effect on next iteration. Content >25KB truncated. (v2.1.101)
 
+Stop a running `/loop` between iterations with `Esc` (only affects `/loop`; tasks created via natural-language scheduling are unaffected). On Bedrock, Vertex AI, and Microsoft Foundry: `/loop <prompt>` with no interval runs on a fixed 10-minute schedule (not dynamic), and bare `/loop` with no prompt prints usage instead of starting the maintenance loop.
+
 ## Session Management
 
 `/continue` resume last session. `/resume` pick from list. `--fork-session` branch without affecting original. `/branch` fork for exploration. `/teleport` move between surfaces. Sessions tied to directory -- use worktrees for parallel sessions on different branches.

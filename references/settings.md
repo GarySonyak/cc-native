@@ -24,3 +24,5 @@
 - `showThinkingSummaries`: show extended thinking summaries in interactive sessions (default: false).
 - `DISABLE_UPDATES` env var: block all update paths; useful for managed/locked deployments. (v2.1.118)
 - `prUrlTemplate`: custom code-review URLs (v2.1.119).
+
+Managed-only settings (`disable*`, `allow*Only`, `sandbox.*.allowManaged*Only`, plugin/marketplace policy keys like `pluginTrustMessage`/`strictKnownMarketplaces`/`blockedMarketplaces`/`channelsEnabled`/`allowedChannelPlugins`, `minimumVersion`, `wslInheritsWindowsSettings`, `subagentStatusLine`) intentionally excluded -- see `/en/settings#available-settings` for the full enterprise list.
