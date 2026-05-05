@@ -30,18 +30,28 @@ if [ -f "$AGENT_FILE" ]; then
   cp -f "$AGENT_FILE" "$LIVE_AGENT"
 fi
 
+START_TS=$(date +%s)
 OUTPUT=$(cd "$PLUGIN_REPO" && printf '%s' "Follow the workflow in ${AGENT_FILE}. Fetch all CC doc pages, compare against snapshots in ${SNAPSHOTS_DIR}/, edit reference files in ${PLUGIN_REPO}/skills/feature-guide/references/ as needed, report changes via Telegram (chat_id: ${CHAT_ID})." | \
   CLAUDECODE="" timeout 1500 /root/.local/bin/claude -p \
   --agent docs-monitor \
   --permission-mode dontAsk \
   --allowedTools "WebFetch(domain:code.claude.com),WebFetch(domain:docs.claude.com),Read,Write,Edit,Bash(md5sum:*),Bash(diff:*),Bash(mkdir:*),Bash(date:*),Grep,mcp__plugin_telegram_telegram__reply" \
   2>&1)
+DURATION=$(( $(date +%s) - START_TS ))
+if [ "$DURATION" -ge 60 ]; then
+  DUR_STR="$((DURATION / 60))m$((DURATION % 60))s"
+else
+  DUR_STR="${DURATION}s"
+fi
+
+# Replace the agent's "n/a" duration placeholder with the wrapper-measured value.
+OUTPUT=$(printf '%s' "$OUTPUT" | sed -E "s#^(Run \#[0-9]+ \| [0-9-]+ )\| n/a#\1| ${DUR_STR}#")
 
 if [ -n "$OUTPUT" ]; then
   echo "$OUTPUT" >> "$LOG"
   TG_MSG="$OUTPUT"
 else
-  FALLBACK="[$(date -u '+%Y-%m-%d')] docs-monitor: completed but produced no summary"
+  FALLBACK="[$(date -u '+%Y-%m-%d')] docs-monitor: completed but produced no summary (duration ${DUR_STR})"
   echo "$FALLBACK" >> "$LOG"
   TG_MSG="$FALLBACK"
 fi
