@@ -1,24 +1,14 @@
 {
   "name": "gary-sonyak",
-  "owner": {
-    "name": "Gary Sonyak",
-    "url": "https://github.com/GarySonyak"
-  },
+  "owner": { "name": "Gary Sonyak", "url": "https://github.com/GarySonyak" },
   "plugins": [
     {
       "name": "cc-native",
-      "source": {
-        "source": "github",
-        "repo": "GarySonyak/cc-native"
-      },
+      "source": { "source": "github", "repo": "GarySonyak/cc-native" },
       "description": "CC feature-awareness pack: feature-guide skill + edit guard + lint/audit.",
-      "version": "0.1.2",
+      "version": "0.1.1",
       "category": "developer-tools",
-      "keywords": [
-        "claude-code",
-        "meta",
-        "lint"
-      ]
+      "keywords": ["claude-code", "meta", "lint"]
     }
   ]
 }

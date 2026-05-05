@@ -36,6 +36,3 @@
 - **v2.1.123** (2026-04-29): OAuth 401 retry-loop fix when `CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS=1`.
 - **v2.1.126** (2026-05-01): `claude project purge` deletes all CC state for a project; `bypassPermissions` now bypasses protected paths (rm -rf / and ~ still prompt); OAuth improvements for WSL2/SSH/containers; auto-mode spinner turns red when classifier stalls; image auto-downscale >2000px on paste.
 - **v2.1.128** (2026-05-04): bare `/color` picks random session color; `/mcp` shows tool count per connected server; `--plugin-dir` accepts `.zip` archives; `--channels` works with console (API key) auth; `workspace` is reserved MCP server name; MCP reconnect no longer floods chat with tool lists; auto mode classifier errors include helpful hints. New `allowedMcpServers`/`deniedMcpServers` managed settings for MCP server allowlists/denylists.
-
-<!-- SYNTHETIC-DRIFT-TEST-MARKER-7f3a — remove after Step 18 verification -->
-

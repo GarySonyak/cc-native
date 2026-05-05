@@ -1,9 +1,5 @@
 # Changelog
 
-## [0.1.2] — 2026-05-05
-
-- `[2026-05-05] docs-monitor: 0 changes (15 pages checked)`
-
 ## [0.1.1] — 2026-05-05
 
 - fix: workflow rule scope had typo `.claube-plugin/` (missed marketplace.json edits).
