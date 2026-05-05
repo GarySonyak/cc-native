@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.1.6] — 2026-05-05
+
+- fix(maybe-audit): the Stop hook now detects when the `cc-native-auditor` subagent has already been invoked since the last user message and stays silent on subsequent Stops in the same turn. Before this fix, the hook re-fired indefinitely whenever the user kept the turn open without resolving every flagged block (e.g., test artifacts intentionally left flawed, or findings the user explicitly accepts), because the transcript scan kept rediscovering the same prior edits. Found via dogfood session.
+- fix(auditor): hardened the `cc-native-auditor` system prompt. The auditor now MUST `Read` the matching `references/<topic>.md` file before issuing any schema- or feature-shape finding on that artifact. Previously the prompt suggested consulting the reference but didn't enforce it, so the auditor would hallucinate marketplace-manifest schema details (claiming `url` source isn't documented, claiming `owner` isn't a marketplace field, inventing a `monitors` plugin field). Mapping table added so the auditor knows exactly which reference to read for each artifact type.
+
 ## [0.1.5] — 2026-05-05
 
 - fix(marketplace): switch plugin `source` from `github` shorthand to explicit `url` form (`https://github.com/GarySonyak/cc-native.git`). Reason: Claude Code's plugin-install path on the `github` source defaults to SSH (`git@github.com:owner/repo.git`) and does not gracefully fall back to HTTPS the way the marketplace-add path does, so HTTPS-only users (no SSH keys configured for github.com) get `Permission denied (publickey)` on install. The `url` source clones over the literal URL string, which forces HTTPS and works for every user regardless of SSH setup.

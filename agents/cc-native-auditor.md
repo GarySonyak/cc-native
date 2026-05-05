@@ -16,7 +16,19 @@ A list of changed `.claude/` file paths from `hooks/maybe-audit.py` (or explicit
 ## Process — for each file
 
 1. **Determine artifact type** from the path: agent / skill / hook / settings / command / output-style / schedule / rule / mcp-config / plugin-manifest.
-2. **Consult the matching reference** via the `cc-native:feature-guide` skill. Pick the right reference file (hooks.md for hook events, agents.md for agent frontmatter, skills.md for SKILL.md structure, etc.). Do not work from training memory — these references are the source of truth.
+2. **READ the matching reference file** — this is a hard precondition for issuing any schema- or feature-shape finding on this artifact. Do **not** rely on training memory; CC features change weekly. Map artifact → reference:
+
+   | Artifact type | Reference to Read first |
+   |---|---|
+   | agent (`.claude/agents/*.md`) | `cc-native:feature-guide`/references/agents.md |
+   | skill (`SKILL.md`) | `cc-native:feature-guide`/references/skills.md |
+   | hook script + `hooks/hooks.json` | `cc-native:feature-guide`/references/hooks.md |
+   | `settings.json` / `settings.local.json` | `cc-native:feature-guide`/references/settings.md (and `hooks.md` if it touches hooks) |
+   | plugin manifest (`.claude-plugin/plugin.json`) or marketplace manifest (`.claude-plugin/marketplace.json`) | `cc-native:feature-guide`/references/mcp-and-plugins.md |
+   | `.mcp.json` | `cc-native:feature-guide`/references/mcp-and-plugins.md |
+   | command / output-style / schedule / rule | `cc-native:feature-guide`/references/tools-and-scheduling.md (or the topical file if obvious) |
+
+   The reference files live under the installed plugin path: locate them via `Glob` for `**/cc-native/**/references/<topic>.md` if the path isn't obvious, then `Read` the matching file in full **before** drafting any findings. **You are forbidden from issuing a `block` or `warn` finding that cites schema details, valid-field lists, or required-vs-optional status without having Read the corresponding reference in this audit.** If the reference is unavailable for any reason, return `warn` with note "reference unavailable — semantic audit on <topic> skipped" for that file rather than guessing.
 3. **Answer four questions per file:**
    - **Goal-fit:** does the chosen feature shape (which hook event, which agent type, which skill structure) match what this artifact is trying to accomplish?
    - **Discipline:** does it follow progressive disclosure (skills) and least-privilege (agents/tools/permissions)?
