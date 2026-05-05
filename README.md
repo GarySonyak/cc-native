@@ -13,6 +13,13 @@ A Claude Code plugin that keeps your agents, hooks, and skills aligned with the 
 | `maybe-audit` | Stop hook | Detects edits to `.claude/` files this turn and tells the main agent to invoke `cc-native-auditor` before declaring done. |
 | `rules/cc-native-agentic.md` | rule | Workflow rule that ties Guide (skill) + Verify (lint + audit) into a single MUST-FOLLOW directive. Mirrors the proven `sonar-agentic.md` pattern. |
 
+## Requirements
+
+- **Python 3.x on PATH as `python`.** The hooks invoke `python ...` (not `python3`) so they work uniformly on Windows (where `python3` resolves to a Microsoft Store stub) and on macOS/Linux distros that map `python` → Python 3.
+  - **Linux**: `apt install python-is-python3` (Debian/Ubuntu) or your distro's equivalent if `python` isn't already on PATH.
+  - **macOS**: Homebrew (`brew install python`) or the python.org installer both provide `python`.
+  - **Windows**: install Python 3 from python.org (NOT the Microsoft Store) and tick "Add Python to PATH".
+
 ## Install
 
 Once cc-native lands on the official Anthropic marketplace:
@@ -21,10 +28,10 @@ Once cc-native lands on the official Anthropic marketplace:
 /plugin install cc-native@claude-plugins-official
 ```
 
-For the dogfood window (private repo), add this maintainer marketplace and install from it:
+For the dogfood window, add this maintainer marketplace and install from it:
 
 ```bash
-/plugin marketplace add github:GarySonyak/cc-native
+/plugin marketplace add GarySonyak/cc-native
 /plugin install cc-native@gary-sonyak
 ```
 

@@ -78,9 +78,11 @@ def _scan_transcript(transcript_path: str) -> list[str]:
                     if not isinstance(inp, dict):
                         continue
                     for fp in _extract_paths(tool, inp):
-                        if fp not in seen and _matches_config(fp):
-                            seen.add(fp)
-                            touched.append(fp)
+                        # Normalize Windows backslashes for POSIX-style pattern matching.
+                        norm = fp.replace("\\", "/")
+                        if norm not in seen and _matches_config(norm):
+                            seen.add(norm)
+                            touched.append(norm)
     except OSError:
         return touched
     return touched

@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.2] — 2026-05-05
+
+- fix(windows): `hooks.json` now invokes `python` instead of `python3`. On Windows the `python3` command resolves to the Microsoft Store install stub (which exits non-zero) — every hook was silently failing on Windows installs.
+- fix(windows): `cc-native-reminder.py`, `cc-native-verify.py`, and `maybe-audit.py` now normalize incoming `file_path` values (`\` → `/`) so the POSIX-style `CONFIG_PATTERNS` and the `/.claude/<kind>/` literal checks in `_check_artifact_type` match Windows tool inputs.
+- fix(windows): `_validate_hook_script` skips the POSIX `S_IXUSR` exec-bit check on `os.name == "nt"` (Windows files don't carry POSIX exec bits — the warning was firing on every hook).
+- fix: hook smoke-test in `_validate_hook_script` now uses `sys.executable` instead of hardcoded `python3`, so it runs under whatever interpreter invoked the verify hook.
+- improve: hardcoded-user-path portability check expanded — was only flagging `/root/...`, now also catches `/home/<user>/...`, `/Users/<user>/...`, and `C:\Users\<user>\...` (renamed `ROOT_PATH_RE` → `HARDCODED_USER_PATH_RE`).
+
 ## [0.1.1] — 2026-05-05
 
 - fix: workflow rule scope had typo `.claube-plugin/` (missed marketplace.json edits).

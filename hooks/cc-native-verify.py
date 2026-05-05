@@ -29,7 +29,14 @@ HOOKS_REF = os.path.join(PLUGIN_ROOT, "skills", "feature-guide", "references", "
 TOOL_TOKEN_RE = re.compile(
     r"^([A-Z][A-Za-z0-9_]*|mcp__[A-Za-z0-9_]+__[A-Za-z0-9_]+)(\(.*\))?$"
 )
-ROOT_PATH_RE = re.compile(r"(^|[\s\"'`])/root/[^\s\"'`]+")
+HARDCODED_USER_PATH_RE = re.compile(
+    r"(^|[\s\"'`])("
+    r"/root/[^\s\"'`]+"
+    r"|/home/[^/\s\"'`]+/[^\s\"'`]+"
+    r"|/Users/[^/\s\"'`]+/[^\s\"'`]+"
+    r"|[A-Za-z]:[\\/]+Users[\\/]+[^\\/\s\"'`]+[\\/]+[^\s\"'`]*"
+    r")"
+)
 
 REQUIRED_FRONTMATTER = {
     "agents": ("name", "description"),
@@ -181,12 +188,14 @@ def _validate_frontmatter(
 def _validate_hook_script(path: str, errors: list[str], warnings: list[str]) -> None:
     if not path.endswith(".py"):
         return
-    try:
-        st = os.stat(path)
-    except OSError:
-        return
-    if not (st.st_mode & stat.S_IXUSR):
-        warnings.append(f"{path}: hook script not executable (chmod +x missing)")
+    # POSIX exec bits don't exist on Windows — skip the chmod check there.
+    if os.name != "nt":
+        try:
+            st = os.stat(path)
+        except OSError:
+            return
+        if not (st.st_mode & stat.S_IXUSR):
+            warnings.append(f"{path}: hook script not executable (chmod +x missing)")
     try:
         with open(path, encoding="utf-8") as fh:
             first = fh.readline()
@@ -196,8 +205,10 @@ def _validate_hook_script(path: str, errors: list[str], warnings: list[str]) -> 
         warnings.append(f"{path}: hook script missing shebang")
         return
     try:
+        # Use sys.executable so the smoke test runs under whatever interpreter
+        # invoked us — avoids the python3-vs-python ambiguity across platforms.
         proc = subprocess.run(
-            ["python3", path],
+            [sys.executable, path],
             input="{}",
             capture_output=True,
             text=True,
@@ -219,9 +230,9 @@ def _check_portability(path: str, warnings: list[str]) -> None:
             text = fh.read()
     except OSError:
         return
-    for m in ROOT_PATH_RE.finditer(text):
+    for m in HARDCODED_USER_PATH_RE.finditer(text):
         warnings.append(
-            f"{path}: hardcoded /root/... path '{m.group(0).strip()}' — not portable"
+            f"{path}: hardcoded user path '{m.group(0).strip()}' — not portable"
         )
         break  # one warning per file is enough
 
@@ -237,7 +248,13 @@ def main() -> None:
         sys.exit(0)
 
     file_path = (data.get("tool_input") or {}).get("file_path") or ""
-    if not file_path or not _matches_config(file_path):
+    if not file_path:
+        sys.exit(0)
+    # Normalize Windows backslashes so POSIX-style CONFIG_PATTERNS and the
+    # `/skills/` / `/.claude/<kind>/` literals in _check_artifact_type match.
+    # Python's os.path on Windows accepts forward slashes, so file I/O still works.
+    file_path = file_path.replace("\\", "/")
+    if not _matches_config(file_path):
         sys.exit(0)
     if not os.path.isfile(file_path):
         sys.exit(0)

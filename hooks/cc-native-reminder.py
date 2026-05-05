@@ -31,6 +31,8 @@ def main() -> None:
     file_path = (data.get("tool_input") or {}).get("file_path") or ""
     if not file_path:
         sys.exit(0)
+    # Normalize Windows backslashes so POSIX-style CONFIG_PATTERNS match.
+    file_path = file_path.replace("\\", "/")
 
     if any(re.search(p, file_path) for p in CONFIG_PATTERNS):
         print(
