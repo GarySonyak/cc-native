@@ -52,7 +52,9 @@ if git diff --quiet -- skills/feature-guide/references/ skills/feature-guide/SKI
   echo "[wrapper] no reference changes — skipping bump+push" >> "$LOG"
 else
   if [ -x "$BUMPER" ] || [ -f "$BUMPER" ]; then
-    if python3 "$BUMPER" --summary "$(printf '%s' "$TG_MSG" | head -c 200)" >> "$LOG" 2>&1; then
+    SUMMARY_FILE="$(mktemp /tmp/docs-monitor-summary.XXXXXX)"
+    printf '%s' "$TG_MSG" | head -c 200 > "$SUMMARY_FILE"
+    if python3 "$BUMPER" --summary-file "$SUMMARY_FILE" >> "$LOG" 2>&1; then
       git add -A
       RUN_NUM="$(date -u '+%Y%m%d')"
       if git -c user.name="docs-monitor" -c user.email="docs-monitor@cc-native.local" \
@@ -68,6 +70,7 @@ else
     else
       echo "[wrapper] BUMP-FAILED" >> "$LOG"
     fi
+    rm -f "$SUMMARY_FILE"
   else
     echo "[wrapper] bumper missing at $BUMPER — skipping" >> "$LOG"
   fi

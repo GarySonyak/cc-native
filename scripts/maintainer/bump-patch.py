@@ -61,14 +61,29 @@ def prepend_changelog(new_version: str, summary: str) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--summary", default="", help="Summary line for the changelog entry")
+    parser.add_argument("--summary", default="", help="Summary line for the changelog entry (inline)")
+    parser.add_argument(
+        "--summary-file",
+        default="",
+        help="Path to a file whose contents become the changelog summary. "
+        "Preferred over --summary when the text comes from an LLM/agent: it avoids "
+        "passing untrusted content through shell argument expansion.",
+    )
     args = parser.parse_args()
+
+    if args.summary_file:
+        try:
+            summary = Path(args.summary_file).read_text(encoding="utf-8", errors="replace")
+        except OSError as exc:
+            raise SystemExit(f"could not read --summary-file {args.summary_file}: {exc}")
+    else:
+        summary = args.summary
 
     current = json.loads(PLUGIN_JSON.read_text())["version"]
     new_version = bump(current)
     old = update_plugin_json(new_version)
     update_marketplace_json(new_version)
-    prepend_changelog(new_version, args.summary.strip())
+    prepend_changelog(new_version, summary.strip().splitlines()[0] if summary.strip() else "")
     print(f"bumped {old} -> {new_version}")
 
 
