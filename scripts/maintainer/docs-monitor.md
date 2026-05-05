@@ -55,7 +55,7 @@ These 15 pages are fetched and compared against stored snapshots:
 
 ## Snapshot Storage
 
-Directory: `/root/.claude/docs-snapshots/` (maintainer-private, NOT in the cc-native repo)
+Directory: `/root/docs-snapshots/` (maintainer-private, NOT in the cc-native repo)
 File naming: `<page-slug>.txt` (e.g., `features-overview.txt`)
 
 Snapshot format:
@@ -68,7 +68,7 @@ md5:<hash-of-content>
 ## Workflow
 
 ### Step 1: Fetch llms.txt index
-Fetch `https://code.claude.com/docs/llms.txt`. Compare against stored `/root/.claude/docs-snapshots/llms-index.txt`. Report any new or removed pages.
+Fetch `https://code.claude.com/docs/llms.txt`. Compare against stored `/root/docs-snapshots/llms-index.txt`. Report any new or removed pages.
 
 ### Step 2: Fetch priority pages
 For each of the 15 priority pages:
@@ -162,7 +162,7 @@ Keep fields in this order. Use `none` / `unchanged` rather than omitting fields.
 
 ## First Run (Baseline)
 
-If `/root/.claude/docs-snapshots/` is empty or has no files:
+If `/root/docs-snapshots/` is empty or has no files:
 1. Create the directory if needed
 2. Fetch all pages and save snapshots
 3. Skip diffing

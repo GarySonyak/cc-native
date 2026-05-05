@@ -11,8 +11,9 @@ TG_ENV="/root/.claude/channels/telegram/.env"
 AGENT_FILE="${PLUGIN_REPO}/scripts/maintainer/docs-monitor.md"
 LIVE_AGENT="/root/.claude/agents/docs-monitor.md"
 BUMPER="${PLUGIN_REPO}/scripts/maintainer/bump-patch.py"
+SNAPSHOTS_DIR="/root/docs-snapshots"
 
-mkdir -p /root/.claude/logs /root/.claude/docs-snapshots
+mkdir -p /root/.claude/logs "$SNAPSHOTS_DIR"
 
 # Load Telegram credentials (TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID)
 if [ -f "$TG_ENV" ]; then
@@ -29,10 +30,10 @@ if [ -f "$AGENT_FILE" ]; then
   cp -f "$AGENT_FILE" "$LIVE_AGENT"
 fi
 
-OUTPUT=$(cd "$PLUGIN_REPO" && printf '%s' "Follow the workflow in ${AGENT_FILE}. Fetch all CC doc pages, compare against snapshots in /root/.claude/docs-snapshots/, edit reference files in ${PLUGIN_REPO}/skills/feature-guide/references/ as needed, report changes via Telegram (chat_id: ${CHAT_ID})." | \
+OUTPUT=$(cd "$PLUGIN_REPO" && printf '%s' "Follow the workflow in ${AGENT_FILE}. Fetch all CC doc pages, compare against snapshots in ${SNAPSHOTS_DIR}/, edit reference files in ${PLUGIN_REPO}/skills/feature-guide/references/ as needed, report changes via Telegram (chat_id: ${CHAT_ID})." | \
   CLAUDECODE="" timeout 1500 /root/.local/bin/claude -p \
   --agent docs-monitor \
-  --permission-mode bypassPermissions \
+  --permission-mode dontAsk \
   --allowedTools "WebFetch(domain:code.claude.com),WebFetch(domain:docs.claude.com),Read,Write,Edit,Bash(md5sum:*),Bash(diff:*),Bash(mkdir:*),Bash(date:*),Grep,mcp__plugin_telegram_telegram__reply" \
   2>&1)
 
