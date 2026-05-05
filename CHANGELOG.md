@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.1.7] — 2026-05-05
+
+- fix(maybe-audit): the v0.1.6 loop guard was logically correct but counted every `type: "user"` transcript record as a real user-turn boundary. Claude Code wraps tool_use_result blocks in synthetic `user` records, so `last_user_idx` slid forward on every tool call, making `auditor_idx > last_user_idx` always False and re-blocking on every Stop. New `_is_real_user_turn()` predicate excludes records that carry a top-level `toolUseResult` key or whose `message.content` contains a `tool_result` block. Regression covered by `tests/fixtures/transcripts/loop-fixed.jsonl` (auditor invoked, then tool result — must NOT re-block) and `needs-audit.jsonl` (no auditor — must block). Found by user re-hitting the loop after `/reload-plugins` brought v0.1.6 live.
+
 ## [0.1.6] — 2026-05-05
 
 - fix(maybe-audit): the Stop hook now detects when the `cc-native-auditor` subagent has already been invoked since the last user message and stays silent on subsequent Stops in the same turn. Before this fix, the hook re-fired indefinitely whenever the user kept the turn open without resolving every flagged block (e.g., test artifacts intentionally left flawed, or findings the user explicitly accepts), because the transcript scan kept rediscovering the same prior edits. Found via dogfood session.

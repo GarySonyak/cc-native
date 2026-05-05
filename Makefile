@@ -56,6 +56,20 @@ test-audit:
 	  else \
 	    echo "  ok  maybe-audit silent on missing transcript" ; \
 	  fi
+	@printf '{"transcript_path":"tests/fixtures/transcripts/needs-audit.jsonl"}' \
+	  | $(PYTHON) $(HOOK_AUDIT) > /tmp/cc-audit.out ; \
+	  if grep -q '"decision": "block"' /tmp/cc-audit.out; then \
+	    echo "  ok  maybe-audit blocks when auditor not yet invoked" ; \
+	  else \
+	    echo "FAIL  maybe-audit did not block on un-audited config edit"; cat /tmp/cc-audit.out; exit 1 ; \
+	  fi
+	@printf '{"transcript_path":"tests/fixtures/transcripts/loop-fixed.jsonl"}' \
+	  | $(PYTHON) $(HOOK_AUDIT) > /tmp/cc-audit.out ; \
+	  if [ -s /tmp/cc-audit.out ]; then \
+	    echo "FAIL  maybe-audit re-blocked after auditor already ran (loop regression)"; cat /tmp/cc-audit.out; exit 1 ; \
+	  else \
+	    echo "  ok  maybe-audit silent after auditor invoked (loop guard holds across tool_result records)" ; \
+	  fi
 
 clean:
 	rm -f /tmp/cc-verify.out /tmp/cc-verify.err /tmp/cc-rem-other.out /tmp/cc-audit.out

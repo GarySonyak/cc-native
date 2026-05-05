@@ -33,6 +33,30 @@ def _record_role(rec: dict) -> str:
     return (rec.get("message") or {}).get("role") or ""
 
 
+def _is_real_user_turn(rec: dict) -> bool:
+    """True only for human-authored user turns, not synthetic tool-result records.
+
+    Claude Code wraps tool_use_result blocks in records typed `user`. Treating those as
+    user-turn boundaries makes "since last user message" slide forward on every tool
+    call, which broke v0.1.6's loop guard. A real user turn either has string content
+    or a content list with no tool_result blocks; tool-result records also carry a
+    top-level `toolUseResult` key we can use as a fast path.
+    """
+    if _record_role(rec) != "user":
+        return False
+    if "toolUseResult" in rec:
+        return False
+    content = (rec.get("message") or {}).get("content")
+    if isinstance(content, str):
+        return True
+    if isinstance(content, list):
+        for block in content:
+            if isinstance(block, dict) and block.get("type") == "tool_result":
+                return False
+        return True
+    return True
+
+
 def _is_auditor_invocation(block: dict) -> bool:
     if not isinstance(block, dict) or block.get("type") != "tool_use":
         return False
@@ -90,7 +114,7 @@ def _scan_transcript(transcript_path: str) -> tuple[list[str], bool]:
                     rec = json.loads(line)
                 except json.JSONDecodeError:
                     continue
-                if _record_role(rec) == "user":
+                if _is_real_user_turn(rec):
                     last_user_idx = idx
                 msg = rec.get("message") or {}
                 content = msg.get("content")
