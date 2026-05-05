@@ -2,9 +2,10 @@
 """Stop hook: scans the session transcript for edits to Claude Code config files.
 
 If any Edit/Write/MultiEdit call this turn touched a path matching CONFIG_PATTERNS,
-emits an additionalContext directive instructing the main agent to invoke the
-cc-native-auditor subagent on those files. Stop hooks cannot spawn subagents
-directly — they signal the main agent.
+emits a `decision: "block"` Stop response with a reason instructing the main agent
+to invoke the cc-native-auditor subagent on those files. Stop hooks cannot spawn
+subagents directly — `decision: "block"` is the documented mechanism for steering
+the model to do more work before allowing the turn to end.
 """
 from __future__ import annotations
 
@@ -23,8 +24,33 @@ def _matches_config(path: str) -> bool:
     return any(re.search(p, path) for p in CONFIG_PATTERNS)
 
 
+def _extract_paths(tool_name: str, tool_input: dict) -> list[str]:
+    """Return all file_paths referenced by a watched tool invocation.
+
+    Edit/Write put `file_path` at the top level. MultiEdit uses `edits: [{file_path, ...}]`.
+    """
+    paths: list[str] = []
+    if tool_name == "MultiEdit":
+        edits = tool_input.get("edits") or []
+        if isinstance(edits, list):
+            for edit in edits:
+                if isinstance(edit, dict):
+                    fp = edit.get("file_path") or ""
+                    if fp:
+                        paths.append(fp)
+        # MultiEdit may also carry a top-level file_path in some versions
+        top = tool_input.get("file_path") or ""
+        if top:
+            paths.append(top)
+    else:
+        fp = tool_input.get("file_path") or ""
+        if fp:
+            paths.append(fp)
+    return paths
+
+
 def _scan_transcript(transcript_path: str) -> list[str]:
-    """Return unique file_paths touched by Edit/Write/MultiEdit in this transcript."""
+    """Return unique config-file paths touched by Edit/Write/MultiEdit in this transcript."""
     touched: list[str] = []
     seen: set[str] = set()
     if not transcript_path or not os.path.isfile(transcript_path):
@@ -45,13 +71,16 @@ def _scan_transcript(transcript_path: str) -> list[str]:
                         continue
                     if block.get("type") != "tool_use":
                         continue
-                    if block.get("name") not in WATCHED_TOOLS:
+                    tool = block.get("name")
+                    if tool not in WATCHED_TOOLS:
                         continue
                     inp = block.get("input") or {}
-                    fp = inp.get("file_path") or ""
-                    if fp and fp not in seen and _matches_config(fp):
-                        seen.add(fp)
-                        touched.append(fp)
+                    if not isinstance(inp, dict):
+                        continue
+                    for fp in _extract_paths(tool, inp):
+                        if fp not in seen and _matches_config(fp):
+                            seen.add(fp)
+                            touched.append(fp)
     except OSError:
         return touched
     return touched
@@ -69,24 +98,16 @@ def main() -> None:
         sys.exit(0)
 
     file_list = "\n".join(f"  - {p}" for p in touched)
-    directive = (
+    reason = (
         "Claude Code config files were edited this turn. Before declaring done, "
         "invoke the `cc-native-auditor` subagent (via the Task tool) on these files "
         f"for semantic review:\n{file_list}\n"
         "The auditor will return a per-file verdict; treat any 'block' severity as "
-        "a stop-ship issue."
+        "a stop-ship issue. Once the auditor reports back (and any blocks are fixed), "
+        "you may end the turn."
     )
 
-    print(
-        json.dumps(
-            {
-                "hookSpecificOutput": {
-                    "hookEventName": "Stop",
-                    "additionalContext": directive,
-                }
-            }
-        )
-    )
+    print(json.dumps({"decision": "block", "reason": reason}))
     sys.exit(0)
 
 

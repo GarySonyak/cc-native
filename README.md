@@ -63,7 +63,7 @@ make test                                    # runs hook fixtures
 claude --plugin-dir "$(pwd)"                 # start a session with this plugin loaded
 ```
 
-Test invariants: `make test` exercises the verify hook against five fixtures (good + bad pairs for agent / settings / hook), the reminder hook against config and non-config paths, and the Stop hook against an empty transcript.
+Test invariants: `make test` exercises the verify hook against five fixtures (good + bad pairs for agent and settings, plus a negative hook-script crash case), the reminder hook against config and non-config paths, and the Stop hook against an empty transcript.
 
 ## Versioning
 

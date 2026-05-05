@@ -16,4 +16,5 @@ CONFIG_PATTERNS = [
     r"/\.claude/CLAUDE\.md$",
     r"/\.claude/loop\.md$",
     r"(^|/)\.mcp\.json$",
+    r"(^|/)\.claude-plugin/",
 ]

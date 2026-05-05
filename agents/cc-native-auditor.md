@@ -58,4 +58,4 @@ If any file is `block`, the main agent must not declare the task done until thos
 - **Never** edit files. Produce verdicts only.
 - **Never** invoke other subagents (no nesting).
 - Read files with `Read`; search with `Grep`/`Glob`; diff old/new versions with `Bash(diff:*)` if both available.
-- If the cc-native:feature-guide skill is not available in this session, return verdict `info` for every file with note "skill not loaded — semantic audit skipped" and exit.
+- If the cc-native:feature-guide skill is not available in this session, return verdict `warn` for every file with note "skill not loaded — semantic audit skipped, install/load the cc-native plugin to enable" and exit. Do NOT return `info` — `warn` makes it visible to the main agent that the audit was incomplete.

@@ -15,7 +15,7 @@ This rule applies whenever the work touches any of:
 - `.claude/rules/` — workflow rules
 - `.claude/settings.json`, `.claude/settings.local.json`, `.claude/CLAUDE.md`, `.claude/loop.md`
 - `.mcp.json` (any directory)
-- Plugin manifests (`.claude-plugin/plugin.json`, `.claube-plugin/marketplace.json`)
+- Plugin manifests (`.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`)
 
 If the work does not touch any of those, this rule does not apply — skip silently.
 

@@ -98,8 +98,18 @@ def _parse_frontmatter(path: str) -> dict[str, Any] | None:
 
 
 def _check_artifact_type(path: str) -> str | None:
-    for kind in ("agents", "skills", "commands", "output-styles"):
-        if f"/.claude/{kind}/" in path or f"/{kind}/" in path:
+    """Determine the artifact kind from a config-file path.
+
+    Skills are special: only files named SKILL.md count — references/*.md
+    inside a skill have no frontmatter and must not be validated as skills.
+    For agents/commands/output-styles we require `.claude/<kind>/` to be in
+    the path so that nested directories (e.g. `references/agents.md`) do not
+    false-match.
+    """
+    if path.endswith("/SKILL.md") and "/skills/" in path:
+        return "skills"
+    for kind in ("agents", "commands", "output-styles"):
+        if f"/.claude/{kind}/" in path:
             return kind
     return None
 
@@ -115,15 +125,24 @@ def _validate_json(path: str, errors: list[str]) -> Any:
         return None
 
 
-def _validate_settings(path: str, hook_events: set[str], errors: list[str]) -> None:
+def _validate_settings(
+    path: str, hook_events: set[str], errors: list[str], warnings: list[str]
+) -> None:
     data = _validate_json(path, errors)
     if not isinstance(data, dict):
         return
     hooks_block = data.get("hooks") or {}
     if not isinstance(hooks_block, dict):
         return
+    if not hook_events:
+        warnings.append(
+            f"{path}: hook event-name validation skipped — could not load skills/"
+            "feature-guide/references/hooks.md (skill not present?). Install or "
+            "load the cc-native plugin to re-enable this check."
+        )
+        return
     for event in hooks_block:
-        if hook_events and event not in hook_events:
+        if event not in hook_events:
             errors.append(
                 f"{path}: unknown hook event '{event}' — see skills/feature-guide/references/hooks.md"
             )
@@ -229,7 +248,7 @@ def main() -> None:
 
     if file_path.endswith(".json"):
         if "settings" in os.path.basename(file_path):
-            _validate_settings(file_path, hook_events, errors)
+            _validate_settings(file_path, hook_events, errors, warnings)
         else:
             _validate_json(file_path, errors)
 

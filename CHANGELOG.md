@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.1.1] — 2026-05-05
+
+- fix: workflow rule scope had typo `.claube-plugin/` (missed marketplace.json edits).
+- fix: `maybe-audit.py` now uses `decision: "block"` instead of undocumented Stop `additionalContext`; also traverses `MultiEdit` `edits[]` array (previously only top-level `file_path`).
+- fix: `_check_artifact_type` no longer false-matches `references/*.md` inside installed skills as SKILL.md (was firing "missing frontmatter" errors on edits to skill reference files).
+- fix: `cc-native-verify` warns when the live hook-event enum is unloadable, instead of silently passing invalid event names.
+- improve: `.claude-plugin/` paths now in `CONFIG_PATTERNS` so plugin-manifest edits trigger the reminder/verify hooks.
+- improve: auditor's skill-unavailable fallback now returns `warn` (was `info`) so the main agent sees that the audit was incomplete.
+
 ## [0.1.0] — 2026-05-05
 
 - Initial scaffold (private dogfood release).
