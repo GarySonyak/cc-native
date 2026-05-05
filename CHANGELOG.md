@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.1.9] — 2026-05-05
+
+- feat(maybe-audit): opt-in debug log. When `CC_NATIVE_DEBUG=1` is set, the Stop hook appends a JSON line per fire to `/tmp/cc-native-debug.log` recording `__file__`, PID, transcript path, and the unaudited list. Lets the user confirm which copy of the hook a running session actually invoked — `${CLAUDE_PLUGIN_ROOT}` is pinned at session start, so a `claude plugin update` does NOT redirect a running session to the new version's hook file. Zero cost when the env var is unset.
+- docs(references/hooks.md): new "Plugin hook gotchas" section documenting (a) `${CLAUDE_PLUGIN_ROOT}` session-start pinning, (b) the `Task` vs `Agent` subagent-tool-name split between legacy CC and the SDK / newer harness, (c) Stop-hook re-firing on `decision: "block"` user-relay messages, and (d) `type: "user"` records wrapping `tool_use_result` blocks. All four were root causes of the v0.1.6 → v0.1.8 loop spiral; codifying them in the reference keeps the next person from re-deriving them under fire.
+
 ## [0.1.8] — 2026-05-05
 
 - fix(maybe-audit): two compounding loop bugs found and fixed via live dogfood.

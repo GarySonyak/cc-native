@@ -13,6 +13,7 @@ import json
 import os
 import re
 import sys
+import time
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from _paths import CONFIG_PATTERNS  # noqa: E402
@@ -21,6 +22,32 @@ WATCHED_TOOLS = {"Edit", "Write", "MultiEdit"}
 AUDITOR_NAME_FRAGMENT = "cc-native-auditor"
 # Subagent-spawn tool is "Task" in legacy CC and "Agent" in the SDK / newer harness.
 SUBAGENT_TOOLS = {"Task", "Agent"}
+DEBUG_LOG = "/tmp/cc-native-debug.log"
+
+
+def _debug(transcript_path: str, unaudited: list[str]) -> None:
+    """Append diagnostic line when CC_NATIVE_DEBUG=1.
+
+    Logs `__file__`, PID, transcript_path, and unaudited list. Lets the user
+    confirm which copy of the hook the running session actually invoked —
+    `${CLAUDE_PLUGIN_ROOT}` is pinned at session start, so a `claude plugin
+    update` does NOT redirect a running session to the new version's hook
+    file. Without this, diagnosing a stuck Stop-hook loop requires hand-
+    instrumenting every cached version. Zero cost when env var unset.
+    """
+    if os.environ.get("CC_NATIVE_DEBUG") != "1":
+        return
+    try:
+        with open(DEBUG_LOG, "a", encoding="utf-8") as fh:
+            fh.write(json.dumps({
+                "ts": time.time(),
+                "pid": os.getpid(),
+                "file": __file__,
+                "transcript": transcript_path,
+                "unaudited": unaudited,
+            }) + "\n")
+    except OSError:
+        pass
 
 
 def _matches_config(path: str) -> bool:
@@ -129,6 +156,7 @@ def main() -> None:
 
     transcript_path = data.get("transcript_path") or ""
     unaudited = _scan_transcript(transcript_path)
+    _debug(transcript_path, unaudited)
     if not unaudited:
         sys.exit(0)
 
