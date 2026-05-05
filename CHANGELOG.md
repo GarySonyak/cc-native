@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.10] — 2026-05-05
+
+- fix(maybe-audit): move `_debug()` call below the `if not unaudited: sys.exit(0)` guard so `CC_NATIVE_DEBUG=1` only logs blocking fires, not no-op clean stops. Steady-state debugging stays useful (loop diagnoses fire when `unaudited` is populated) without flooding `/tmp/cc-native-debug.log` on every clean Stop.
+- docs(references/hooks.md): cross-reference the Stop re-fire gotcha from the main "Structured JSON output" row so a top-down reader doesn't miss it. The "Plugin hook gotchas" section is still the authoritative place for the detail.
+- Both fixes are direct addresses of the two `warn` findings cc-native-auditor returned on the v0.1.9 self-audit.
+
 ## [0.1.9] — 2026-05-05
 
 - feat(maybe-audit): opt-in debug log. When `CC_NATIVE_DEBUG=1` is set, the Stop hook appends a JSON line per fire to `/tmp/cc-native-debug.log` recording `__file__`, PID, transcript path, and the unaudited list. Lets the user confirm which copy of the hook a running session actually invoked — `${CLAUDE_PLUGIN_ROOT}` is pinned at session start, so a `claude plugin update` does NOT redirect a running session to the new version's hook file. Zero cost when the env var is unset.

@@ -30,7 +30,7 @@ Regex on event metadata: tool name (`PreToolUse`/`PostToolUse`/`PostToolUseFailu
 
 ## Structured JSON output
 
-`permissionDecision` (allow/deny/ask/defer) for PreToolUse; `decision: "block"` for `UserPromptSubmit`, `UserPromptExpansion`, `PostToolUse`, `PostToolUseFailure`, `PostToolBatch`, `Stop`, `SubagentStop`, `ConfigChange`, `PreCompact`; `behavior` for PermissionRequest. `defer` (PreToolUse, non-interactive `-p` only): pauses for SDK wrapper to collect input and resume. `PermissionRequest` hook can return `updatedPermissions: [{type: "setMode", mode: "acceptEdits|auto|...", destination: "session"}]` to programmatically change permission mode.
+`permissionDecision` (allow/deny/ask/defer) for PreToolUse; `decision: "block"` for `UserPromptSubmit`, `UserPromptExpansion`, `PostToolUse`, `PostToolUseFailure`, `PostToolBatch`, `Stop` (see "Plugin hook gotchas" — `decision: "block"` triggers a synthetic user-relay message that re-invokes the model and can re-fire the Stop hook), `SubagentStop`, `ConfigChange`, `PreCompact`; `behavior` for PermissionRequest. `defer` (PreToolUse, non-interactive `-p` only): pauses for SDK wrapper to collect input and resume. `PermissionRequest` hook can return `updatedPermissions: [{type: "setMode", mode: "acceptEdits|auto|...", destination: "session"}]` to programmatically change permission mode.
 
 ## Location hierarchy
 

@@ -156,9 +156,9 @@ def main() -> None:
 
     transcript_path = data.get("transcript_path") or ""
     unaudited = _scan_transcript(transcript_path)
-    _debug(transcript_path, unaudited)
     if not unaudited:
         sys.exit(0)
+    _debug(transcript_path, unaudited)
 
     file_list = "\n".join(f"  - {p}" for p in unaudited)
     reason = (
