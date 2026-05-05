@@ -1,0 +1,54 @@
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        python-version: ["3.12"]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Verify both python and python3 resolve to Python 3
+        # Production hooks.json invokes `python ...`. Tests must validate
+        # that the same command (not just `python3`) actually works.
+        shell: bash
+        run: |
+          set -e
+          which python || { echo "FAIL: 'python' not on PATH"; exit 1; }
+          which python3 || { echo "FAIL: 'python3' not on PATH"; exit 1; }
+          python --version
+          python3 --version
+
+      - name: Run hook fixture suite with python3 (Makefile default)
+        shell: bash
+        run: make test
+
+      - name: Re-run hook fixture suite with python (production interpreter)
+        shell: bash
+        run: make test PYTHON=python
+
+      - name: Smoke-test hooks against fixture stdin (production command)
+        shell: bash
+        # Mirrors the exact command CC runs from hooks.json.
+        run: |
+          set -e
+          fixture="$(realpath tests/fixtures/.claude/agents/good-agent.md)"
+          printf '{"tool_input":{"file_path":"%s"}}' "$fixture" \
+            | CLAUDE_PLUGIN_ROOT="$PWD" python hooks/cc-native-verify.py
+          printf '{"tool_input":{"file_path":"%s"}}' "$fixture" \
+            | python hooks/cc-native-reminder.py
+          printf '{}' | python hooks/maybe-audit.py
