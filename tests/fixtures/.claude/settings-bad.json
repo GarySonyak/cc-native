@@ -1,0 +1,12 @@
+{
+  "hooks": {
+    "PreToolUseEvent": [
+      {
+        "matcher": "Edit",
+        "hooks": [
+          { "type": "command", "command": "echo nope" }
+        ]
+      }
+    ]
+  }
+}
