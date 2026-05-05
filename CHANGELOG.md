@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.8] — 2026-05-05
+
+- fix(maybe-audit): two compounding loop bugs found and fixed via live dogfood.
+  - **Subagent tool name**: hook only matched `name == "Task"`, but the SDK / newer harness records subagent invocations as `name == "Agent"`. Auditor calls were therefore never detected. Now accepts both via `SUBAGENT_TOOLS = {"Task", "Agent"}`.
+  - **Loop-guard anchor**: v0.1.6 / v0.1.7 anchored "audit already ran" detection on the most recent real user-message index. That created a self-sustaining loop because every hook block elicits a user relay of the block message — counted as a real user turn, so the auditor always looked stale. Redesigned to anchor on the auditor itself: `_scan_transcript()` now returns only config edits whose transcript index is **after** the most recent auditor invocation. Naturally re-blocks on genuinely new edits and stays silent once an audit has happened.
+  - Two new fixtures: `loop-fixed-agent.jsonl` (Agent-tool invocation, must NOT block) and `edit-after-audit.jsonl` (fresh edit after a prior audit, MUST block — verifies the new anchor doesn't over-suppress). Also retained the original Task-tool fixture for backwards compatibility. 12/12 fixtures green.
+
 ## [0.1.7] — 2026-05-05
 
 - fix(maybe-audit): the v0.1.6 loop guard was logically correct but counted every `type: "user"` transcript record as a real user-turn boundary. Claude Code wraps tool_use_result blocks in synthetic `user` records, so `last_user_idx` slid forward on every tool call, making `auditor_idx > last_user_idx` always False and re-blocking on every Stop. New `_is_real_user_turn()` predicate excludes records that carry a top-level `toolUseResult` key or whose `message.content` contains a `tool_result` block. Regression covered by `tests/fixtures/transcripts/loop-fixed.jsonl` (auditor invoked, then tool result — must NOT re-block) and `needs-audit.jsonl` (no auditor — must block). Found by user re-hitting the loop after `/reload-plugins` brought v0.1.6 live.

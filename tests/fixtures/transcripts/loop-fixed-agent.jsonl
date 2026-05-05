@@ -1,0 +1,5 @@
+{"type":"user","message":{"role":"user","content":"please tweak the agent file"}}
+{"type":"assistant","message":{"role":"assistant","content":[{"type":"tool_use","name":"Edit","input":{"file_path":"/root/.claude/agents/example.md","old_string":"a","new_string":"b"}}]}}
+{"type":"user","toolUseResult":{"ok":true},"message":{"role":"user","content":[{"type":"tool_result","content":"applied"}]}}
+{"type":"assistant","message":{"role":"assistant","content":[{"type":"tool_use","name":"Agent","input":{"subagent_type":"cc-native:cc-native-auditor","prompt":"audit"}}]}}
+{"type":"user","toolUseResult":{"ok":true},"message":{"role":"user","content":[{"type":"tool_result","content":"verdict: ok"}]}}

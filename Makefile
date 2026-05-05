@@ -66,9 +66,23 @@ test-audit:
 	@printf '{"transcript_path":"tests/fixtures/transcripts/loop-fixed.jsonl"}' \
 	  | $(PYTHON) $(HOOK_AUDIT) > /tmp/cc-audit.out ; \
 	  if [ -s /tmp/cc-audit.out ]; then \
-	    echo "FAIL  maybe-audit re-blocked after auditor already ran (loop regression)"; cat /tmp/cc-audit.out; exit 1 ; \
+	    echo "FAIL  maybe-audit re-blocked after auditor already ran via Task tool (loop regression)"; cat /tmp/cc-audit.out; exit 1 ; \
 	  else \
-	    echo "  ok  maybe-audit silent after auditor invoked (loop guard holds across tool_result records)" ; \
+	    echo "  ok  maybe-audit silent after Task-tool auditor invocation" ; \
+	  fi
+	@printf '{"transcript_path":"tests/fixtures/transcripts/loop-fixed-agent.jsonl"}' \
+	  | $(PYTHON) $(HOOK_AUDIT) > /tmp/cc-audit.out ; \
+	  if [ -s /tmp/cc-audit.out ]; then \
+	    echo "FAIL  maybe-audit re-blocked after auditor already ran via Agent tool (SDK harness regression)"; cat /tmp/cc-audit.out; exit 1 ; \
+	  else \
+	    echo "  ok  maybe-audit silent after Agent-tool auditor invocation" ; \
+	  fi
+	@printf '{"transcript_path":"tests/fixtures/transcripts/edit-after-audit.jsonl"}' \
+	  | $(PYTHON) $(HOOK_AUDIT) > /tmp/cc-audit.out ; \
+	  if grep -q '"decision": "block"' /tmp/cc-audit.out && grep -q 'settings.json' /tmp/cc-audit.out; then \
+	    echo "  ok  maybe-audit re-blocks for new edits after a prior audit" ; \
+	  else \
+	    echo "FAIL  maybe-audit did not flag a fresh edit made after a prior auditor call"; cat /tmp/cc-audit.out; exit 1 ; \
 	  fi
 
 clean:
