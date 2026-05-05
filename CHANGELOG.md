@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.4] — 2026-05-05
+
+- chore(metadata): tighten manifests to documented schema ahead of marketplace submission. `marketplace.json` now declares a top-level `description` (was missing — flagged by `claude plugin validate`), drops the undocumented `owner.url` field, drops the `version` field on the plugin entry to avoid the silent-override pitfall the docs warn about ("`plugin.json` value always wins"), and mirrors `author`, `homepage`, `repository`, and `license` into the plugin entry so they appear on the marketplace listing card.
+- chore(metadata): `plugin.json` drops the undocumented `author.url` field. The author block now matches the documented `{name, email?}` schema.
+
+No behavior change. All hooks, skills, agents, and the audit subagent are unchanged.
+
 ## [0.1.3] — 2026-05-05
 
 - chore(metadata): sync `keywords` between `plugin.json` and `marketplace.json` (marketplace was advertising 3, manifest had 7) and add the `audit` keyword to reflect the auditor subagent. Marketplace listings are populated from `marketplace.json`, so this widens discoverability for users searching `skills`, `hooks`, `agents`, `docs`, `linting`, or `audit`.

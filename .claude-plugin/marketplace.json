@@ -1,12 +1,16 @@
 {
   "name": "gary-sonyak",
-  "owner": { "name": "Gary Sonyak", "url": "https://github.com/GarySonyak" },
+  "description": "Gary Sonyak's Claude Code plugins. Currently hosts cc-native, a feature-awareness pack that keeps agents accurate when authoring or editing .claude/ artifacts.",
+  "owner": { "name": "Gary Sonyak" },
   "plugins": [
     {
       "name": "cc-native",
       "source": { "source": "github", "repo": "GarySonyak/cc-native" },
       "description": "CC feature-awareness pack: feature-guide skill + edit guard + lint/audit.",
-      "version": "0.1.3",
+      "author": { "name": "Gary Sonyak" },
+      "homepage": "https://github.com/GarySonyak/cc-native",
+      "repository": "https://github.com/GarySonyak/cc-native",
+      "license": "MIT",
       "category": "developer-tools",
       "keywords": ["claude-code", "skills", "hooks", "agents", "docs", "linting", "audit", "meta"]
     }
