@@ -5,7 +5,7 @@
   "plugins": [
     {
       "name": "cc-native",
-      "source": { "source": "github", "repo": "GarySonyak/cc-native" },
+      "source": { "source": "url", "url": "https://github.com/GarySonyak/cc-native.git" },
       "description": "CC feature-awareness pack: feature-guide skill + edit guard + lint/audit.",
       "author": { "name": "Gary Sonyak" },
       "homepage": "https://github.com/GarySonyak/cc-native",

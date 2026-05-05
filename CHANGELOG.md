@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.1.5] — 2026-05-05
+
+- fix(marketplace): switch plugin `source` from `github` shorthand to explicit `url` form (`https://github.com/GarySonyak/cc-native.git`). Reason: Claude Code's plugin-install path on the `github` source defaults to SSH (`git@github.com:owner/repo.git`) and does not gracefully fall back to HTTPS the way the marketplace-add path does, so HTTPS-only users (no SSH keys configured for github.com) get `Permission denied (publickey)` on install. The `url` source clones over the literal URL string, which forces HTTPS and works for every user regardless of SSH setup.
+
 ## [0.1.4] — 2026-05-05
 
 - chore(metadata): tighten manifests to documented schema ahead of marketplace submission. `marketplace.json` now declares a top-level `description` (was missing — flagged by `claude plugin validate`), drops the undocumented `owner.url` field, drops the `version` field on the plugin entry to avoid the silent-override pitfall the docs warn about ("`plugin.json` value always wins"), and mirrors `author`, `homepage`, `repository`, and `license` into the plugin entry so they appear on the marketplace listing card.
