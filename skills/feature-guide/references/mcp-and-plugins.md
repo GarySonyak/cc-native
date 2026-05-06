@@ -18,6 +18,8 @@ Submit to official marketplace: `claude.ai/settings/plugins/submit` or `platform
 
 Plugin `plugin.json` can declare dependencies that auto-install when plugin is enabled. (v2.1.110)
 
+`--plugin-url <url>` flag: install a plugin directly from a URL pointing to a `.zip` archive (complements `--plugin-dir` for local dirs). (v2.1.129)
+
 ## Channels (v2.1.81+)
 
 Push events into running sessions from MCP servers. MCP server declares a `channel` capability; sends `claude/channel/notification` events; session receives and Claude can react. Useful for CI results, monitoring alerts, chat messages pushed in while Claude works. Permissions relay via `--channels` flag.

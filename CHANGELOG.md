@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.6] — 2026-05-06
+
+- [2026-05-06] docs-monitor: 2 pages changed — changelog, settings (2 material, 1 trivial)
+
 ## [0.2.5] — 2026-05-06
 
 - **fix(auditor)**: fourth severity invariant added to the `cc-native:auditor` system prompt — **citation must directly support the claim**. The existing Citation Requirement (in step 2) said `block`/`warn` findings must quote a specific phrase from the reference, but this only enforced that *some* phrase was quoted, not that the quoted phrase actually backed the claim. Two failure modes observed: a Linux probe audit quoted "Bundle skills + hooks + agents…" (general plugin-description text) to back a finding about marketplace manifest source-key shape, and the Windows v0.2.4 trial cited managed-mode policy text to back a finding that `enabledPlugins` is invalid at project scope. Both phrases sat near the rule the auditor wanted to allege but did not state it. The new invariant adds a self-check: read the cited phrase literally — does it, by itself, state the rule the finding alleges? If only adjacent or contextual, downgrade to `info` or remove. **Empirical motivation**: across all 7 benchmark trials (5 with real test activity), every model that loaded the plugin (Haiku 4.5, Sonnet 4.6, Opus 4.7) followed the advisory cc-native skill-load reminder, so the bottleneck on audit quality is now finding-grounding, not skill-load reliability.
