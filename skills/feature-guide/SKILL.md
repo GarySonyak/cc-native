@@ -1,6 +1,6 @@
 ---
 name: feature-guide
-description: TRIGGER when designing, editing, or generating any Claude Code config under .claude/ or .mcp.json (agents, skills, hooks, settings, commands, output-styles, schedules, rules, loop.md), OR when answering questions about Claude Code features — hooks, skills, subagents, agent teams, MCP, plugins, permission modes, plan mode, auto mode, scheduled tasks, settings, agentic loop, worktrees, checkpointing, memory, context management. Read the matching file in references/ before editing or answering — do not work from training memory; CC features change weekly.
+description: TRIGGER when designing, editing, or generating any Claude Code config under .claude/ or .mcp.json (agents, skills, hooks, settings, commands, output-styles, schedules, rules, loop.md) or plugin manifests under .claude-plugin/. Read the matching file in references/ before editing — do not work from training memory; CC features change weekly.
 ---
 
 # Claude Code Native Architecture
