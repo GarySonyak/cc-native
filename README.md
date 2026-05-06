@@ -11,7 +11,6 @@ A Claude Code plugin that keeps your agents, hooks, and skills aligned with the 
 | `cc-native-verify` | PostToolUse hook | Deterministic lint of the artifact you just wrote: JSON parse, frontmatter required-key check, hook event-name validation against the live skill enum, tools-token regex, hook script smoke test, portability warnings. Exits 0 / 1 (warn) / 2 (fail). |
 | `cc-native-auditor` | subagent | LLM semantic review of changed `.claude/` artifacts: goal-fit, least-privilege, cross-references, deprecation. Returns per-file `block`/`warn`/`pass`. |
 | `maybe-audit` | Stop hook | Detects edits to `.claude/` files this turn and tells the main agent to invoke `cc-native-auditor` before declaring done. |
-| `rules/cc-native-agentic.md` | rule | Workflow rule that ties Guide (skill) + Verify (lint + audit) into a single MUST-FOLLOW directive. Mirrors the proven `sonar-agentic.md` pattern. |
 
 ## Requirements
 
@@ -35,13 +34,7 @@ For the dogfood window, add this maintainer marketplace and install from it:
 /plugin install cc-native@gary-sonyak
 ```
 
-After install, **wire the workflow rule into your `~/.claude/CLAUDE.md`** (one line):
-
-```markdown
-@~/.claude/plugins/cc-native/rules/cc-native-agentic.md
-```
-
-That's it. The skill triggers automatically by description-match; the hooks register at startup; the auditor is invoked on demand by the Stop hook directive.
+After install, no further wiring is required. The skill auto-triggers on `.claude/` edits and carries the Guide-and-Verify directive inline. The hooks register at startup; the auditor is invoked on demand by the Stop hook directive.
 
 ## How freshness works
 
