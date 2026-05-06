@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.2.0] — 2026-05-06
+
+- **fix(README, BREAKING)**: the `@~/.claude/plugins/cc-native/rules/...` install instruction was unworkable — marketplace plugins are cached at `~/.claude/plugins/cache/{marketplace}/{plugin}/{version}/` and CLAUDE.md `@`-imports do not expand `${CLAUDE_PLUGIN_ROOT}`. Workflow rule body folded into `skills/feature-guide/SKILL.md`. The rule auto-applies whenever the skill is loaded — exactly the scope it covered. No user wiring needed. `rules/cc-native-agentic.md` deleted.
+- **fix(skill)**: skill description scoped to edit-time only; dropped the Q&A clause that caused unintended triggering on conversations about CC features.
+- **chore**: maintainer-side `scripts/maintainer/` (docs-monitor, cron, bumper) extracted to a separate private `cc-native-maintainer` repo. Public install no longer ships `/root/...` paths or Telegram tool references.
+- **fix(verify)**: secrets-warning example path genericized (`/root/.secrets/all.env` → `~/.config/secrets.env`).
+- **fix(manifest)**: undocumented `category` field removed from `plugin.json`; remains in `marketplace.json` plugin entry where it IS documented.
+- **chore**: OSS hygiene files added — `CONTRIBUTING.md`, `SECURITY.md`, `.github/ISSUE_TEMPLATE/{bug,feature}.md`, `.github/PULL_REQUEST_TEMPLATE.md`.
+
 ## [0.1.11] — 2026-05-06
 
 - feat(cc-native-verify): scan `permissions.allow[]` Bash patterns for literal credentials at write-time. Two leak shapes detected: env-var prefix (`Bash(KEY=literal_value cmd:*)` where `KEY` matches PASSWORD/APIKEY/SECRET/TOKEN/etc.) and basic auth (`-u user:literal_password`). Findings escalate to error severity (exit 2) so the user sees them on the next settings.json save. False-positive guard: env-var references (`$VAR`), safe values (`true`/`false`/`production`/etc.), and non-credential keys are skipped. Direct response to a real-world audit that found 5+ baked-in secrets in user settings — would have caught all of them at the moment they landed via "Always allow."
