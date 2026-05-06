@@ -207,7 +207,7 @@ def _validate_settings(
             for finding in _scan_allow_for_secrets(entry):
                 errors.append(
                     f"{path}: permissions.allow[{idx}] — {finding}. "
-                    "Use $VAR + a secrets file (e.g. /root/.secrets/all.env); "
+                    "Use $VAR + a secrets file (e.g. ~/.config/secrets.env); "
                     "literal credentials in allow rules persist into transcripts and telemetry."
                 )
 
