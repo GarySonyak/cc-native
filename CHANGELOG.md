@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.3] — 2026-05-06
+
+- **rename(agent)**: `agents/cc-native-auditor.md` → `agents/auditor.md`. Plugin agents are namespaced by the plugin name at invocation time (`cc-native:<agent>`), so the previous filename produced the redundant id `cc-native:cc-native-auditor`. Now invoked as `cc-native:auditor`. The `name:` frontmatter field and the in-file heading were updated to match. The `maybe-audit` Stop-hook directive now references `cc-native:auditor`. The hook's transcript-scan loop guard accepts both old and new shapes (`auditor`, `cc-native:auditor`, `cc-native-auditor`, `cc-native:cc-native-auditor`) so an upgrade mid-session does not break the loop guard for an in-flight transcript. README, SKILL.md, and the three audit fixture transcripts updated; 16/16 fixture tests pass.
+
 ## [0.2.2] — 2026-05-06
 
 - **fix(auditor)**: pass the absolute references directory through the `maybe-audit` Stop-hook directive so the `cc-native-auditor` subagent can `Read` reference files directly instead of trying to `Glob` for them from the user's project cwd. Real-world Windows install showed that 6 of 11 audit invocations across three benchmark trials reported "reference unavailable" or silently fell back to training memory — `Glob **/cc-native/**/references/<topic>.md` from a project cwd cannot reach `~/.claude/plugins/cache/...` (it's outside the project tree). The `maybe-audit` hook now reads `CLAUDE_PLUGIN_ROOT` (set by CC for plugin-hook invocations) and injects a `References directory: <abs-path>` line into the directive. The auditor's system prompt is updated to prefer this path when present, fall back to Glob otherwise, and require a `(per references/<topic>.md L<n>: "...")` citation on every schema-level finding — making "audited from the reference" verifiable.

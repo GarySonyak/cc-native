@@ -3,9 +3,9 @@
 
 If any Edit/Write/MultiEdit call this turn touched a path matching CONFIG_PATTERNS,
 emits a `decision: "block"` Stop response with a reason instructing the main agent
-to invoke the cc-native-auditor subagent on those files. Stop hooks cannot spawn
-subagents directly — `decision: "block"` is the documented mechanism for steering
-the model to do more work before allowing the turn to end.
+to invoke the auditor subagent on those files. Stop hooks cannot spawn subagents
+directly — `decision: "block"` is the documented mechanism for steering the model
+to do more work before allowing the turn to end.
 """
 from __future__ import annotations
 
@@ -19,7 +19,10 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from _paths import CONFIG_PATTERNS  # noqa: E402
 
 WATCHED_TOOLS = {"Edit", "Write", "MultiEdit"}
-AUDITOR_NAME_FRAGMENT = "cc-native-auditor"
+# Match the auditor by either bare name (in-repo) or plugin-qualified name. Pre-v0.2.3
+# fragment was "cc-native-auditor"; kept as a tail to recognize transcripts that
+# straddle a plugin upgrade so the loop guard still works.
+AUDITOR_NAMES = {"auditor", "cc-native:auditor", "cc-native-auditor", "cc-native:cc-native-auditor"}
 # Subagent-spawn tool is "Task" in legacy CC and "Agent" in the SDK / newer harness.
 SUBAGENT_TOOLS = {"Task", "Agent"}
 DEBUG_LOG = "/tmp/cc-native-debug.log"
@@ -62,7 +65,7 @@ def _is_auditor_invocation(block: dict) -> bool:
     inp = block.get("input") or {}
     if not isinstance(inp, dict):
         return False
-    return AUDITOR_NAME_FRAGMENT in (inp.get("subagent_type") or "")
+    return (inp.get("subagent_type") or "") in AUDITOR_NAMES
 
 
 def _extract_paths(tool_name: str, tool_input: dict) -> list[str]:
@@ -91,7 +94,7 @@ def _extract_paths(tool_name: str, tool_input: dict) -> list[str]:
 
 
 def _scan_transcript(transcript_path: str) -> list[str]:
-    """Return config paths edited *after* the most recent cc-native-auditor invocation.
+    """Return config paths edited *after* the most recent auditor invocation.
 
     Earlier versions tracked "this turn" via the last real user-message index, then required
     the auditor to have run since that boundary. That created a self-sustaining loop: every
@@ -182,7 +185,7 @@ def main() -> None:
 
     reason = (
         "Claude Code config files were edited this turn. Before declaring done, "
-        "invoke the `cc-native-auditor` subagent (via the Task tool) on these files "
+        "invoke the `cc-native:auditor` subagent (via the Task tool) on these files "
         f"for semantic review:\n{file_list}\n"
         f"{refs_line}\n"
         "The auditor will return a per-file verdict; treat any 'block' severity as "

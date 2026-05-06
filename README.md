@@ -9,8 +9,8 @@ A Claude Code plugin that keeps your agents, hooks, and skills aligned with the 
 | `feature-guide` | skill | Always-current edit-time reference for `.claude/` and plugin artifacts (hooks, skills, subagents, MCP, settings, plugins, modes, memory, schedules). Progressive-disclosure: skim `SKILL.md`, drill into a single matching `references/*.md`. Carries the Guide-and-Verify workflow rule inline. |
 | `cc-native-reminder` | PreToolUse hook | When you Edit/Write any `.claude/` config, injects a reminder to consult the `feature-guide` skill before proceeding. |
 | `cc-native-verify` | PostToolUse hook | Deterministic lint of the artifact you just wrote: JSON parse, frontmatter required-key check, hook event-name validation against the live skill enum, tools-token regex, hook script smoke test, portability warnings. Exits 0 / 1 (warn) / 2 (fail). |
-| `cc-native-auditor` | subagent | LLM semantic review of changed `.claude/` artifacts: goal-fit, least-privilege, cross-references, deprecation. Returns per-file `block`/`warn`/`pass`. |
-| `maybe-audit` | Stop hook | Detects edits to `.claude/` files this turn and tells the main agent to invoke `cc-native-auditor` before declaring done. |
+| `auditor` | subagent | LLM semantic review of changed `.claude/` artifacts: goal-fit, least-privilege, cross-references, deprecation. Returns per-file `block`/`warn`/`pass`. Invoked as `cc-native:auditor`. |
+| `maybe-audit` | Stop hook | Detects edits to `.claude/` files this turn and tells the main agent to invoke `cc-native:auditor` before declaring done. |
 
 ## Requirements
 
@@ -56,7 +56,7 @@ End users get freshness through Claude Code's built-in plugin auto-update — wh
 
 ## Security note about the auditor
 
-`cc-native-auditor` is a Sonnet subagent with `Read, Grep, Glob, Bash(diff:*)` only — read-only tools. It produces verdicts; it never edits your files. If you fork the plugin and add tools to that agent, the workflow rule no longer applies — verify your fork explicitly.
+`cc-native:auditor` is a Sonnet subagent with `Read, Grep, Glob, Bash(diff:*)` only — read-only tools. It produces verdicts; it never edits your files. If you fork the plugin and add tools to that agent, the workflow rule no longer applies — verify your fork explicitly.
 
 ## Local development
 
@@ -67,7 +67,7 @@ make test                                    # runs hook fixtures
 claude --plugin-dir "$(pwd)"                 # start a session with this plugin loaded
 ```
 
-Test invariants: `make test` exercises the verify hook against 14 fixtures (good + bad pairs for agents and settings, hook-script smoke tests, secret-detection cases for `permissions.allow[]`), the reminder hook against config and non-config paths, and the Stop hook (`maybe-audit`) against varied transcript states.
+Test invariants: `make test` exercises the verify hook against 16 fixtures (good + bad pairs for agents and settings, hook-script smoke tests, secret-detection cases for `permissions.allow[]`), the reminder hook against config and non-config paths, and the Stop hook (`maybe-audit`) against varied transcript states including the v0.2.2 references-path injection.
 
 ## Versioning
 
