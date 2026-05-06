@@ -21,15 +21,21 @@ A list of changed `.claude/` file paths from `hooks/maybe-audit.py` (or explicit
 
    | Artifact type | Reference to Read first |
    |---|---|
-   | agent (`.claude/agents/*.md`) | `cc-native:feature-guide`/references/agents.md |
-   | skill (`SKILL.md`) | `cc-native:feature-guide`/references/skills.md |
-   | hook script + `hooks/hooks.json` | `cc-native:feature-guide`/references/hooks.md |
-   | `settings.json` / `settings.local.json` | `cc-native:feature-guide`/references/settings.md (and `hooks.md` if it touches hooks) |
-   | plugin manifest (`.claude-plugin/plugin.json`) or marketplace manifest (`.claude-plugin/marketplace.json`) | `cc-native:feature-guide`/references/mcp-and-plugins.md |
-   | `.mcp.json` | `cc-native:feature-guide`/references/mcp-and-plugins.md |
-   | command / output-style / schedule / rule | `cc-native:feature-guide`/references/tools-and-scheduling.md (or the topical file if obvious) |
+   | agent (`.claude/agents/*.md`) | `references/agents.md` |
+   | skill (`SKILL.md`) | `references/skills.md` |
+   | hook script + `hooks/hooks.json` | `references/hooks.md` |
+   | `settings.json` / `settings.local.json` | `references/settings.md` (and `hooks.md` if it touches hooks) |
+   | plugin manifest (`.claude-plugin/plugin.json`) or marketplace manifest (`.claude-plugin/marketplace.json`) | `references/mcp-and-plugins.md` |
+   | `.mcp.json` | `references/mcp-and-plugins.md` |
+   | command / output-style / schedule / rule | `references/tools-and-scheduling.md` (or the topical file if obvious) |
 
-   The reference files live under the installed plugin path: locate them via `Glob` for `**/cc-native/**/references/<topic>.md` if the path isn't obvious, then `Read` the matching file in full **before** drafting any findings. **You are forbidden from issuing a `block` or `warn` finding that cites schema details, valid-field lists, or required-vs-optional status without having Read the corresponding reference in this audit.** If the reference is unavailable for any reason, return `warn` with note "reference unavailable — semantic audit on <topic> skipped" for that file rather than guessing.
+   **Locating the reference file — strict order:**
+
+   1. **If the calling prompt contains a line `References directory: <abs-path>`**, that is the absolute path to the references dir on this machine. `Read` `<abs-path>/<topic>.md` directly. This is the canonical case when invoked by the `maybe-audit` Stop hook.
+   2. **Otherwise**, `Glob` for `**/cc-native/**/references/<topic>.md` from cwd. This works when the audit target is inside the cc-native repo itself.
+   3. **If neither yields the file**, return verdict `warn` with finding `[warn] reference unavailable — semantic audit on <topic> skipped (no References directory passed and Glob from cwd did not match)` and do **not** issue any other schema-level finding for this file. Do not guess from training memory — schema details change weekly and a wrong "warn" costs the user iteration time.
+
+   **Citation requirement.** Every `block` or `warn` finding that cites schema details, field names, valid-value lists, character caps, or required-vs-optional status MUST quote a specific phrase or line number from the reference you Read in step 1 or 2. Format: `(per references/<topic>.md L<n>: "<exact phrase>")`. If you cannot produce that citation, you have not actually read the reference and must downgrade the finding to `info` or remove it. This is what separates audits-from-the-reference from audits-from-memory.
 3. **Answer four questions per file:**
    - **Goal-fit:** does the chosen feature shape (which hook event, which agent type, which skill structure) match what this artifact is trying to accomplish?
    - **Discipline:** does it follow progressive disclosure (skills) and least-privilege (agents/tools/permissions)?

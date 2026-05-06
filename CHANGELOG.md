@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.2.2] — 2026-05-06
+
+- **fix(auditor)**: pass the absolute references directory through the `maybe-audit` Stop-hook directive so the `cc-native-auditor` subagent can `Read` reference files directly instead of trying to `Glob` for them from the user's project cwd. Real-world Windows install showed that 6 of 11 audit invocations across three benchmark trials reported "reference unavailable" or silently fell back to training memory — `Glob **/cc-native/**/references/<topic>.md` from a project cwd cannot reach `~/.claude/plugins/cache/...` (it's outside the project tree). The `maybe-audit` hook now reads `CLAUDE_PLUGIN_ROOT` (set by CC for plugin-hook invocations) and injects a `References directory: <abs-path>` line into the directive. The auditor's system prompt is updated to prefer this path when present, fall back to Glob otherwise, and require a `(per references/<topic>.md L<n>: "...")` citation on every schema-level finding — making "audited from the reference" verifiable.
+- **tests**: two new `maybe-audit` fixtures cover the with-`CLAUDE_PLUGIN_ROOT` / without-`CLAUDE_PLUGIN_ROOT` directive shapes. 16/16 fixture tests pass.
+
 ## [0.2.1] — 2026-05-06
 
 - **fix(hooks)**: quote `${CLAUDE_PLUGIN_ROOT}` expansion in `hooks/hooks.json` so paths with spaces (e.g. `C:\Users\Gary Sonyak\...` on Windows, or any macOS/Linux home dir containing a space) no longer split the script argument. Without quotes, `python ${CLAUDE_PLUGIN_ROOT}/hooks/x.py` became `python C:\Users\Gary Sonyak\...\hooks\x.py`, the shell tokenized on the space, and Python tried to execute `C:\Users\Gary` as a script. Affects all three hooks (PreToolUse, PostToolUse, Stop). Real-world repro from a v0.2.0 install on Windows. Pre-existing bug surfaced now because earlier dogfood was on a Linux/macOS path without spaces.

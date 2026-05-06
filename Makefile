@@ -86,6 +86,20 @@ test-audit:
 	  else \
 	    echo "FAIL  maybe-audit did not flag a fresh edit made after a prior auditor call"; cat /tmp/cc-audit.out; exit 1 ; \
 	  fi
+	@printf '{"transcript_path":"tests/fixtures/transcripts/needs-audit.jsonl"}' \
+	  | CLAUDE_PLUGIN_ROOT=/abs/plugin/root $(PYTHON) $(HOOK_AUDIT) > /tmp/cc-audit.out ; \
+	  if grep -q 'References directory: /abs/plugin/root/skills/feature-guide/references' /tmp/cc-audit.out; then \
+	    echo "  ok  maybe-audit injects References directory when CLAUDE_PLUGIN_ROOT is set" ; \
+	  else \
+	    echo "FAIL  maybe-audit did not inject References directory line"; cat /tmp/cc-audit.out; exit 1 ; \
+	  fi
+	@printf '{"transcript_path":"tests/fixtures/transcripts/needs-audit.jsonl"}' \
+	  | env -u CLAUDE_PLUGIN_ROOT $(PYTHON) $(HOOK_AUDIT) > /tmp/cc-audit.out ; \
+	  if grep -q '"decision": "block"' /tmp/cc-audit.out && ! grep -q 'References directory' /tmp/cc-audit.out; then \
+	    echo "  ok  maybe-audit blocks without injecting refs line when CLAUDE_PLUGIN_ROOT is unset" ; \
+	  else \
+	    echo "FAIL  maybe-audit injected References directory without CLAUDE_PLUGIN_ROOT, or did not block"; cat /tmp/cc-audit.out; exit 1 ; \
+	  fi
 
 clean:
 	rm -f /tmp/cc-verify.out /tmp/cc-verify.err /tmp/cc-rem-other.out /tmp/cc-audit.out

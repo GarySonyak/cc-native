@@ -161,10 +161,30 @@ def main() -> None:
     _debug(transcript_path, unaudited)
 
     file_list = "\n".join(f"  - {p}" for p in unaudited)
+
+    # The auditor subagent runs with cwd at the user's project, but its references live
+    # under the plugin cache (outside the project tree). Glob from cwd cannot reach
+    # them, so the auditor was hallucinating schema-level findings from training memory
+    # ~half the time. Pass the absolute references dir explicitly when CLAUDE_PLUGIN_ROOT
+    # is set (CC sets it when invoking plugin hooks; on-demand audits without it fall
+    # back to Glob-from-cwd as before).
+    plugin_root = os.environ.get("CLAUDE_PLUGIN_ROOT") or ""
+    refs_line = ""
+    if plugin_root:
+        refs_dir = os.path.join(plugin_root, "skills", "feature-guide", "references").replace("\\", "/")
+        refs_line = (
+            f"\nReferences directory: {refs_dir}\n"
+            "(Pass this absolute path to the auditor verbatim — it tells the auditor "
+            "where to Read agents.md / skills.md / hooks.md / settings.md / "
+            "mcp-and-plugins.md / tools-and-scheduling.md / changelog.md directly, "
+            "without relying on Glob-from-cwd which cannot reach the plugin cache.)"
+        )
+
     reason = (
         "Claude Code config files were edited this turn. Before declaring done, "
         "invoke the `cc-native-auditor` subagent (via the Task tool) on these files "
         f"for semantic review:\n{file_list}\n"
+        f"{refs_line}\n"
         "The auditor will return a per-file verdict; treat any 'block' severity as "
         "a stop-ship issue. Once the auditor reports back (and any blocks are fixed), "
         "you may end the turn."
