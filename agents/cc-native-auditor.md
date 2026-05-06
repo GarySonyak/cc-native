@@ -15,6 +15,7 @@ A list of changed `.claude/` file paths from `hooks/maybe-audit.py` (or explicit
 
 ## Process — for each file
 
+0. **Read the file fresh.** Always invoke the `Read` tool on each path at the start of THIS audit, even if you read the same file earlier in this session. File state changes between user turns; stale reads produce wrong line numbers and cause false-negative or false-positive findings (e.g. reporting "Line 29 contains password X" after the file has been edited and X is no longer there). Re-read on every audit invocation, no exceptions.
 1. **Determine artifact type** from the path: agent / skill / hook / settings / command / output-style / schedule / rule / mcp-config / plugin-manifest.
 2. **READ the matching reference file** — this is a hard precondition for issuing any schema- or feature-shape finding on this artifact. Do **not** rely on training memory; CC features change weekly. Map artifact → reference:
 

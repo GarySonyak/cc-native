@@ -19,6 +19,8 @@ test-verify:
 	  "2 $(F_DIR)/agents/bad-agent-permmode.md" \
 	  "0 $(F_DIR)/settings.json" \
 	  "2 $(F_DIR)/settings-bad.json" \
+	  "2 $(F_DIR)/settings-secret-env.json" \
+	  "2 $(F_DIR)/settings-secret-basic-auth.json" \
 	  "2 $(F_DIR)/hooks/bad-hook-no-stdin.py" ; do \
 	  expected=$${case%% *}; path=$${case#* }; \
 	  printf '{"tool_input":{"file_path":"%s"}}' "$$(realpath $$path)" \

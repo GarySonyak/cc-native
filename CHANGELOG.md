@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.11] — 2026-05-06
+
+- feat(cc-native-verify): scan `permissions.allow[]` Bash patterns for literal credentials at write-time. Two leak shapes detected: env-var prefix (`Bash(KEY=literal_value cmd:*)` where `KEY` matches PASSWORD/APIKEY/SECRET/TOKEN/etc.) and basic auth (`-u user:literal_password`). Findings escalate to error severity (exit 2) so the user sees them on the next settings.json save. False-positive guard: env-var references (`$VAR`), safe values (`true`/`false`/`production`/etc.), and non-credential keys are skipped. Direct response to a real-world audit that found 5+ baked-in secrets in user settings — would have caught all of them at the moment they landed via "Always allow."
+- fix(auditor): require fresh `Read` on every audit invocation, even on follow-up audits in the same session. Earlier behavior reused stale reads from prior turns and produced wrong line numbers after edits (false negatives like "Line 29 still contains password X" when X had been deleted and lines shifted). One sentence in the system prompt; no behavior change to passing audits.
+- tests: two new fixtures (`settings-secret-env.json`, `settings-secret-basic-auth.json`) cover the literal/$VAR/safe-value distinction. 14/14 fixtures pass.
+
 ## [0.1.10] — 2026-05-05
 
 - fix(maybe-audit): move `_debug()` call below the `if not unaudited: sys.exit(0)` guard so `CC_NATIVE_DEBUG=1` only logs blocking fires, not no-op clean stops. Steady-state debugging stays useful (loop diagnoses fire when `unaudited` is populated) without flooding `/tmp/cc-native-debug.log` on every clean Stop.

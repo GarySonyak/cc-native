@@ -38,6 +38,28 @@ HARDCODED_USER_PATH_RE = re.compile(
     r")"
 )
 
+# Detects literal credentials embedded inside permissions.allow[] Bash() patterns.
+# Two leak shapes seen in real configs: env-var prefix (KEY=value cmd) and basic
+# auth (-u user:password). When CC's "Always allow" persists a one-off command
+# verbatim, any inline secret ends up baked into settings.json forever.
+ENV_PREFIX_RE = re.compile(
+    r"(?<![A-Za-z0-9_])([A-Z][A-Z0-9_]{2,})="
+    r"(?:\"([^\"]+)\"|'([^']+)'|([^\s\\]+))"
+)
+BASIC_AUTH_RE = re.compile(
+    r"(?:-u|--user)\s+[\"']?([^:\"'\s]+):([^\"'\s]{3,})[\"']?"
+)
+SECRET_KEY_NAMES = re.compile(
+    r"PASSWORD|PASSWD|PWD|API[_-]?KEY|APIKEY|SECRET|TOKEN|PGPASSWORD",
+    re.IGNORECASE,
+)
+# Values that match a SECRET_KEY_NAMES key but are clearly not real secrets.
+SAFE_VALUES = {
+    "1", "0", "true", "false", "yes", "no", "on", "off",
+    "production", "development", "test", "staging", "local",
+    "en_US.UTF-8", "C", "POSIX",
+}
+
 REQUIRED_FRONTMATTER = {
     "agents": ("name", "description"),
     "skills": ("name", "description"),
@@ -132,12 +154,63 @@ def _validate_json(path: str, errors: list[str]) -> Any:
         return None
 
 
+def _scan_allow_for_secrets(pattern: str) -> list[str]:
+    """Find literal credentials embedded inside a permissions.allow[] Bash() rule.
+
+    Two leak shapes the real-world audit surfaced in user settings:
+      1. `Bash(KEY=literal_value cmd:*)` — env-var prefix with the secret baked
+         into the allow rule. Triggered by "Always allow" on a one-off command
+         that included the password inline (e.g. PGPASSWORD=, BINANCE_API_KEY=).
+      2. `Bash(... curl -u "user:password" ...)` — basic-auth credential
+         embedded literally rather than via a secret store.
+
+    Both are detected via narrow regex + a credential-keyword filter and a
+    safe-values whitelist to keep false positives low. Findings mask the
+    secret so the verify hook itself doesn't echo it back into stderr/logs.
+    """
+    findings: list[str] = []
+    for m in ENV_PREFIX_RE.finditer(pattern):
+        key = m.group(1)
+        value = m.group(2) or m.group(3) or m.group(4) or ""
+        if not value or value.startswith("$"):
+            continue
+        if value in SAFE_VALUES:
+            continue
+        if not SECRET_KEY_NAMES.search(key):
+            continue
+        masked = (value[0] + "*" * max(len(value) - 1, 1)) if value else ""
+        findings.append(
+            f"literal credential in env-var prefix '{key}={masked}'"
+        )
+    for m in BASIC_AUTH_RE.finditer(pattern):
+        user, pwd = m.group(1), m.group(2)
+        if pwd.startswith("$"):
+            continue
+        masked = pwd[0] + "*" * max(len(pwd) - 1, 1)
+        findings.append(f"basic-auth literal in '-u {user}:{masked}'")
+    return findings
+
+
 def _validate_settings(
     path: str, hook_events: set[str], errors: list[str], warnings: list[str]
 ) -> None:
     data = _validate_json(path, errors)
     if not isinstance(data, dict):
         return
+
+    permissions = data.get("permissions") or {}
+    allow = permissions.get("allow") if isinstance(permissions, dict) else None
+    if isinstance(allow, list):
+        for idx, entry in enumerate(allow):
+            if not isinstance(entry, str) or not entry.startswith("Bash("):
+                continue
+            for finding in _scan_allow_for_secrets(entry):
+                errors.append(
+                    f"{path}: permissions.allow[{idx}] — {finding}. "
+                    "Use $VAR + a secrets file (e.g. /root/.secrets/all.env); "
+                    "literal credentials in allow rules persist into transcripts and telemetry."
+                )
+
     hooks_block = data.get("hooks") or {}
     if not isinstance(hooks_block, dict):
         return
