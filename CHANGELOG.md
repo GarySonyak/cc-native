@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.1] — 2026-05-06
+
+- **fix(hooks)**: quote `${CLAUDE_PLUGIN_ROOT}` expansion in `hooks/hooks.json` so paths with spaces (e.g. `C:\Users\Gary Sonyak\...` on Windows, or any macOS/Linux home dir containing a space) no longer split the script argument. Without quotes, `python ${CLAUDE_PLUGIN_ROOT}/hooks/x.py` became `python C:\Users\Gary Sonyak\...\hooks\x.py`, the shell tokenized on the space, and Python tried to execute `C:\Users\Gary` as a script. Affects all three hooks (PreToolUse, PostToolUse, Stop). Real-world repro from a v0.2.0 install on Windows. Pre-existing bug surfaced now because earlier dogfood was on a Linux/macOS path without spaces.
+
 ## [0.2.0] — 2026-05-06
 
 - **fix(README, BREAKING)**: the `@~/.claude/plugins/cc-native/rules/...` install instruction was unworkable — marketplace plugins are cached at `~/.claude/plugins/cache/{marketplace}/{plugin}/{version}/` and CLAUDE.md `@`-imports do not expand `${CLAUDE_PLUGIN_ROOT}`. Workflow rule body folded into `skills/feature-guide/SKILL.md`. The rule auto-applies whenever the skill is loaded — exactly the scope it covered. No user wiring needed. `rules/cc-native-agentic.md` deleted.
