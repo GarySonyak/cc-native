@@ -6,6 +6,5 @@
   "homepage": "https://github.com/GarySonyak/cc-native",
   "repository": "https://github.com/GarySonyak/cc-native",
   "license": "MIT",
-  "category": "developer-tools",
   "keywords": ["claude-code", "skills", "hooks", "agents", "docs", "linting", "audit", "meta"]
 }
