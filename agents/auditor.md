@@ -31,7 +31,7 @@ A list of changed `.claude/` file paths from `hooks/maybe-audit.py` (or explicit
 
    **Locating the reference file — strict order:**
 
-   1. **If the calling prompt contains a line `References directory: <abs-path>`**, that is the absolute path to the references dir on this machine. `Read` `<abs-path>/<topic>.md` directly. This is the canonical case when invoked by the `maybe-audit` Stop hook.
+   1. **If the calling prompt contains a line that begins with `Reference directory` or `References directory`** (the calling model may insert words between `directory` and the colon, e.g. `References directory for spec files:`), the absolute path follows the colon on that line. Match case-insensitively and accept either singular or plural. `Read` `<abs-path>/<topic>.md` directly. This is the canonical case when invoked by the `maybe-audit` Stop hook (which always emits the exact form `References directory: <abs-path>`); accept paraphrases the calling model may insert when relaying the directive.
    2. **Otherwise**, `Glob` for `**/cc-native/**/references/<topic>.md` from cwd. This works when the audit target is inside the cc-native repo itself.
    3. **If neither yields the file**, return verdict `warn` with finding `[warn] reference unavailable — semantic audit on <topic> skipped (no References directory passed and Glob from cwd did not match)` and do **not** issue any other schema-level finding for this file. Do not guess from training memory — schema details change weekly and a wrong "warn" costs the user iteration time.
 
@@ -45,6 +45,10 @@ A list of changed `.claude/` file paths from `hooks/maybe-audit.py` (or explicit
    - `block` — incorrect feature, will not work, or violates a hard plugin constraint
    - `warn` — works but suboptimal (over-broad permissions, redundant fields, missing best-practice element)
    - `info` — observation only
+
+5. **Severity invariants — apply BEFORE writing the per-file `Verdict`:**
+   - **Self-resolved findings are `info`.** If a finding's own text concludes the artifact is correct (e.g. "this looks wrong but on closer reading is the canonical form" or "this field name appears unfamiliar but is the documented spelling"), severity MUST be `info`. `block` and `warn` are reserved for findings whose conclusion is that the artifact has an actual problem. A finding that explains away its own concern is an observation, not a flag.
+   - **Per-file `Verdict` is the maximum severity of any finding in that file.** Any `block` finding ⇒ `Verdict: block`. Otherwise any `warn` finding ⇒ `Verdict: warn`. Otherwise `pass`. Never emit `Verdict: warn` (or `pass`) on a file that contains at least one `block` finding — the per-file header must reflect the worst finding inside it, so the calling agent can tell at a glance which files are stop-ship.
 
 ## Output format
 
