@@ -6,7 +6,7 @@ A Claude Code plugin that keeps your agents, hooks, and skills aligned with the 
 
 | Component | Type | Purpose |
 |---|---|---|
-| `feature-guide` | skill | Always-current quick reference for CC features (hooks, skills, subagents, MCP, settings, plugins, modes, memory, schedules). Progressive-disclosure: skim `SKILL.md`, drill into a single matching `references/*.md`. |
+| `feature-guide` | skill | Always-current edit-time reference for `.claude/` and plugin artifacts (hooks, skills, subagents, MCP, settings, plugins, modes, memory, schedules). Progressive-disclosure: skim `SKILL.md`, drill into a single matching `references/*.md`. Carries the Guide-and-Verify workflow rule inline. |
 | `cc-native-reminder` | PreToolUse hook | When you Edit/Write any `.claude/` config, injects a reminder to consult the `feature-guide` skill before proceeding. |
 | `cc-native-verify` | PostToolUse hook | Deterministic lint of the artifact you just wrote: JSON parse, frontmatter required-key check, hook event-name validation against the live skill enum, tools-token regex, hook script smoke test, portability warnings. Exits 0 / 1 (warn) / 2 (fail). |
 | `cc-native-auditor` | subagent | LLM semantic review of changed `.claude/` artifacts: goal-fit, least-privilege, cross-references, deprecation. Returns per-file `block`/`warn`/`pass`. |
@@ -21,24 +21,28 @@ A Claude Code plugin that keeps your agents, hooks, and skills aligned with the 
 
 ## Install
 
-Once cc-native lands on the official Anthropic marketplace:
+From the official Anthropic plugin marketplace (once approved):
 
 ```bash
 /plugin install cc-native@claude-plugins-official
 ```
 
-For the dogfood window, add this maintainer marketplace and install from it:
+Or install directly from this repo via the maintainer marketplace:
 
 ```bash
 /plugin marketplace add GarySonyak/cc-native
 /plugin install cc-native@gary-sonyak
 ```
 
-After install, no further wiring is required. The skill auto-triggers on `.claude/` edits and carries the Guide-and-Verify directive inline. The hooks register at startup; the auditor is invoked on demand by the Stop hook directive.
+**No further wiring needed.** The skill auto-triggers on `.claude/` edits and carries the workflow rule inline. The hooks register at startup; the auditor is invoked on demand by the Stop hook directive.
+
+## Who benefits
+
+Plugin authors building agents, hooks, or skills that need to stay correct as Claude Code's feature surface evolves. Agent-team maintainers who want a single guard rail catching deprecated frontmatter, wrong hook events, and over-broad tool grants before they ship. Anyone editing `.claude/` artifacts often enough that drift between training-memory CC and live CC has burned them at least once.
 
 ## How freshness works
 
-`cc-native` ships with **bundled, frozen** doc references inside `skills/feature-guide/references/`. The reference files are refreshed on the maintainer's machine by a `docs-monitor` agent run by a separate maintainer-side cron repo (private) that diffs the live `code.claude.com` pages daily. Material changes trigger an auto-bump of the PATCH version and a push to GitHub.
+`cc-native` ships with **bundled, frozen** doc references inside `skills/feature-guide/references/`. The reference files are refreshed by a separate maintainer-side cron repo that diffs the live `code.claude.com` pages daily. Material changes trigger an auto-bump of the PATCH version and a push to GitHub.
 
 End users get freshness through Claude Code's built-in plugin auto-update — when the marketplace version bumps, CC notifies you to run `/reload-plugins`. Zero per-user infrastructure, zero network calls per skill consultation, works offline.
 
@@ -48,7 +52,7 @@ End users get freshness through Claude Code's built-in plugin auto-update — wh
 
 - **The verify hook is strict.** A red exit on first install usually means an existing artifact in your `.claude/` is out of date with current CC features (e.g. an agent using `permissionMode` inside a plugin). That's the point — the hook is doing its job.
 - **The auditor uses Sonnet.** Each audit costs a small number of tokens. The Stop hook only fires the directive when the turn actually edited a `.claude/` file, so the cost is bounded by how often you edit config.
-- **The skill triggers on description-match.** If you find it triggering unwantedly, narrow the skill description in your local install — but please open an issue first; we'd rather tighten upstream.
+- **The skill triggers on edit-time only by design;** for Q&A invoke it explicitly with `@feature-guide`.
 
 ## Security note about the auditor
 
@@ -63,7 +67,7 @@ make test                                    # runs hook fixtures
 claude --plugin-dir "$(pwd)"                 # start a session with this plugin loaded
 ```
 
-Test invariants: `make test` exercises the verify hook against five fixtures (good + bad pairs for agent and settings, plus a negative hook-script crash case), the reminder hook against config and non-config paths, and the Stop hook against an empty transcript.
+Test invariants: `make test` exercises the verify hook against 14 fixtures (good + bad pairs for agents and settings, hook-script smoke tests, secret-detection cases for `permissions.allow[]`), the reminder hook against config and non-config paths, and the Stop hook (`maybe-audit`) against varied transcript states.
 
 ## Versioning
 
