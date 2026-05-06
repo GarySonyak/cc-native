@@ -45,7 +45,7 @@ That's it. The skill triggers automatically by description-match; the hooks regi
 
 ## How freshness works
 
-`cc-native` ships with **bundled, frozen** doc references inside `skills/feature-guide/references/`. The reference files are refreshed on the maintainer's machine by a `docs-monitor` agent (in `scripts/maintainer/`, NOT shipped to end users) that diffs the live `code.claude.com` pages daily. Material changes trigger an auto-bump of the PATCH version and a push to GitHub.
+`cc-native` ships with **bundled, frozen** doc references inside `skills/feature-guide/references/`. The reference files are refreshed on the maintainer's machine by a `docs-monitor` agent run by a separate maintainer-side cron repo (private) that diffs the live `code.claude.com` pages daily. Material changes trigger an auto-bump of the PATCH version and a push to GitHub.
 
 End users get freshness through Claude Code's built-in plugin auto-update — when the marketplace version bumps, CC notifies you to run `/reload-plugins`. Zero per-user infrastructure, zero network calls per skill consultation, works offline.
 
