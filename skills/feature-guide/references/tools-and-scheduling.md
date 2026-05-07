@@ -11,6 +11,7 @@
 | `TeamCreate` / `TeamDelete` | Create/disband agent teams. Only available when `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`. |
 | `TaskStop` | Kill a running background task by ID. |
 | `TodoWrite` | Non-interactive mode / Agent SDK only. Interactive sessions use TaskCreate/TaskList/TaskUpdate. |
+| `Bash` | `$CLAUDE_CODE_SESSION_ID` is injected into every Bash tool subprocess — scripts can use it for logging or output correlation. (v2.1.132) |
 | `Monitor` | Run command in background; each output line fed back to Claude mid-conversation. Watch logs, poll CI, tail files. (v2.1.98) |
 | `EnterWorktree` | `path` param to switch into an existing worktree (not just create new): `EnterWorktree(path=...)`. (v2.1.105) |
 | `Write` | Detects when user edits proposed content before accepting (diffed against original). (v2.1.110) |

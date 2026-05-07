@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.7] — 2026-05-07
+
+- **Step 6 log output:**
+
 ## [0.2.6] — 2026-05-06
 
 - [2026-05-06] docs-monitor: 2 pages changed — changelog, settings (2 material, 1 trivial)
