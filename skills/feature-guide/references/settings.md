@@ -25,5 +25,6 @@
 - `DISABLE_UPDATES` env var: block all update paths; useful for managed/locked deployments. (v2.1.118)
 - `prUrlTemplate`: custom code-review URLs (v2.1.119).
 - `skillOverrides`: globally control skill auto-invocation — `off` (model sees no skills), `user-invocable-only` (model sees only user-invocable skills), `name-only` (model sees skill names but not descriptions). Scoped to user/project settings. (v2.1.129)
+- `worktree.baseRef`: `fresh` (branch worktrees from `origin/<default>`) or `head` (branch from local `HEAD`). Controls worktree base commit. (v2.1.133)
 
 Managed-only settings (`disable*`, `allow*Only`, `sandbox.*.allowManaged*Only`, plugin/marketplace policy keys like `pluginTrustMessage`/`strictKnownMarketplaces`/`blockedMarketplaces`/`channelsEnabled`/`allowedChannelPlugins`, `minimumVersion`, `wslInheritsWindowsSettings`, `subagentStatusLine`) intentionally excluded -- see `/en/settings#available-settings` for the full enterprise list.

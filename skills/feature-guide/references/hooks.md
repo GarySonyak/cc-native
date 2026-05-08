@@ -50,6 +50,7 @@ Browse: `/hooks`. Disable all: `disableAllHooks: true`.
 - `PreCompact`: exit code 2 to block compaction (v2.1.105).
 - `StopFailure`: matcher filters by error type: `rate_limit`, `authentication_failed`, `billing_error`, `invalid_request`, `server_error`, `max_output_tokens`, `unknown`.
 - `PostToolUse`/`PostToolUseFailure`: include `duration_ms` (v2.1.119); `PostToolUse` can replace tool output for any tool (v2.1.121).
+- All hooks: `effort.level` field in JSON input contains the active effort level (low/medium/high/xhigh/max). `$CLAUDE_EFFORT` env var also set for command hooks. Use to conditionally adjust hook behavior per effort. (v2.1.133)
 - `WorktreeCreate`: command hooks return path on stdout; HTTP hooks return `hookSpecificOutput.worktreePath`. Hook failure or missing path fails worktree creation.
 - `SessionStart`/`Setup`: `hookSpecificOutput.additionalContext` injects text into Claude's context. `SessionStart` also accepts plain stdout (single hook); `Setup` concatenates `additionalContext` from multiple hooks.
 
