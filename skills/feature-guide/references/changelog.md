@@ -21,6 +21,8 @@
 - `/ultrareview` -- parallel cloud-based multi-agent code review (v2.1.111); `claude ultrareview [target]` non-interactive (v2.1.120)
 - `/fewer-permission-prompts` -- [Skill] scan transcripts for common read-only Bash/MCP calls and add allowlist to project settings.json (renamed from /less-permission-prompts, v2.1.114)
 - `/usage` consolidates `/cost`+`/stats` (v2.1.118)
+- `/heapdump` -- write JS heap snapshot + memory breakdown to `~/Desktop` (or home dir on Linux) for diagnosing high memory usage
+- `/teleport` (alias `/tp`) -- pull a Claude Code on the web session into this terminal (fetches branch + conversation); requires claude.ai subscription
 
 ## Version notes
 
@@ -40,3 +42,6 @@
 - **v2.1.131** (2026-05-06): bug fixes only — VS Code extension activation on Windows; Mantle endpoint auth header fix.
 - **v2.1.132** (2026-05-06): `CLAUDE_CODE_SESSION_ID` env var injected into Bash tool subprocess environment (scripts can correlate with session). `CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN=1` opts out of fullscreen rendering. Bug fixes: SIGINT graceful shutdown, `--resume` emoji truncation, `--permission-mode` ignored on plan-mode resume, fullscreen blank after sleep/wake, stdio MCP server memory leak.
 - **v2.1.133** (2026-05-07): Active effort level now in all hook JSON inputs (`effort.level` field; `$CLAUDE_EFFORT` env var for command hooks). `worktree.baseRef` setting (`fresh`/`head`). Bug fixes: subagents not discovering project/user/plugin skills; permission rules broken on mapped network drives; Remote Control stop/interrupt not fully canceling CLI; `/effort` affecting concurrent sessions.
+- **v2.1.136** (2026-05-08): `autoMode.hard_deny` — unconditional auto mode blocking rules; user intent and `allow` exceptions cannot override. `CLAUDE_CODE_ENABLE_FEEDBACK_SURVEY_FOR_OTEL` env var for enterprise OTel deployments. Bug fixes: MCP servers disappeared after `/clear`; MCP OAuth refresh tokens lost on concurrent refresh; login loops from concurrent credential writes; extended thinking API errors with redacted blocks; `--resume`/`--continue` with underscores in project paths; WSL2 image paste via PowerShell fallback.
+- **v2.1.137** (2026-05-09): VSCode extension activation fix on Windows.
+- **v2.1.138** (2026-05-09): Internal fixes.

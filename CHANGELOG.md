@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.9] — 2026-05-09
+
+- Telegram MCP tool is not in scope for this session. Logging TELEGRAM-FALLBACK:
+
 ## [0.2.8] — 2026-05-08
 
 - Telegram MCP unavailable. Logging fallback:

@@ -35,6 +35,8 @@ Protected files (never auto-approved in most modes): `.gitconfig`, `.gitmodules`
 
 Conversation-stated boundaries (e.g. "don't push") block classifier; lost after compaction -- use deny rules for hard guarantees.
 
+`autoMode.hard_deny`: prose rules that block unconditionally — user intent and `allow` exceptions cannot override. Use when a boundary must survive regardless of what the user says in conversation. Default includes exfiltration and safety-bypass rules; include `"$defaults"` to extend rather than replace. (v2.1.136)
+
 ## Checkpointing
 
 Auto-snapshots before every file edit. `/rewind` to restore previous state. `/checkpoint` to save manually. Checkpoints are local to session, separate from git. Only covers file changes -- remote actions (DB, API, deploy) cannot be checkpointed.

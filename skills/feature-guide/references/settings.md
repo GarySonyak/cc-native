@@ -18,6 +18,7 @@
 - `effortLevel`: persist effort level across sessions (low/medium/high); default now "high" for Team/Enterprise/API/Bedrock/Vertex/Foundry. (v2.1.94)
 - `agent`: run main session thread as a named subagent (applies its system prompt, tool restrictions, model).
 - `autoMode`: customize auto mode classifier -- `environment`, `allow`, `soft_deny` arrays; not read from shared project settings. Include `"$defaults"` in allow/deny arrays to add custom rules alongside built-in lists (v2.1.118).
+- `autoMode.hard_deny`: array of prose rules blocking unconditionally — user intent and `allow` exceptions do not apply. Include `"$defaults"` to preserve built-in exfiltration/safety-bypass blocks. For tool-pattern blocks before the classifier, use `permissions.deny`. (v2.1.136)
 - `alwaysThinkingEnabled`: enable extended thinking by default for all sessions.
 - `outputStyle`: set a named output style to adjust system prompt (e.g. "Explanatory").
 - `httpHookAllowedEnvVars`: allowlist of env var names HTTP hooks may interpolate into headers.
