@@ -19,7 +19,7 @@
 
 ## Scheduled Tasks (v2.1.72+)
 
-Session-scoped; restored on `--resume`/`--continue` if unexpired (7-day window). (v2.1.114) Tools: `CronCreate`, `CronList`, `CronDelete`. Max 50 tasks per session. 7-day auto-expiry for recurring tasks. Jitter: recurring tasks up to 10% late (capped 15min); one-shot at :00/:30 fire up to 90s early. Disable: `CLAUDE_CODE_DISABLE_CRON=1`.
+Session-scoped; restored on `--resume`/`--continue` if unexpired (7-day window). (v2.1.114) Tools: `CronCreate`, `CronList`, `CronDelete`. Max 50 tasks per session. 7-day auto-expiry for recurring tasks. Jitter: recurring tasks fire up to **30 minutes** after scheduled time (or up to half the interval for sub-hourly tasks; e.g. hourly job at :00 may fire up to :30). One-shot tasks at :00/:30 fire up to 90s early. Offset is derived from task ID (same task always gets same offset). Disable: `CLAUDE_CODE_DISABLE_CRON=1`.
 
 Compare options: **Routines** (Cloud, `/schedule`): Anthropic-managed, durable, 1hr min, triggers on schedule/API call/GitHub events. Desktop: local files, 1min min. `/loop`: in-session, 1min min, session-scoped.
 

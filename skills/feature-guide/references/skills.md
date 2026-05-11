@@ -52,7 +52,7 @@ If skill stops influencing behavior, the content is usually still present — st
 ## Other
 
 - Bundled: `/batch`, `/claude-api`, `/debug`, `/loop`, `/simplify`.
-- Description budget env var: `SLASH_COMMAND_TOOL_CHAR_BUDGET` (default 1% of context, fallback 8000).
+- Description budget: `skillListingBudgetFraction` setting (e.g. `0.02` = 2% of context) or `SLASH_COMMAND_TOOL_CHAR_BUDGET` env var (fixed char count). Per-skill cap: `maxSkillDescriptionChars` setting (default 1536 chars). Run `/doctor` to see if budget is overflowing and which skills are affected.
 - Skills from `--add-dir` directories are auto-loaded with live change detection.
 - `disableSkillShellExecution: true` in settings disables `` !`command` `` (managed policy). (v2.1.91)
 - Live change detection: edits take effect within current session for `~/.claude/skills/`, project `.claude/skills/`, and `--add-dir` skills. New top-level dirs require restart.
