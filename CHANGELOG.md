@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.14] — 2026-05-12
+
+- fix(hooks): add `"shell": "bash"` to SessionStart entry so `${CLAUDE_PLUGIN_ROOT}` expands; v0.2.13 hook registered but never fired in live sessions (no transcript entry, no mtime updates), matching claude-mem's working shape.
+
+## [0.2.13] — 2026-05-12
+
+- feat(hooks): SessionStart refs auto-refresh POC — `refresh-refs.py` pulls 9 feature-guide reference files from GitHub raw on startup; silent on failure, no TTL/atomic-writes/opt-out yet.
+
 ## [0.2.12] — 2026-05-12
 
 - Telegram MCP unavailable — logging fallback:
