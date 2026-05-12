@@ -23,6 +23,14 @@
           { "type": "command", "command": "python \"${CLAUDE_PLUGIN_ROOT}/hooks/maybe-audit.py\"" }
         ]
       }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "startup",
+        "hooks": [
+          { "type": "command", "command": "python \"${CLAUDE_PLUGIN_ROOT}/hooks/refresh-refs.py\"" }
+        ]
+      }
     ]
   }
 }
