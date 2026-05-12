@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.12] — 2026-05-12
+
+- Telegram MCP unavailable — logging fallback:
+
 ## [0.2.11] — 2026-05-11
 
 - Telegram MCP unavailable. Logging fallback:

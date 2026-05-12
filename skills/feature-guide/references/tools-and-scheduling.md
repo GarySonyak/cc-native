@@ -14,6 +14,8 @@
 | `Bash` | `$CLAUDE_CODE_SESSION_ID` is injected into every Bash tool subprocess — scripts can use it for logging or output correlation. (v2.1.132) |
 | `Monitor` | Run command in background; each output line fed back to Claude mid-conversation. Watch logs, poll CI, tail files. (v2.1.98) |
 | `ShareOnboardingGuide` | Uploads `ONBOARDING.md` and returns a share link teammates can open in Claude Code. Called from `/team-onboarding`. Requires claude.ai subscription (Pro/Max/Team/Enterprise). Permission required. |
+| `PushNotification` | Sends desktop notification + phone push when Remote Control is connected. Not available on Bedrock/Vertex/Foundry (Anthropic infra only). Permission: No. (v2.1.139) |
+| `RemoteTrigger` | Creates/updates/runs/lists Routines on claude.ai. Backs `/schedule`. Requires Pro/Max/Team/Enterprise on Anthropic. Not on Bedrock/Vertex/Foundry. Permission: No. (v2.1.139) |
 | `EnterWorktree` | `path` param to switch into an existing worktree (not just create new): `EnterWorktree(path=...)`. (v2.1.105) |
 | `Write` | Detects when user edits proposed content before accepting (diffed against original). (v2.1.110) |
 
@@ -30,6 +32,9 @@ Stop a running `/loop` between iterations with `Esc` (only affects `/loop`; task
 ## Session Management
 
 `/continue` resume last session. `/resume` pick from list. `--fork-session` branch without affecting original. `/branch` fork for exploration. `/teleport` move between surfaces. Sessions tied to directory -- use worktrees for parallel sessions on different branches.
+
+`/goal`: set completion condition; Claude works across turns until met; use for non-interactive autonomous tasks. (v2.1.139)
+Agent View (v2.1.139+, research preview): `claude agents` opens unified session list showing all running CC sessions. `/background` detaches current session as background agent and frees the terminal.
 
 ## Effort & Output
 

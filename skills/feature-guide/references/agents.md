@@ -18,7 +18,8 @@
 - Subagents **cannot** spawn other subagents.
 - Background vs foreground: Ctrl+B to background a running subagent.
 - Model override: `CLAUDE_CODE_SUBAGENT_MODEL` env var (highest priority over per-invocation model and frontmatter).
-- `claude agents` CLI command lists configured agents without starting a session.
+- `claude agents` CLI command lists configured agents without starting a session. In v2.1.139+ (Agent View research preview), also opens a unified session list showing all running CC sessions and their status.
+- `/background` in-session command: detaches current session as background agent (frees terminal); session appears in Agent View.
 - Subagent transcripts: `~/.claude/projects/{project}/{sessionId}/subagents/agent-{agentId}.jsonl`.
 - `isolation: "worktree"` frontmatter field: subagent runs in a temporary git worktree.
 - `CLAUDE_CODE_FORK_SUBAGENT=1`: enable forked subagents on external/non-Anthropic builds. (v2.1.117)
