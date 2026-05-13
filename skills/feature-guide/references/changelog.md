@@ -48,3 +48,4 @@
 - **v2.1.137** (2026-05-09): VSCode extension activation fix on Windows.
 - **v2.1.138** (2026-05-09): Internal fixes.
 - **v2.1.139** (2026-05-11): Agent View research preview: `claude agents` opens unified session list showing all running CC sessions; `/background` detaches current session as background agent. `/goal` command: set completion condition, Claude works until met. `claude plugin details <name>`: component inventory + token cost projections. New tools: `PushNotification` (desktop + phone push via Remote Control; not on Bedrock/Vertex/Foundry) and `RemoteTrigger` (manage Routines on claude.ai, backs `/schedule`; requires Pro/Max/Team/Enterprise). Improved MCP OAuth handling, retry logic, env var passing.
+- **v2.1.140** (2026-05-12): Bug fixes — `subagent_type` matching now case/separator insensitive; `/goal` hang fix with certain hooks; background service startup fix on enterprise machines; tool validation fixes. (v2.1.140)

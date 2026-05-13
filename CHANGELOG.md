@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.15] — 2026-05-13
+
+- TELEGRAM-FALLBACK: `docs-monitor 2026-05-13 | Run #30 | Pages checked: 15 | Changes: 0 material, 1 trivial | v2.1.140 (May 12) — bug fixes only (subagent_type case/separator matching fix; /goal hang
+
 ## [0.2.14] — 2026-05-12
 
 - fix(hooks): add `"shell": "bash"` to SessionStart entry so `${CLAUDE_PLUGIN_ROOT}` expands; v0.2.13 hook registered but never fired in live sessions (no transcript entry, no mtime updates), matching claude-mem's working shape.
