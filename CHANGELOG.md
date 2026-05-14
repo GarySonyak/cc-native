@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.16] — 2026-05-14
+
+- Telegram MCP is not in scope for this session (only WebFetch/Read/Write/Edit/Bash/Grep available; dontAsk blocks direct API calls). Falling back to log output per protocol:
+
 ## [0.2.15] — 2026-05-13
 
 - TELEGRAM-FALLBACK: `docs-monitor 2026-05-13 | Run #30 | Pages checked: 15 | Changes: 0 material, 1 trivial | v2.1.140 (May 12) — bug fixes only (subagent_type case/separator matching fix; /goal hang

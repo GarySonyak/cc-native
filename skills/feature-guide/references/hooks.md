@@ -18,7 +18,7 @@
 
 ## Hook types
 
-`command` (shell), `http` (webhook), `prompt` (single-turn LLM eval), `agent` (multi-turn with tools, up to 50 tool-use turns, default 60s timeout), `mcp_tool` (invoke MCP tool directly, v2.1.118).
+`command` (shell), `http` (webhook), `prompt` (single-turn LLM eval), `agent` (multi-turn with tools, up to 50 tool-use turns, default 60s timeout), `mcp_tool` (invoke MCP tool directly, v2.1.118). Command hooks: optional `args: string[]` field runs command in exec mode (bypasses shell — no interpolation, avoids injection); without `args`, command string is passed to shell. (v2.1.139)
 
 ## Matchers
 
@@ -31,6 +31,9 @@ Regex on event metadata: tool name (`PreToolUse`/`PostToolUse`/`PostToolUseFailu
 ## Structured JSON output
 
 `permissionDecision` (allow/deny/ask/defer) for PreToolUse; `decision: "block"` for `UserPromptSubmit`, `UserPromptExpansion`, `PostToolUse`, `PostToolUseFailure`, `PostToolBatch`, `Stop` (see "Plugin hook gotchas" — `decision: "block"` triggers a synthetic user-relay message that re-invokes the model and can re-fire the Stop hook), `SubagentStop`, `ConfigChange`, `PreCompact`; `behavior` for PermissionRequest. `defer` (PreToolUse, non-interactive `-p` only): pauses for SDK wrapper to collect input and resume. `PermissionRequest` hook can return `updatedPermissions: [{type: "setMode", mode: "acceptEdits|auto|...", destination: "session"}]` to programmatically change permission mode.
+
+- `continueOnBlock: true` — in PostToolUse/PostToolUseFailure JSON output; blocks the tool result but keeps the agent loop running (default: loop stops on block). (v2.1.139)
+- `terminalSequence: "<escape-string>"` — in any hook JSON output; CC emits this as a terminal escape sequence (useful for desktop notifications, bell, etc.). (v2.1.141)
 
 ## Location hierarchy
 
