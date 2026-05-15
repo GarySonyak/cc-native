@@ -14,6 +14,8 @@ Servers in `.mcp.json` (project) or `~/.claude/.mcp.json` (global). Tools appear
 
 Managed MCP policy: `allowedMcpServers`/`deniedMcpServers` in managed settings restrict users to approved servers. Match by `serverName`, `serverCommand` (exact array), or `serverUrl` (wildcard `*`). Allowlist behavior: undefined=no restriction, `[]`=full lockdown, list=whitelist. Denylist takes absolute precedence over allowlist. Option 1 (`managed-mcp.json`)=exclusive control over all servers; Option 2 (allowlists/denylists)=policy overlay allowing user-added servers within constraints. Both can coexist. (v2.1.128)
 
+`MCP_TOOL_TIMEOUT` env var: raises per-request fetch timeout for remote MCP servers (was previously capped at 60s regardless of this setting). Set to timeout in ms. (v2.1.142)
+
 ## Plugins
 
 Bundle skills + hooks + agents + MCP servers into distributable unit. `plugin.json` manifest. Plugin `hooks.json` for hook definitions. Distribute via marketplaces. Plugin agents cannot use `hooks`, `mcpServers`, or `permissionMode` frontmatter (security restriction). Plugin `bin/` directory: executables added to Bash tool's PATH while plugin is enabled. `/reload-plugins` reloads without restarting. `--plugin-dir` flag for local testing. Plugin LSP servers via `.lsp.json`. Plugin default settings via `settings.json` at plugin root (`agent` and `subagentStatusLine` keys supported).
@@ -25,6 +27,8 @@ Submit to official marketplace: `claude.ai/settings/plugins/submit` or `platform
 Plugin `plugin.json` can declare dependencies that auto-install when plugin is enabled. (v2.1.110)
 
 `--plugin-url <url>` flag: install a plugin directly from a URL pointing to a `.zip` archive (complements `--plugin-dir` for local dirs). (v2.1.129)
+
+Plugin with root-level `SKILL.md` and no `skills/` subdirectory automatically surfaces as a skill (no separate `skills/` directory needed). (v2.1.142)
 
 ## Channels (v2.1.81+)
 
