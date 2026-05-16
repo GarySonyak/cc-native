@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.18] — 2026-05-16
+
+- Telegram MCP not in scope. Logging fallback:
+
 ## [0.2.17] — 2026-05-15
 
 - TELEGRAM-FALLBACK: docs-monitor 2026-05-15 | Run #32 | v2.1.142 detected

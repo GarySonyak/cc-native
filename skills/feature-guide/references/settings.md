@@ -29,5 +29,6 @@
 - `worktree.baseRef`: `fresh` (branch worktrees from `origin/<default>`) or `head` (branch from local `HEAD`). Controls worktree base commit. (v2.1.133)
 - `skillListingBudgetFraction`: fraction of context window reserved for skill descriptions in the skill listing (e.g. `0.02` = 2%). Complements `SLASH_COMMAND_TOOL_CHAR_BUDGET` env var. Low-priority skill descriptions are dropped first when budget overflows; run `/doctor` to diagnose.
 - `maxSkillDescriptionChars`: per-skill description char cap in the skill listing (default 1536). Configures the per-entry truncation applied to combined `description`+`when_to_use` text.
+- `worktree.bgIsolation`: `"none"` lets background agents edit the main working copy directly instead of running in a worktree. Use when direct file access outweighs isolation benefits for background tasks. (v2.1.143)
 
 Managed-only settings (`disable*`, `allow*Only`, `sandbox.*.allowManaged*Only`, plugin/marketplace policy keys like `pluginTrustMessage`/`strictKnownMarketplaces`/`blockedMarketplaces`/`channelsEnabled`/`allowedChannelPlugins`, `minimumVersion`, `wslInheritsWindowsSettings`, `subagentStatusLine`) intentionally excluded -- see `/en/settings#available-settings` for the full enterprise list.

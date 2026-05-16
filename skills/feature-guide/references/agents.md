@@ -20,7 +20,8 @@
 - Model override: `CLAUDE_CODE_SUBAGENT_MODEL` env var (highest priority over per-invocation model and frontmatter).
 - `claude agents` CLI command lists configured agents without starting a session. In v2.1.139+ (Agent View research preview), also opens a unified session list showing all running CC sessions and their status.
 - `/background` in-session command: detaches current session as background agent (frees terminal); session appears in Agent View.
-- Background agents preserve their launch permission mode (v2.1.141 fix — previously reverted to default).
+- Background agents preserve their launch permission mode and MCP configuration (v2.1.141/v2.1.143 fixes — previously reverted to defaults on wake).
+- Background session persistence (v2.1.143): model and effort level are now also preserved after idle wake.
 - `claude agents` dispatched session config flags (v2.1.142): `--add-dir`, `--settings`, `--mcp-config`, `--plugin-dir`, `--permission-mode`, `--model`, `--effort`, `--dangerously-skip-permissions`.
 - Subagent transcripts: `~/.claude/projects/{project}/{sessionId}/subagents/agent-{agentId}.jsonl`.
 - `isolation: "worktree"` frontmatter field: subagent runs in a temporary git worktree.

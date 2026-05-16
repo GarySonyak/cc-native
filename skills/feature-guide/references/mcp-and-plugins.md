@@ -30,6 +30,8 @@ Plugin `plugin.json` can declare dependencies that auto-install when plugin is e
 
 Plugin with root-level `SKILL.md` and no `skills/` subdirectory automatically surfaces as a skill (no separate `skills/` directory needed). (v2.1.142)
 
+`claude plugin disable` now refuses if another enabled plugin declares a dependency on the target, displaying which plugin depends on it. Disable the dependent plugin first, then retry. (v2.1.143)
+
 ## Channels (v2.1.81+)
 
 Push events into running sessions from MCP servers. MCP server declares a `channel` capability; sends `claude/channel/notification` events; session receives and Claude can react. Useful for CI results, monitoring alerts, chat messages pushed in while Claude works. Permissions relay via `--channels` flag.
