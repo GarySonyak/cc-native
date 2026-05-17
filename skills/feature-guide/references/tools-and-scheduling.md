@@ -4,6 +4,9 @@
 
 | Tool | Notes |
 |------|-------|
+| `AskUserQuestion` | Presents multiple-choice questions to user to gather requirements or clarify ambiguity. Permission: No. |
+| `ListMcpResourcesTool` | Lists resources exposed by connected MCP servers. Permission: No. |
+| `ReadMcpResourceTool` | Reads a specific MCP resource by URI. Permission: No. |
 | `LSP` | Code intelligence (type errors, go-to-def, find refs). Requires code intelligence plugin + language server binary. |
 | `PowerShell` | Opt-in on all platforms (Windows, Linux, macOS, WSL). Set `CLAUDE_CODE_USE_POWERSHELL_TOOL=1`. Windows: auto-detects pwsh.exe (PS 7+) vs powershell.exe (PS 5.1). Linux/macOS/WSL: requires `pwsh` (PS 7+). PowerShell profiles not loaded; sandboxing not supported on Windows. PowerShell commands auto-approvable in permission mode. (v2.1.114/v2.1.119) |
 | `CronCreate/List/Delete` | Scheduled tasks within session. |

@@ -25,6 +25,7 @@
 - `/teleport` (alias `/tp`) -- pull a Claude Code on the web session into this terminal (fetches branch + conversation); requires claude.ai subscription
 - `/goal` -- set completion condition; Claude works across turns until goal is met; use for non-interactive autonomous tasks (v2.1.139)
 - `/background` -- detach current session as background agent (frees terminal); visible in Agent View (`claude agents`) (v2.1.139)
+- `/stop` -- stop the current background session (only available while attached to a background session); transcript and worktree are kept. `/exit` or `←` to detach without stopping.
 
 ## Version notes
 

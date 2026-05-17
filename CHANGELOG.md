@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.19] — 2026-05-17
+
+- The Telegram MCP is not available in this session. Sending TELEGRAM-FALLBACK:
+
 ## [0.2.18] — 2026-05-16
 
 - Telegram MCP not in scope. Logging fallback:
