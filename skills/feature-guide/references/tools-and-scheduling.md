@@ -13,7 +13,7 @@
 | `TaskOutput` | Deprecated -- use `Read` on output file path instead. |
 | `TeamCreate` / `TeamDelete` | Create/disband agent teams. Only available when `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`. |
 | `TaskStop` | Kill a running background task by ID. |
-| `TodoWrite` | Non-interactive mode / Agent SDK only. Interactive sessions use TaskCreate/TaskList/TaskUpdate. |
+| `TodoWrite` | Non-interactive mode / Agent SDK only. Interactive sessions use TaskCreate/TaskList/TaskUpdate. Set `CLAUDE_CODE_ENABLE_TASKS=1` to switch SDK/headless sessions to Task tools before `TodoWrite` is removed. |
 | `Bash` | `$CLAUDE_CODE_SESSION_ID` is injected into every Bash tool subprocess — scripts can use it for logging or output correlation. (v2.1.132) |
 | `Monitor` | Run command in background; each output line fed back to Claude mid-conversation. Watch logs, poll CI, tail files. (v2.1.98) |
 | `ShareOnboardingGuide` | Uploads `ONBOARDING.md` and returns a share link teammates can open in Claude Code. Called from `/team-onboarding`. Requires claude.ai subscription (Pro/Max/Team/Enterprise). Permission required. |

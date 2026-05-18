@@ -2,7 +2,7 @@
 
 ## Plan Mode
 
-Read-only exploration -- no edits allowed. Outputs plan file to `.claude/plans/`. Exit with `ExitPlanMode` when ready. On exit: choose auto, acceptEdits, or manual review for implementation. Cycle modes with **Shift+Tab**: default -> acceptEdits -> plan (auto only enters cycle with `--enable-auto-mode`). Enter plan mode for one request with `/plan <description>`.
+Read-only exploration -- no edits allowed. Outputs plan file to `.claude/plans/`. Exit with `ExitPlanMode` when ready. On exit: choose auto, acceptEdits, or manual review for implementation. Cycle modes with **Shift+Tab**: default -> acceptEdits -> plan (auto only enters cycle with `--enable-auto-mode`). Enter plan mode for one request with `/plan <description>`. Accepting a plan auto-names the session from plan content (unless already named via `--name` or `/rename`). Press `Ctrl+G` to edit the proposed plan in your text editor before Claude proceeds.
 
 ## Permission Modes
 
@@ -31,7 +31,7 @@ Protected files (never auto-approved in most modes): `.gitconfig`, `.gitmodules`
 
 ## Auto mode flags
 
-`--enable-auto-mode` (adds to Shift+Tab cycle), `--allow-dangerously-skip-permissions` (adds bypassPermissions to cycle without activating it). Auto mode strips blanket shell rules like `Bash(*)` on entry. Classifier never sees tool results (prevents injection). `PermissionDenied` hook fires on classifier denials (v2.1.88). `autoMode.environment` setting for trusted repos/buckets. Run `claude auto-mode defaults` to see full classifier rule lists.
+`--enable-auto-mode` (adds to Shift+Tab cycle), `--allow-dangerously-skip-permissions` (adds bypassPermissions to cycle without activating it). Auto mode strips blanket shell rules on entry: `Bash(*)`, `PowerShell(*)`, wildcarded interpreters like `Bash(python*)`, package-manager run commands, and `Agent` allow rules. Narrow rules like `Bash(npm test)` carry over. Classifier never sees tool results (prevents injection). `PermissionDenied` hook fires on classifier denials (v2.1.88). `autoMode.environment` setting for trusted repos/buckets. Run `claude auto-mode defaults` to see full classifier rule lists.
 
 Conversation-stated boundaries (e.g. "don't push") block classifier; lost after compaction -- use deny rules for hard guarantees.
 
