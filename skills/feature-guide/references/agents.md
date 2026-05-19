@@ -22,6 +22,7 @@
 - `/background` in-session command: detaches current session as background agent (frees terminal); session appears in Agent View.
 - Background agents preserve their launch permission mode and MCP configuration (v2.1.141/v2.1.143 fixes — previously reverted to defaults on wake).
 - Background session persistence (v2.1.143): model and effort level are now also preserved after idle wake.
+- Background sessions can now be resumed with `/resume`; they appear marked `bg` in the session list. (v2.1.144)
 - `claude agents` dispatched session config flags (v2.1.142): `--add-dir`, `--settings`, `--mcp-config`, `--plugin-dir`, `--permission-mode`, `--model`, `--effort`, `--dangerously-skip-permissions`.
 - Subagent transcripts: `~/.claude/projects/{project}/{sessionId}/subagents/agent-{agentId}.jsonl`.
 - `isolation: "worktree"` frontmatter field: subagent runs in a temporary git worktree.

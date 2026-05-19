@@ -37,8 +37,8 @@ Stop a running `/loop` between iterations with `Esc` (only affects `/loop`; task
 `/continue` resume last session. `/resume` pick from list. `--fork-session` branch without affecting original. `/branch` fork for exploration. `/teleport` move between surfaces. Sessions tied to directory -- use worktrees for parallel sessions on different branches.
 
 `/goal`: set completion condition; Claude works across turns until met; use for non-interactive autonomous tasks. (v2.1.139)
-Agent View (v2.1.139+, research preview): `claude agents` opens unified session list showing all running CC sessions. `/background` detaches current session as background agent and frees the terminal.
+Agent View (v2.1.139+, research preview): `claude agents` opens unified session list showing all running CC sessions. `/background` detaches current session as background agent and frees the terminal. Background sessions can now be resumed with `/resume` (marked `bg` in the list). (v2.1.144)
 
 ## Effort & Output
 
-Effort levels: low/medium/high/max/xhigh. xhigh = Opus 4.7 only (v2.1.111), max = current session only. `/fast` toggles faster Opus output. `/effort` command to set level. Output styles configurable via settings. `/model` to switch models mid-session.
+Effort levels: low/medium/high/max/xhigh. xhigh = Opus 4.7 only (v2.1.111), max = current session only. `/fast` toggles faster Opus output. `/effort` command to set level. Output styles configurable via settings. `/model` changes model for **current session only**; press `d` in the picker to set the default for new sessions. (v2.1.144)
