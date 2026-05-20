@@ -6,7 +6,7 @@ description: TRIGGER when designing, editing, or generating any Claude Code conf
 # Claude Code Native Architecture
 
 Quick reference for CC's native features. Source: code.claude.com/docs/en/. Updated by docs-monitor agent.
-Last updated: 2026-05-19
+Last updated: 2026-05-20
 
 ## Workflow rule (always-on while this skill is loaded)
 
@@ -74,7 +74,7 @@ Read **only the reference file that matches the question** — do not read all o
 | Memory hierarchy, CLAUDE.md, auto memory, context management | [references/memory-and-context.md](references/memory-and-context.md) |
 | Tools reference, scheduled tasks (`CronCreate`, `/schedule`, `/loop`), session management, effort levels | [references/tools-and-scheduling.md](references/tools-and-scheduling.md) |
 | Notable settings keys | [references/settings.md](references/settings.md) |
-| New commands and recent version notes (v2.1.116 → v2.1.144) | [references/changelog.md](references/changelog.md) |
+| New commands and recent version notes (v2.1.116 → v2.1.145) | [references/changelog.md](references/changelog.md) |
 
 ## Routing tips
 

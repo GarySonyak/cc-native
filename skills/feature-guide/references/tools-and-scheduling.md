@@ -20,6 +20,7 @@
 | `PushNotification` | Sends desktop notification + phone push when Remote Control is connected. Not available on Bedrock/Vertex/Foundry (Anthropic infra only). Permission: No. (v2.1.139) |
 | `RemoteTrigger` | Creates/updates/runs/lists Routines on claude.ai. Backs `/schedule`. Requires Pro/Max/Team/Enterprise on Anthropic. Not on Bedrock/Vertex/Foundry. Permission: No. (v2.1.139) |
 | `EnterWorktree` | `path` param to switch into an existing worktree (not just create new): `EnterWorktree(path=...)`. (v2.1.105) |
+| `WaitForMcpServers` | Waits for MCP servers still connecting in background; only appears when tool search is disabled (ToolSearch handles the wait otherwise). Claude calls it automatically. Permission: No. (v2.1.142) |
 | `Write` | Detects when user edits proposed content before accepting (diffed against original). (v2.1.110) |
 
 ## Scheduled Tasks (v2.1.72+)

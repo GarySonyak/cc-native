@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.22] — 2026-05-20
+
+- Confirmed v2.1.145. Now sending Telegram notification:
+
 ## [0.2.21] — 2026-05-19
 
 - Telegram MCP unavailable — logging fallback per protocol:
