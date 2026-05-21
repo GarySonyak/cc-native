@@ -13,7 +13,8 @@
 | `TaskOutput` | Deprecated -- use `Read` on output file path instead. |
 | `TeamCreate` / `TeamDelete` | Create/disband agent teams. Only available when `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`. |
 | `TaskStop` | Kill a running background task by ID. |
-| `TodoWrite` | Non-interactive mode / Agent SDK only. Interactive sessions use TaskCreate/TaskList/TaskUpdate. Set `CLAUDE_CODE_ENABLE_TASKS=1` to switch SDK/headless sessions to Task tools before `TodoWrite` is removed. |
+| `TodoWrite` | Disabled by default as of v2.1.142; Task tools (`TaskCreate`/`TaskGet`/`TaskList`/`TaskUpdate`) are now the default. Set `CLAUDE_CODE_ENABLE_TASKS=0` to re-enable `TodoWrite` (disables Task tools). |
+| `ScheduleWakeup` | Internal — Claude calls this automatically at end of each self-paced `/loop` iteration to schedule the next one (1min–1hr). Not user-invocable directly. Pending wakeup visible in `session_crons` field of Stop hook input. Not available on Bedrock/Vertex/Foundry. |
 | `Bash` | `$CLAUDE_CODE_SESSION_ID` is injected into every Bash tool subprocess — scripts can use it for logging or output correlation. (v2.1.132) |
 | `Monitor` | Run command in background; each output line fed back to Claude mid-conversation. Watch logs, poll CI, tail files. (v2.1.98) |
 | `ShareOnboardingGuide` | Uploads `ONBOARDING.md` and returns a share link teammates can open in Claude Code. Called from `/team-onboarding`. Requires claude.ai subscription (Pro/Max/Team/Enterprise). Permission required. |
@@ -21,6 +22,7 @@
 | `RemoteTrigger` | Creates/updates/runs/lists Routines on claude.ai. Backs `/schedule`. Requires Pro/Max/Team/Enterprise on Anthropic. Not on Bedrock/Vertex/Foundry. Permission: No. (v2.1.139) |
 | `EnterWorktree` | `path` param to switch into an existing worktree (not just create new): `EnterWorktree(path=...)`. (v2.1.105) |
 | `WaitForMcpServers` | Waits for MCP servers still connecting in background; only appears when tool search is disabled (ToolSearch handles the wait otherwise). Claude calls it automatically. Permission: No. (v2.1.142) |
+| `Read` | Oversized whole-file reads return a `PARTIAL view` (first page + notice showing remaining size + how to paginate with `offset`/`limit`). Reads with explicit `offset`/`limit` that still exceed limit return an error. Images/PDFs/notebooks handled natively. (v2.1.145) |
 | `Write` | Detects when user edits proposed content before accepting (diffed against original). (v2.1.110) |
 
 ## Scheduled Tasks (v2.1.72+)

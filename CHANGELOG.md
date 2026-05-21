@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.23] — 2026-05-21
+
+- Telegram MCP tool unavailable in dontAsk mode. Logging fallback:
+
 ## [0.2.22] — 2026-05-20
 
 - Confirmed v2.1.145. Now sending Telegram notification:

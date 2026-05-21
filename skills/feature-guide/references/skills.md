@@ -51,7 +51,7 @@ If skill stops influencing behavior, the content is usually still present — st
 
 ## Other
 
-- Bundled: `/batch`, `/claude-api`, `/debug`, `/loop`, `/simplify`. New in v2.1.145: `/run` (launch app to verify a change), `/verify` (confirm code change without tests), `/run-skill-generator` (record build/launch recipe so `/run`+`/verify` can follow it; run once per project).
+- Bundled: `/batch`, `/claude-api`, `/debug`, `/loop`, `/code-review` (renamed from `/simplify` in v2.1.146; optional effort-level arg; `/simplify` alias retained temporarily). New in v2.1.145: `/run` (launch app to verify a change), `/verify` (confirm code change without tests), `/run-skill-generator` (record build/launch recipe so `/run`+`/verify` can follow it; run once per project).
 - Description budget: `skillListingBudgetFraction` setting (e.g. `0.02` = 2% of context) or `SLASH_COMMAND_TOOL_CHAR_BUDGET` env var (fixed char count). Per-skill cap: `maxSkillDescriptionChars` setting (default 1536 chars). Run `/doctor` to see if budget is overflowing and which skills are affected.
 - Skills from `--add-dir` directories are auto-loaded with live change detection.
 - `disableSkillShellExecution: true` in settings disables `` !`command` `` (managed policy). (v2.1.91)
