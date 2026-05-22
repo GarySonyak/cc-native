@@ -21,7 +21,7 @@ A Claude Code plugin that keeps your agents, hooks, and skills aligned with the 
 
 ## Install
 
-From the official Anthropic plugin marketplace (once approved):
+From the official Anthropic plugin marketplace:
 
 ```bash
 /plugin install cc-native@claude-plugins-official
