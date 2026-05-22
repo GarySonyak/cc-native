@@ -36,6 +36,28 @@ Or install directly from this repo via the maintainer marketplace:
 
 **No further wiring needed.** The skill auto-triggers on `.claude/` edits and carries the workflow rule inline. The hooks register at startup; the auditor is invoked on demand by the Stop hook directive.
 
+## Examples
+
+### Example 1 — Authoring a hook with current syntax (feature-guide skill)
+
+You ask Claude to add a Setup hook to your project. Without cc-native, Claude writes from training memory and may pick the wrong event name, wrong matcher format, or a deprecated field — Claude Code ships features weekly, training memory drifts. With cc-native, the feature-guide skill auto-triggers on the edit, Claude reads `references/hooks.md` first (single file, scoped to the artifact type), and writes the hook against the current schema. No second-guessing, no broken hooks shipped.
+
+### Example 2 — Catching a missing required field at edit time (lint hook)
+
+You edit `.claude/agents/reviewer.md` and forget the `description:` field in the frontmatter. The moment the file is saved, cc-native's PostToolUse lint fires `cc-native-verify.py` and exits with a hard-fail (code 2), printing exactly which required field is missing. Claude sees the error before the turn ends and fixes it without you needing to spot it during review. Catches syntax errors, missing required fields, and dangerous settings (e.g., secrets pasted into env) — purely deterministic, no LLM call.
+
+### Example 3 — Catching semantic mismatches the lint can't see (auditor subagent)
+
+You add a new plugin agent with `permissionMode: bypassPermissions` in the frontmatter. Syntax is valid, required fields are all present, the lint passes. But the Claude Code spec says plugin-shipped agents cannot use `permissionMode` (security restriction). When Claude finishes the turn, cc-native's Stop hook injects a directive to invoke the `cc-native:auditor` subagent. The auditor reads `references/mcp-and-plugins.md`, emits a block finding with the exact citation, and you fix it before the plugin ever ships to a user.
+
+### Example 4 — Building a new plugin from scratch (full Guide-and-Verify loop)
+
+You ask Claude: *"Create a new plugin that runs a formatter on every Edit."* The feature-guide skill loads, Claude reads `references/mcp-and-plugins.md` for the manifest schema and `references/hooks.md` for the hook event names. Claude writes `.claude-plugin/plugin.json`, `hooks/hooks.json`, and the formatter script. The lint hook validates the JSON and required fields. The auditor subagent then reviews the artifacts semantically — confirming the hook event is appropriate for the goal, the matcher pattern targets the right tools, and `${CLAUDE_PLUGIN_ROOT}` is used correctly for the script path. You get a plugin that's correct on the first try, not one that fails review three days later.
+
+### Example 5 — Refreshing an existing config after a Claude Code release
+
+A new Claude Code version ships a setting like `skillOverrides` (real example from v2.1.129). You ask Claude to add it to your project. The feature-guide skill — kept current by a daily docs-monitor and refreshed at every session start — already knows about the new setting. Claude reads `references/settings.md`, sees the field's valid values (`off` / `user-invocable-only` / `name-only`), writes the setting correctly the first time, and the auditor confirms the value is one of the documented options. No *"this field doesn't exist yet"* or *"let me try a few syntaxes"* cycles.
+
 ## Who benefits
 
 Plugin authors building agents, hooks, or skills that need to stay correct as Claude Code's feature surface evolves. Agent-team maintainers who want a single guard rail catching deprecated frontmatter, wrong hook events, and over-broad tool grants before they ship. Anyone editing `.claude/` artifacts often enough that drift between training-memory CC and live CC has burned them at least once.
