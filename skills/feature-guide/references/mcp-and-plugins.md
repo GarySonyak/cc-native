@@ -32,6 +32,8 @@ Plugin with root-level `SKILL.md` and no `skills/` subdirectory automatically su
 
 `claude plugin disable` now refuses if another enabled plugin declares a dependency on the target, displaying which plugin depends on it. Disable the dependent plugin first, then retry. (v2.1.143)
 
+MCP elicitation: MCP servers can request structured user input mid-task via interactive dialogs — form mode (fields defined by server) or URL mode (browser OAuth/approval). Appears automatically; no user config needed. Use `Elicitation` hook to auto-respond without showing dialog.
+
 ## Channels (v2.1.81+)
 
 Push events into running sessions from MCP servers. MCP server declares a `channel` capability; sends `claude/channel/notification` events; session receives and Claude can react. Useful for CI results, monitoring alerts, chat messages pushed in while Claude works. Permissions relay via `--channels` flag.
