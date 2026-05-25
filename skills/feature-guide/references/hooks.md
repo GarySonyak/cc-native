@@ -32,8 +32,9 @@ Regex on event metadata: tool name (`PreToolUse`/`PostToolUse`/`PostToolUseFailu
 
 ## Structured JSON output
 
-`permissionDecision` (allow/deny/ask/defer) for PreToolUse; `decision: "block"` for `UserPromptSubmit`, `UserPromptExpansion`, `PostToolUse`, `PostToolUseFailure`, `PostToolBatch`, `Stop` (see "Plugin hook gotchas" — `decision: "block"` triggers a synthetic user-relay message that re-invokes the model and can re-fire the Stop hook), `SubagentStop`, `ConfigChange`, `PreCompact`; `behavior` for PermissionRequest. `defer` (PreToolUse, non-interactive `-p` only): pauses for SDK wrapper to collect input and resume. `PermissionRequest` hook can return `updatedPermissions: [{type: "setMode", mode: "acceptEdits|auto|...", destination: "session"}]` to programmatically change permission mode.
+`permissionDecision` (allow/deny/ask/defer) for PreToolUse; `UserPromptSubmit` hookSpecificOutput accepts `sessionTitle: "name"` to set session name and `additionalContext: "..."` to inject context. `decision: "block"` for `UserPromptSubmit`, `UserPromptExpansion`, `PostToolUse`, `PostToolUseFailure`, `PostToolBatch`, `Stop` (see "Plugin hook gotchas" — `decision: "block"` triggers a synthetic user-relay message that re-invokes the model and can re-fire the Stop hook), `SubagentStop`, `ConfigChange`, `PreCompact`; `behavior` for PermissionRequest. `defer` (PreToolUse, non-interactive `-p` only): pauses for SDK wrapper to collect input and resume. `PermissionRequest` hook can return `updatedPermissions: [{type: "setMode", mode: "acceptEdits|auto|...", destination: "session"}]` to programmatically change permission mode.
 
+- `updatedInput: { ... }` — in PreToolUse hookSpecificOutput; replaces the tool's input before execution (e.g., sanitize a command or swap a file path). Only the fields you include are replaced; omitted fields keep their original values.
 - `continueOnBlock: true` — in PostToolUse/PostToolUseFailure JSON output; blocks the tool result but keeps the agent loop running (default: loop stops on block). (v2.1.139)
 - `terminalSequence: "<escape-string>"` — in any hook JSON output; CC emits this as a terminal escape sequence (useful for desktop notifications, bell, etc.). (v2.1.141)
 
@@ -45,7 +46,7 @@ Browse: `/hooks`. Disable all: `disableAllHooks: true`.
 
 ## Event-specific notes
 
-- `SessionStart`: matcher values: `startup` (fresh launch), `resume` (--resume/--continue), `clear` (/clear), `compact` (post-compaction reload).
+- `SessionStart`: matcher values: `startup` (fresh launch), `resume` (--resume/--continue), `clear` (/clear), `compact` (post-compaction reload). hookSpecificOutput also accepts `watchPaths: ["path/to/watch", ...]` to register additional file paths for `FileChanged` events (paths watched only while session is running).
 - `CwdChanged`: fires when Claude cd's. Write to `CLAUDE_ENV_FILE` to persist env vars.
 - `FileChanged`: matcher specifies filenames to watch (pipe-separated). Configures which files are watched AND filters hook execution.
 - `ConfigChange`: matcher filters by config type: `user_settings`, `project_settings`, `local_settings`, `policy_settings`, `skills`.
