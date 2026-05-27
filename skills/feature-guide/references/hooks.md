@@ -14,6 +14,7 @@
 - Worktree: `WorktreeCreate`, `WorktreeRemove`
 - Context: `PreCompact`, `PostCompact`
 - Stop: `Stop`, `StopFailure`
+- Display: `MessageDisplay` (v2.1.152) -- fires when assistant message text is about to be displayed; hook can transform or suppress the text before it reaches the terminal
 - Auto mode: `PermissionDenied` (v2.1.88 -- fires after auto mode classifier denial; return `{retry: true}` to let model retry)
 
 ## Hook types

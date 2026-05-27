@@ -25,7 +25,7 @@ Reference supporting files from `SKILL.md` so Claude knows what each contains an
 
 ## Frontmatter
 
-Key fields: `name`, `description` (recommended, cap 250 chars), `when_to_use` (extra trigger context, appended to description), `argument-hint`, `arguments` (named positional args for `$name` substitution; space-separated or YAML list), `disable-model-invocation` (true = user-only), `user-invocable` (false = Claude-only), `allowed-tools`, `model`, `effort`, `context` (fork = run in subagent), `agent` (which subagent for context:fork), `hooks`, `paths` (glob patterns for auto-activation), `shell` (bash or powershell).
+Key fields: `name`, `description` (recommended, cap 250 chars), `when_to_use` (extra trigger context, appended to description), `argument-hint`, `arguments` (named positional args for `$name` substitution; space-separated or YAML list), `disable-model-invocation` (true = user-only), `user-invocable` (false = Claude-only), `allowed-tools`, `disallowed-tools` (remove tools from model while skill is active; v2.1.152), `model`, `effort`, `context` (fork = run in subagent), `agent` (which subagent for context:fork), `hooks`, `paths` (glob patterns for auto-activation), `shell` (bash or powershell).
 
 `description` + `when_to_use` combined are capped at **1536 chars** in the skill listing — put the key use case first.
 
@@ -51,7 +51,8 @@ If skill stops influencing behavior, the content is usually still present — st
 
 ## Other
 
-- Bundled: `/batch`, `/debug`, `/loop`, `/code-review` (renamed from `/simplify` in v2.1.147; optional effort-level arg; `/simplify` alias retained temporarily). New in v2.1.145: `/run` (launch app to verify a change), `/verify` (confirm code change without tests), `/run-skill-generator` (record build/launch recipe so `/run`+`/verify` can follow it; run once per project).
+- Bundled: `/batch`, `/debug`, `/loop`, `/code-review [--fix]` (renamed from `/simplify` in v2.1.147; `--fix` applies findings to working tree; v2.1.152; `/simplify` now invokes `/code-review --fix`; optional effort-level arg). New in v2.1.145: `/run` (launch app to verify a change), `/verify` (confirm code change without tests), `/run-skill-generator` (record build/launch recipe so `/run`+`/verify` can follow it; run once per project).
+- `/reload-skills` -- re-scan all skill directories without restarting (v2.1.152). For plugins use `/reload-plugins`.
 - `/claude-api [migrate|managed-agents-onboard]`: Load Claude API reference for Python/TypeScript/Java/Go/Ruby/C#/PHP/cURL + Managed Agents. **Auto-activates** when code imports `anthropic` or `@anthropic-ai/sdk`. `migrate` upgrades model IDs/thinking config in existing code to a target model; `managed-agents-onboard` walks through creating a new Managed Agent from scratch.
 - Description budget: `skillListingBudgetFraction` setting (e.g. `0.02` = 2% of context) or `SLASH_COMMAND_TOOL_CHAR_BUDGET` env var (fixed char count). Per-skill cap: `maxSkillDescriptionChars` setting (default 1536 chars). Run `/doctor` to see if budget is overflowing and which skills are affected.
 - Skills from `--add-dir` directories are auto-loaded with live change detection.

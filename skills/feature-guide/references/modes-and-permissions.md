@@ -31,6 +31,8 @@ Protected files (never auto-approved in most modes): `.gitconfig`, `.gitmodules`
 
 ## Auto mode flags
 
+Auto mode no longer requires opt-in consent as of v2.1.152 — cycling to auto via Shift+Tab activates immediately without a consent prompt.
+
 `--enable-auto-mode` (adds to Shift+Tab cycle), `--allow-dangerously-skip-permissions` (adds bypassPermissions to cycle without activating it). Auto mode strips blanket shell rules on entry: `Bash(*)`, `PowerShell(*)`, wildcarded interpreters like `Bash(python*)`, package-manager run commands, and `Agent` allow rules. Narrow rules like `Bash(npm test)` carry over. Classifier never sees tool results (prevents injection). `PermissionDenied` hook fires on classifier denials (v2.1.88). `autoMode.environment` setting for trusted repos/buckets. Run `claude auto-mode defaults` to see full classifier rule lists.
 
 Conversation-stated boundaries (e.g. "don't push") block classifier; lost after compaction -- use deny rules for hard guarantees.

@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.29] — 2026-05-27
+
+- Telegram MCP unavailable — logging fallback.
+
 ## [0.2.28] — 2026-05-26
 
 - Telegram MCP tool is unavailable in this dontAsk session. Per protocol, logging the would-be message:

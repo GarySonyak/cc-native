@@ -26,6 +26,7 @@
 - `/goal` -- set completion condition; Claude works across turns until goal is met; use for non-interactive autonomous tasks (v2.1.139)
 - `/background` -- detach current session as background agent (frees terminal); visible in Agent View (`claude agents`) (v2.1.139)
 - `/stop` -- stop the current background session (only available while attached to a background session); transcript and worktree are kept. `/exit` or `←` to detach without stopping.
+- `/reload-skills` -- re-scan skill directories for changes without restarting session (v2.1.152). Cf. `/reload-plugins` for plugins.
 
 ## Version notes
 
@@ -53,6 +54,8 @@
 - **v2.1.140** (2026-05-12): Bug fixes — `subagent_type` matching now case/separator insensitive; `/goal` hang fix with certain hooks; background service startup fix on enterprise machines; tool validation fixes. (v2.1.140)
 - **v2.1.142** (2026-05-14): `claude agents` dispatched session flags: `--add-dir`, `--settings`, `--mcp-config`, `--plugin-dir`, `--permission-mode`, `--model`, `--effort`, `--dangerously-skip-permissions`. Fast mode defaults to Opus 4.7 (`CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE=1` to pin 4.6). Plugins with root-level `SKILL.md` and no `skills/` subdirectory surface as skills. `MCP_TOOL_TIMEOUT` env var now properly raises per-request fetch timeout for remote servers (was capped at 60s). Bug fixes: background sessions + pre-existing worktrees, daemon exit after binary upgrade. (v2.1.142)
 - **v2.1.143** (2026-05-15): Plugin dependency enforcement — `claude plugin disable` refuses when another enabled plugin depends on it. `worktree.bgIsolation: "none"` setting for direct working copy editing by background agents. Background session persistence: model and effort level preserved after idle wake; background agents now also preserve MCP configuration. PowerShell passes `-ExecutionPolicy Bypass` by default; enabled by default on Windows for Bedrock/Vertex/Foundry. Projected context costs shown per-turn in plugin marketplace. Bug fixes: corrupt `.credentials.json` hanging CLI startup, Esc/Ctrl+C not cancelling pending `/loop` wakeup, `/goal` evaluator firing while background shells run. (v2.1.143)
+- **v2.1.152** (2026-05-27): `/code-review --fix` applies review findings to working tree after the review; `/simplify` now invokes `/code-review --fix` (no longer a plain alias). `disallowed-tools` frontmatter field in skills/slash commands removes tools from the model while that skill is active. `/reload-skills` command re-scans skill directories without restarting. New `MessageDisplay` hook event: transform or hide assistant message text before display. Auto mode no longer requires opt-in consent — cycling to auto via Shift+Tab activates immediately. (v2.1.152)
+- **v2.1.151** (2026-05-24): Internal release (no user-facing changes). (v2.1.151)
 - **v2.1.150** (2026-05-23): Internal infrastructure improvements (no user-facing changes). (v2.1.150)
 - **v2.1.149** (2026-05-22): `/usage` now shows per-category breakdown (skills, subagents, plugins, MCP servers). Multiple security fixes (PowerShell permission bypasses, sandbox issues). (v2.1.149)
 - **v2.1.148** (2026-05-22): Hotfix — Bash tool returning exit code 127 on every command for some users (regression from v2.1.147). (v2.1.148)
