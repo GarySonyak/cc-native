@@ -47,7 +47,7 @@ Browse: `/hooks`. Disable all: `disableAllHooks: true`.
 
 ## Event-specific notes
 
-- `SessionStart`: matcher values: `startup` (fresh launch), `resume` (--resume/--continue), `clear` (/clear), `compact` (post-compaction reload). hookSpecificOutput also accepts `watchPaths: ["path/to/watch", ...]` to register additional file paths for `FileChanged` events (paths watched only while session is running).
+- `SessionStart`: matcher values: `startup` (fresh launch), `resume` (--resume/--continue), `clear` (/clear), `compact` (post-compaction reload). hookSpecificOutput also accepts `watchPaths: ["path/to/watch", ...]` to register additional file paths for `FileChanged` events (paths watched only while session is running); `reloadSkills: true` to trigger a skill directory re-scan at session start (v2.1.153); `sessionTitle: "name"` to set the session name at startup (v2.1.153).
 - `CwdChanged`: fires when Claude cd's. Write to `CLAUDE_ENV_FILE` to persist env vars.
 - `FileChanged`: matcher specifies filenames to watch (pipe-separated). Configures which files are watched AND filters hook execution.
 - `ConfigChange`: matcher filters by config type: `user_settings`, `project_settings`, `local_settings`, `policy_settings`, `skills`.

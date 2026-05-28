@@ -44,4 +44,4 @@ Agent View (v2.1.139+, research preview): `claude agents` opens unified session 
 
 ## Effort & Output
 
-Effort levels: low/medium/high/max/xhigh. xhigh = Opus 4.7 only (v2.1.111), max = current session only. `/fast` toggles faster Opus output. `/effort` command to set level. Output styles configurable via settings. `/model` changes model for **current session only**; press `d` in the picker to set the default for new sessions. (v2.1.144)
+Effort levels: low/medium/high/max/xhigh. xhigh = Opus 4.7 only (v2.1.111), max = current session only. `/fast` toggles faster Opus output. `/effort` command to set level. Output styles configurable via settings. `/model` changes model for **current session only**; press `d` in the picker to set the default for new sessions. (v2.1.144) **v2.1.153**: `/model` now saves selection as default for new sessions automatically — no longer current-session-only.
