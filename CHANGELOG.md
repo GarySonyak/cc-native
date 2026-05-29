@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.31] — 2026-05-29
+
+- Telegram MCP unavailable — logging fallback.
+
 ## [0.2.30] — 2026-05-28
 
 - `[2026-05-28] docs-monitor: 3 material changes, 3 trivial (15 pages checked) — v2.1.153`

@@ -38,6 +38,8 @@ Community marketplace: add with `/plugin marketplace add anthropics/claude-plugi
 
 MCP elicitation: MCP servers can request structured user input mid-task via interactive dialogs — form mode (fields defined by server) or URL mode (browser OAuth/approval). Appears automatically; no user config needed. Use `Elicitation` hook to auto-respond without showing dialog.
 
+`defaultEnabled: false` in `plugin.json`: plugin is disabled by default; user must explicitly enable with `/plugin enable <name>`. Useful for plugins that should be opt-in rather than auto-enabled on install. (v2.1.154)
+
 ## Channels (v2.1.81+)
 
 Push events into running sessions from MCP servers. MCP server declares a `channel` capability; sends `claude/channel/notification` events; session receives and Claude can react. Useful for CI results, monitoring alerts, chat messages pushed in while Claude works. Permissions relay via `--channels` flag.
