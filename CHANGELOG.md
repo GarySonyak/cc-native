@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.32] — 2026-05-30
+
+- TELEGRAM-FALLBACK: docs-monitor [2026-05-30] run #47: 3 material, 1 trivial (15 pages checked) | New CC versions: v2.1.158 (auto mode on Bedrock/Vertex/Foundry, CLAUDE_CODE_ENABLE_AUTO_MODE=1), v2.1.1
+
 ## [0.2.31] — 2026-05-29
 
 - Telegram MCP unavailable — logging fallback.
