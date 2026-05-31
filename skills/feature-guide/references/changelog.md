@@ -27,6 +27,9 @@
 - `/background` -- detach current session as background agent (frees terminal); visible in Agent View (`claude agents`) (v2.1.139)
 - `/stop` -- stop the current background session (only available while attached to a background session); transcript and worktree are kept. `/exit` or `←` to detach without stopping.
 - `/reload-skills` -- re-scan skill directories for changes without restarting session (v2.1.152). Cf. `/reload-plugins` for plugins.
+- `/deep-research [question]` -- `[Workflow]` fan out web searches, fetch and cross-check sources, synthesize a cited report. (v2.1.154)
+- `/workflows` -- open workflow progress view to watch, pause, resume, or save running and completed workflows. (v2.1.154)
+- `ultracode` effort level -- combines xhigh reasoning with automatic workflow orchestration via Workflow tool; set with `/effort ultracode`. (v2.1.154)
 
 ## Version notes
 

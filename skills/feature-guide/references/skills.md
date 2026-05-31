@@ -31,7 +31,7 @@ Key fields: `name`, `description` (recommended, cap 250 chars), `when_to_use` (e
 
 ## Invocation
 
-Invoked via `/skill-name` or auto-loaded when relevant. Dynamic context: `!\`command\`` runs shell before prompt (multi-line via fenced ` ```! ` block). String substitutions: `$ARGUMENTS`, `$ARGUMENTS[N]`, `$N`, `${CLAUDE_SESSION_ID}`, `${CLAUDE_SKILL_DIR}`, `${CLAUDE_EFFORT}` (current effort level: low/medium/high/xhigh/max; adapt skill instructions to active effort). (v2.1.120)
+Invoked via `/skill-name` or auto-loaded when relevant. Dynamic context: `!\`command\`` runs shell before prompt (multi-line via fenced ` ```! ` block). String substitutions: `$ARGUMENTS`, `$ARGUMENTS[N]`, `$N`, `${CLAUDE_SESSION_ID}`, `${CLAUDE_SKILL_DIR}`, `${CLAUDE_EFFORT}` (current effort level: low/medium/high/xhigh/max; `ultracode` is not a distinct level — reports as `xhigh`; adapt skill instructions to active effort). (v2.1.120)
 
 Indexed args use shell-style quoting — wrap multi-word values in quotes.
 
