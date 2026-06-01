@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.34] — 2026-06-01
+
+- [2026-06-01] docs-monitor: 2 material, 1 trivial changes (15 pages checked) — permission-modes (.cargo protected dir), mcp (ws WebSocket transport), changelog (v2.1.159 internal)
+
 ## [0.2.33] — 2026-05-31
 
 - Now send the Telegram notification. The MCP tool should be `mcp__plugin_telegram_telegram__reply`:
