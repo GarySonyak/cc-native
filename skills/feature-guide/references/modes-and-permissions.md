@@ -21,9 +21,9 @@ CLI: `--permission-mode <mode>`. Setting: `permissions.defaultMode`. Scheduled t
 
 ## Protected files & dirs
 
-Protected files (never auto-approved in most modes): `.gitconfig`, `.gitmodules`, `.bashrc`, `.bash_profile`, `.zshrc`, `.zprofile`, `.profile`, `.ripgreprc`, `.mcp.json`, `.claude.json`. Protected dirs: `.git`, `.vscode`, `.idea`, `.husky`, `.cargo`, and `.claude` (except `.claude/commands`, `.claude/agents`, `.claude/skills`, `.claude/worktrees` where Claude routinely creates content). Note: `.claude-plugin` removed from protected dirs. `bypassPermissions` bypasses ALL protected paths as of v2.1.126 (only `rm -rf /` and `rm -rf ~` still prompt). (v2.1.126)
+Protected files (never auto-approved in most modes): `.gitconfig`, `.gitmodules`, `.bashrc`, `.bash_profile`, `.zshrc`, `.zprofile`, `.profile`, `.zshenv`, `.zlogin`, `.bash_login`, `.ripgreprc`, `.mcp.json`, `.claude.json`, `~/.config/git/`. (`.zshenv`, `.zlogin`, `.bash_login`, `~/.config/git/` added v2.1.160.) Protected dirs: `.git`, `.vscode`, `.idea`, `.husky`, `.cargo`, and `.claude` (except `.claude/commands`, `.claude/agents`, `.claude/skills`, `.claude/worktrees` where Claude routinely creates content). Note: `.claude-plugin` removed from protected dirs. `bypassPermissions` bypasses ALL protected paths as of v2.1.126 (only `rm -rf /` and `rm -rf ~` still prompt). (v2.1.126)
 
-`acceptEdits` auto-approves: `mkdir touch rm rmdir mv cp sed` (and env-var/process-wrapper prefixes) inside working directory.
+`acceptEdits` auto-approves: `mkdir touch rm rmdir mv cp sed` (and env-var/process-wrapper prefixes) inside working directory. (v2.1.160) Now also prompts before writing build-tool config files that grant code execution (e.g., files analogous to `package.json` scripts).
 
 ## Security hardening (v2.1.113)
 

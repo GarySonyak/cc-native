@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.35] — 2026-06-02
+
+- **Step 6 — Log output:**
+
 ## [0.2.34] — 2026-06-01
 
 - [2026-06-01] docs-monitor: 2 material, 1 trivial changes (15 pages checked) — permission-modes (.cargo protected dir), mcp (ws WebSocket transport), changelog (v2.1.159 internal)
