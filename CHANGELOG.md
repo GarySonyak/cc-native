@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.36] — 2026-06-03
+
+- [2026-06-03] docs-monitor: 4 pages changed — changelog, agents, tools-and-scheduling, permission-modes (3 material, 1 trivial)
+
 ## [0.2.35] — 2026-06-02
 
 - **Step 6 — Log output:**

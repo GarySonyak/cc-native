@@ -23,6 +23,8 @@ CLI: `--permission-mode <mode>`. Setting: `permissions.defaultMode`. Scheduled t
 
 Protected files (never auto-approved in most modes): `.gitconfig`, `.gitmodules`, `.bashrc`, `.bash_profile`, `.zshrc`, `.zprofile`, `.profile`, `.zshenv`, `.zlogin`, `.bash_login`, `.ripgreprc`, `.mcp.json`, `.claude.json`, `~/.config/git/`. (`.zshenv`, `.zlogin`, `.bash_login`, `~/.config/git/` added v2.1.160.) Protected dirs: `.git`, `.vscode`, `.idea`, `.husky`, `.cargo`, and `.claude` (except `.claude/commands`, `.claude/agents`, `.claude/skills`, `.claude/worktrees` where Claude routinely creates content). Note: `.claude-plugin` removed from protected dirs. `bypassPermissions` bypasses ALL protected paths as of v2.1.126 (only `rm -rf /` and `rm -rf ~` still prompt). (v2.1.126)
 
+Additional protected dirs (v2.1.160): `.config/git`, `.devcontainer`, `.yarn`, `.mvn`. Additional protected files (v2.1.160 build-tool config expansion): shell dotfiles `.bash_aliases .bash_logout .zlogout .envrc`; package managers `.npmrc .yarnrc .yarnrc.yml .pnp.cjs .pnp.loader.mjs .pnpmfile.cjs bunfig.toml .bunfig.toml`; build tools `.bazelrc .bazelversion .bazeliskrc`; git hook configs `.pre-commit-config.yaml lefthook.yml lefthook.yaml .lefthook.yml .lefthook.yaml`; build wrappers `gradle-wrapper.properties maven-wrapper.properties`; dev containers `.devcontainer.json`; type checkers `pyrightconfig.json`.
+
 `acceptEdits` auto-approves: `mkdir touch rm rmdir mv cp sed` (and env-var/process-wrapper prefixes) inside working directory. (v2.1.160) Now also prompts before writing build-tool config files that grant code execution (e.g., files analogous to `package.json` scripts).
 
 ## Security hardening (v2.1.113)
