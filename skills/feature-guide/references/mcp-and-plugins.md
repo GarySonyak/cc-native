@@ -46,6 +46,8 @@ MCP elicitation: MCP servers can request structured user input mid-task via inte
 
 Plugins in `.claude/skills/` directories auto-load at session start — no marketplace, install step, or `--plugin-dir` flag needed. Named as `<name>@skills-dir` in plugin list. (v2.1.157)
 
+claude.ai connectors: unused connectors (never signed in to) are collapsed behind a "Show unused connectors" row in `/mcp` as of v2.1.161 — org-provisioned lists no longer fill the panel. Previously-signed-in connectors stay visible even when re-authentication is needed. (v2.1.161)
+
 ## Channels (v2.1.81+)
 
 Push events into running sessions from MCP servers. MCP server declares a `channel` capability; sends `claude/channel/notification` events; session receives and Claude can react. Useful for CI results, monitoring alerts, chat messages pushed in while Claude works. Permissions relay via `--channels` flag.

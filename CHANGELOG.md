@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.37] — 2026-06-04
+
+- TELEGRAM-FALLBACK: docs-monitor 2026-06-04 (Run #52): 4 material, 1 trivial changes (15 pages checked). New index page: mcp-quickstart. v2.1.162 released. Material: (1) changelog v2.1.162 entry; (2) p
+
 ## [0.2.36] — 2026-06-03
 
 - [2026-06-03] docs-monitor: 4 pages changed — changelog, agents, tools-and-scheduling, permission-modes (3 material, 1 trivial)
