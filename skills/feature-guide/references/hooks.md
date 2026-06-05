@@ -61,6 +61,7 @@ Browse: `/hooks`. Disable all: `disableAllHooks: true`.
 - All hooks: `effort.level` field in JSON input contains the active effort level (low/medium/high/xhigh/max). `$CLAUDE_EFFORT` env var also set for command hooks. Use to conditionally adjust hook behavior per effort. (v2.1.133)
 - `WorktreeCreate`: command hooks return path on stdout; HTTP hooks return `hookSpecificOutput.worktreePath`. Hook failure or missing path fails worktree creation.
 - `SessionStart`/`Setup`: `hookSpecificOutput.additionalContext` injects text into Claude's context. `SessionStart` also accepts plain stdout (single hook); `Setup` concatenates `additionalContext` from multiple hooks.
+- **`additionalContext` is now general (v2.1.163)**: any hook can return `hookSpecificOutput: { hookEventName: "EventName", additionalContext: "..." }` to inject text into Claude's context at that event point, not just SessionStart/Setup/UserPromptSubmit.
 
 ## Plugin hook gotchas
 
