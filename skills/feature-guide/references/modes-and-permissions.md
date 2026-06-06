@@ -27,6 +27,10 @@ Additional protected dirs (v2.1.160): `.config/git`, `.devcontainer`, `.yarn`, `
 
 `acceptEdits` auto-approves: `mkdir touch rm rmdir mv cp sed` (and env-var/process-wrapper prefixes) inside working directory. (v2.1.160) Now also prompts before writing build-tool config files that grant code execution (e.g., files analogous to `package.json` scripts).
 
+## Deny rule glob tool names (v2.1.166)
+
+`permissions.deny` rules now support glob patterns in the **tool-name position** (the part before the parenthesis). Example: `Web*` denies both `WebFetch` and `WebSearch` in a single rule. Previously, tool names in rules were exact-match only; globs only worked inside the argument specifier (e.g. `Bash(npm *)`). (v2.1.166)
+
 ## Security hardening (v2.1.113)
 
 `sandbox.network.deniedDomains` setting blocks specific domains. Bash deny rules match commands wrapped in `env`/`sudo`/`watch`/`ionice`/`setsid`. `Bash(find:*)` no longer auto-approves `find -exec`/`-delete`. macOS `/private/{etc,var,tmp,home}` treated as dangerous.

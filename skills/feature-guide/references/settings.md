@@ -31,4 +31,6 @@
 - `maxSkillDescriptionChars`: per-skill description char cap in the skill listing (default 1536). Configures the per-entry truncation applied to combined `description`+`when_to_use` text.
 - `worktree.bgIsolation`: `"none"` lets background agents edit the main working copy directly instead of running in a worktree. Use when direct file access outweighs isolation benefits for background tasks. (v2.1.143)
 
+- `fallbackModel`: list of up to three fallback models tried in order when the primary model is overloaded or unavailable; CC also retries once on the first fallback for unexpected non-retryable errors. (v2.1.166)
+
 Managed-only settings (`disable*`, `allow*Only`, `sandbox.*.allowManaged*Only`, plugin/marketplace policy keys like `pluginTrustMessage`/`strictKnownMarketplaces`/`blockedMarketplaces`/`channelsEnabled`/`allowedChannelPlugins`, `minimumVersion`, `wslInheritsWindowsSettings`, `subagentStatusLine`) intentionally excluded -- see `/en/settings#available-settings` for the full enterprise list.
