@@ -32,5 +32,7 @@
 - `worktree.bgIsolation`: `"none"` lets background agents edit the main working copy directly instead of running in a worktree. Use when direct file access outweighs isolation benefits for background tasks. (v2.1.143)
 
 - `fallbackModel`: list of up to three fallback models tried in order when the primary model is overloaded or unavailable; CC also retries once on the first fallback for unexpected non-retryable errors. (v2.1.166)
+- `workflowKeywordTriggerEnabled`: `false` prevents the "ultracode" effort keyword from triggering automatic Workflow tool orchestration (default: `true`). Use to disable ultracode's multi-agent escalation while keeping the effort level keyword. (v2.1.157)
+- `disableWorkflows`: `true` disables the Workflow tool entirely — dynamic workflow scripts cannot be created or run. Useful for locked-down environments that should not spawn background agent workflows.
 
 Managed-only settings (`disable*`, `allow*Only`, `sandbox.*.allowManaged*Only`, plugin/marketplace policy keys like `pluginTrustMessage`/`strictKnownMarketplaces`/`blockedMarketplaces`/`channelsEnabled`/`allowedChannelPlugins`, `minimumVersion`, `wslInheritsWindowsSettings`, `subagentStatusLine`) intentionally excluded -- see `/en/settings#available-settings` for the full enterprise list.
