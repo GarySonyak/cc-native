@@ -21,7 +21,7 @@
 
 `command` (shell), `http` (webhook), `prompt` (single-turn LLM eval), `agent` (multi-turn with tools, up to 50 tool-use turns, default 60s timeout), `mcp_tool` (invoke MCP tool directly, v2.1.118). Command hooks: optional `args: string[]` field runs command in exec mode (bypasses shell — no interpolation, avoids injection); without `args`, command string is passed to shell. (v2.1.139)
 
-Common per-hook fields: `type` (required), `if` (permission rule filter, tool events only), `timeout` (seconds, default 600; UserPromptSubmit default 30), `statusMessage` (custom spinner text shown while hook runs), `once` (bool: fire only once per session; only honored in skill/agent frontmatter hooks).
+Common per-hook fields: `type` (required), `if` (permission rule filter, tool events only), `timeout` (seconds, default 600; UserPromptSubmit default 30), `statusMessage` (custom spinner text shown while hook runs), `once` (bool: fire only once per session; only honored in skill/agent frontmatter hooks). Command hook async fields: `async: true` — runs hook in background without blocking the model loop; `asyncRewake: true` — implies `async`, and additionally wakes Claude when the background hook exits code 2; hook's stderr (or stdout if stderr is empty) is shown to Claude as a system reminder so it can react to long-running background failures.
 
 ## Matchers
 

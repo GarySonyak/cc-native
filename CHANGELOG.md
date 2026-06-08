@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.41] — 2026-06-08
+
+- **Step 6 — Stdout log:**
+
 ## [0.2.40] — 2026-06-07
 
 - Telegram MCP tool not available. Logging fallback:
