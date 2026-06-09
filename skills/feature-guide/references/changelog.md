@@ -30,6 +30,7 @@
 - `/deep-research [question]` -- `[Workflow]` fan out web searches, fetch and cross-check sources, synthesize a cited report. (v2.1.154)
 - `/effort` now confirms when your chosen effort level is saved as the new default. (v2.1.162)
 - `/plugin list [--enabled|--disabled]` -- list installed plugins, optionally filtered to only enabled or only disabled. (v2.1.163)
+- `/cd <path>` -- move current session to a new working directory without breaking the prompt cache. (v2.1.169)
 - `/workflows` -- open workflow progress view to watch, pause, resume, or save running and completed workflows. (v2.1.154)
 - `ultracode` effort level -- combines xhigh reasoning with automatic workflow orchestration via Workflow tool; set with `/effort ultracode`. (v2.1.154)
 
@@ -62,6 +63,7 @@
 - **v2.1.152** (2026-05-27): `/code-review --fix` applies review findings to working tree after the review; `/simplify` now invokes `/code-review --fix` (no longer a plain alias). `disallowed-tools` frontmatter field in skills/slash commands removes tools from the model while that skill is active. `/reload-skills` command re-scans skill directories without restarting. New `MessageDisplay` hook event: transform or hide assistant message text before display. Auto mode no longer requires opt-in consent — cycling to auto via Shift+Tab activates immediately. (v2.1.152)
 - **v2.1.151** (2026-05-24): Internal release (no user-facing changes). (v2.1.151)
 - **v2.1.150** (2026-05-23): Internal infrastructure improvements (no user-facing changes). (v2.1.150)
+- **v2.1.169** (2026-06-08): `--safe-mode` flag (and `CLAUDE_CODE_SAFE_MODE=1` env var) disables all customizations — CLAUDE.md, plugins, skills, hooks, MCP servers — for troubleshooting isolation. `/cd <path>` command moves session to new working directory without breaking prompt cache. `disableBundledSkills` setting hides bundled skills and built-in commands from the model. Bug fixes: enterprise managed MCP policies not enforced on reconnect/first session; ~30-50ms macOS UI stall for claude.ai users; `claude -p` hanging on Windows during skill scanning; Remote Control stuck on "reconnecting" after resume; `TaskCreate` malformed input auto-repair; CPU usage streaming/spinner; Vertex/Foundry 5-minute idle timeout restored. (v2.1.169)
 - **v2.1.168** (2026-06-06): Bug fixes and reliability improvements only. (v2.1.168)
 - **v2.1.167** (2026-06-06): Bug fixes and reliability improvements only. (v2.1.167)
 - **v2.1.166** (2026-06-06): `fallbackModel` setting — list up to three fallback models tried in order when the primary model is overloaded or unavailable; CC also retries once on the fallback model for unexpected non-retryable errors. Glob pattern support in deny rule **tool-name position** (e.g. `Web*` denies WebFetch + WebSearch together; previously only argument positions supported globs). `MAX_THINKING_TOKENS=0`, `--thinking disabled`, and per-model thinking toggle now disable thinking even on models that think by default (e.g. Opus 4.8). Hardened cross-session messaging (security). Multiple bug fixes. (v2.1.166)

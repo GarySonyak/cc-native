@@ -32,6 +32,8 @@
 - `worktree.bgIsolation`: `"none"` lets background agents edit the main working copy directly instead of running in a worktree. Use when direct file access outweighs isolation benefits for background tasks. (v2.1.143)
 
 - `fallbackModel`: list of up to three fallback models tried in order when the primary model is overloaded or unavailable; CC also retries once on the first fallback for unexpected non-retryable errors. (v2.1.166)
+- `disableBundledSkills`: `true` hides bundled skills (`/code-review`, `/batch`, `/debug`, `/loop`, etc.) and built-in commands from the model — they won't auto-invoke or appear in skill listings. User can still run them manually with `/skill-name`. (v2.1.169)
+- `--safe-mode` CLI flag (equiv: `CLAUDE_CODE_SAFE_MODE=1` env var): disables all customizations at startup — CLAUDE.md, plugins, skills, hooks, and MCP servers are all skipped. Use for troubleshooting to isolate whether a custom config is causing a problem. Not a settings key; must be passed at launch. (v2.1.169)
 - `workflowKeywordTriggerEnabled`: `false` prevents the "ultracode" effort keyword from triggering automatic Workflow tool orchestration (default: `true`). Use to disable ultracode's multi-agent escalation while keeping the effort level keyword. (v2.1.157)
 - `disableWorkflows`: `true` disables the Workflow tool entirely — dynamic workflow scripts cannot be created or run. Useful for locked-down environments that should not spawn background agent workflows.
 

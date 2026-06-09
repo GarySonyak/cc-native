@@ -57,6 +57,7 @@ If skill stops influencing behavior, the content is usually still present — st
 - Description budget: `skillListingBudgetFraction` setting (e.g. `0.02` = 2% of context) or `SLASH_COMMAND_TOOL_CHAR_BUDGET` env var (fixed char count). Per-skill cap: `maxSkillDescriptionChars` setting (default 1536 chars). Run `/doctor` to see if budget is overflowing and which skills are affected.
 - Skills from `--add-dir` directories are auto-loaded with live change detection.
 - `disableSkillShellExecution: true` in settings disables `` !`command` `` (managed policy). (v2.1.91)
+- `disableBundledSkills: true` in settings hides all bundled skills and built-in commands from the model (no auto-invoke, no listing); manual `/skill-name` invocations still work. (v2.1.169)
 - Live change detection: edits take effect within current session for `~/.claude/skills/`, project `.claude/skills/`, and `--add-dir` skills. New top-level dirs require restart.
 - Auto-discovery from nested `.claude/skills/` directories (monorepo support).
 

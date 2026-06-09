@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.42] — 2026-06-09
+
+- TELEGRAM-FALLBACK: Telegram MCP not in scope. Report logged to stdout:
+
 ## [0.2.41] — 2026-06-08
 
 - **Step 6 — Stdout log:**
