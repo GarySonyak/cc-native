@@ -25,6 +25,7 @@
 | `Read` | Oversized whole-file reads return a `PARTIAL view` (first page + notice showing remaining size + how to paginate with `offset`/`limit`). Reads with explicit `offset`/`limit` that still exceed limit return an error. Images/PDFs/notebooks handled natively. (v2.1.145) |
 | `Workflow` | Runs a dynamic workflow — a script Claude writes that orchestrates many background subagents and returns one consolidated result. Permission: Yes. (v2.1.154) |
 | `Write` | Detects when user edits proposed content before accepting (diffed against original). (v2.1.110) |
+| Advisor (API server tool) | Pairs main model with stronger advisor at key decision points (before committing to approach, on recurring errors, before declaring done). API-level (not CC-implemented); no permission rule name, hook matcher, or `tools:` field reference. Experimental, Anthropic API only. Supported pairings: any main model ≥ Haiku 4.5 can use Opus/Sonnet/Fable advisor; Fable main requires Fable advisor (v2.1.170+). Enable: `/advisor [opus|sonnet|fable]`, `advisorModel` setting, or `--advisor` flag. Disable: `/advisor off` or `CLAUDE_CODE_DISABLE_ADVISOR_TOOL=1`. (v2.1.98+) |
 
 ## Scheduled Tasks (v2.1.72+)
 

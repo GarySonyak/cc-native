@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.43] — 2026-06-10
+
+- Telegram MCP unavailable — logging fallback as required:
+
 ## [0.2.42] — 2026-06-09
 
 - TELEGRAM-FALLBACK: Telegram MCP not in scope. Report logged to stdout:

@@ -37,4 +37,6 @@
 - `workflowKeywordTriggerEnabled`: `false` prevents the "ultracode" effort keyword from triggering automatic Workflow tool orchestration (default: `true`). Use to disable ultracode's multi-agent escalation while keeping the effort level keyword. (v2.1.157)
 - `disableWorkflows`: `true` disables the Workflow tool entirely — dynamic workflow scripts cannot be created or run. Useful for locked-down environments that should not spawn background agent workflows.
 
+- `advisorModel`: advisor model alias (`opus`, `sonnet`, `fable`) or full model ID; Claude consults this model at key decision points mid-task. Experimental, Anthropic API only. Fable 5 requires v2.1.170+. Disable with `CLAUDE_CODE_DISABLE_ADVISOR_TOOL=1`. (v2.1.98+)
+
 Managed-only settings (`disable*`, `allow*Only`, `sandbox.*.allowManaged*Only`, plugin/marketplace policy keys like `pluginTrustMessage`/`strictKnownMarketplaces`/`blockedMarketplaces`/`channelsEnabled`/`allowedChannelPlugins`, `minimumVersion`, `wslInheritsWindowsSettings`, `subagentStatusLine`) intentionally excluded -- see `/en/settings#available-settings` for the full enterprise list.
