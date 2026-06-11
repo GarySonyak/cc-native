@@ -15,7 +15,7 @@
 - Resolution order: CLI `--agents` flag (1) > `.claude/agents/` (2) > `~/.claude/agents/` (3) > plugins (4)
 - Invoke: Agent tool with `subagent_type`, @-mention in interactive mode, or `claude --agent <name>`
 - Resume via `SendMessage` with agent ID. Auto-compaction supported.
-- Subagents **cannot** spawn other subagents.
+- Subagents **cannot** spawn other subagents. **Update (v2.1.172)**: Sub-agents can now spawn their own sub-agents up to 5 levels deep; the flat restriction is lifted as of v2.1.172.
 - Background vs foreground: Ctrl+B to background a running subagent.
 - Model override: `CLAUDE_CODE_SUBAGENT_MODEL` env var (highest priority over per-invocation model and frontmatter).
 - `claude agents` CLI command lists configured agents without starting a session. In v2.1.139+ (Agent View research preview), also opens a unified session list showing all running CC sessions and their status. `claude agents --json` outputs live sessions as JSON for scripting (tmux-resurrect, status bars, session pickers). (v2.1.145)
