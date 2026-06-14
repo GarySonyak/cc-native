@@ -18,6 +18,8 @@ Managed MCP policy: `allowedMcpServers`/`deniedMcpServers` in managed settings r
 
 `type: "ws"` in server config: WebSocket transport — persistent bidirectional connection for servers that push events unprompted. Configure via `claude mcp add-json`. Does NOT support `--transport` flag or OAuth. Accepts url, headers, headersHelper, timeout, alwaysLoad fields.
 
+`list_changed` notification support: MCP servers can send `list_changed` notifications to dynamically refresh their available tools, prompts, and resources mid-session — Claude Code auto-refreshes capabilities on receipt, no disconnect/reconnect needed.
+
 ## Plugins
 
 Bundle skills + hooks + agents + MCP servers into distributable unit. `plugin.json` manifest. Plugin `hooks.json` for hook definitions. Distribute via marketplaces. Plugin agents cannot use `hooks`, `mcpServers`, or `permissionMode` frontmatter (security restriction). Plugin `bin/` directory: executables added to Bash tool's PATH while plugin is enabled. `/reload-plugins` reloads without restarting. `--plugin-dir` flag for local testing. Plugin LSP servers via `.lsp.json`. Plugin default settings via `settings.json` at plugin root (`agent` and `subagentStatusLine` keys supported).

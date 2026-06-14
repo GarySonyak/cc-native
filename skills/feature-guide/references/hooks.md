@@ -53,6 +53,7 @@ Browse: `/hooks`. Disable all: `disableAllHooks: true`.
 - `ConfigChange`: matcher filters by config type: `user_settings`, `project_settings`, `local_settings`, `policy_settings`, `skills`.
 - `InstructionsLoaded`: matcher filters by load reason: `session_start`, `nested_traversal`, `path_glob_match`, `include`, `compact`.
 - `SessionEnd`: matcher filters by reason: `clear`, `resume`, `logout`, `prompt_input_exit`, `bypass_permissions_disabled`, `other`.
+- `Notification`: matcher filters by notification type: `permission_prompt` (tool-use approval needed), `idle_prompt` (Claude waiting for next message), `auth_success` (authentication completed), `elicitation_dialog` (MCP server opened elicitation form), `elicitation_complete` (form submitted/dismissed), `elicitation_response` (response sent back to server). Empty matcher fires on all notification types.
 - `TeammateIdle`: exit code 2 to send feedback and keep teammate working (agent teams).
 - `TaskCreated`/`TaskCompleted`: exit code 2 to prevent and send feedback.
 - `PreCompact`: exit code 2 to block compaction (v2.1.105).
