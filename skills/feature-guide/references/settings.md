@@ -38,5 +38,7 @@
 - `disableWorkflows`: `true` disables the Workflow tool entirely — dynamic workflow scripts cannot be created or run. Useful for locked-down environments that should not spawn background agent workflows.
 
 - `advisorModel`: advisor model alias (`opus`, `sonnet`, `fable`) or full model ID; Claude consults this model at key decision points mid-task. Experimental, Anthropic API only. Fable 5 requires v2.1.170+. Disable with `CLAUDE_CODE_DISABLE_ADVISOR_TOOL=1`. (v2.1.98+)
+- `enforceAvailableModels`: `true` constrains the Default model selection to the `availableModels` allowlist (not just manual `/model` picks). Ensures the session starting model also respects the model allowlist.
+- `cleanupPeriodDays`: number of days to retain subagent transcript files at `~/.claude/projects/{project}/{sessionId}/subagents/`. Default: 30.
 
 Managed-only settings (`disable*`, `allow*Only`, `sandbox.*.allowManaged*Only`, plugin/marketplace policy keys like `pluginTrustMessage`/`strictKnownMarketplaces`/`blockedMarketplaces`/`channelsEnabled`/`allowedChannelPlugins`, `minimumVersion`, `wslInheritsWindowsSettings`, `subagentStatusLine`) intentionally excluded -- see `/en/settings#available-settings` for the full enterprise list.

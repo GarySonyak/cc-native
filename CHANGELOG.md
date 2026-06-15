@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.48] — 2026-06-15
+
+- [2026-06-15] docs-monitor: completed but produced no summary (duration 12m22s)
+
 ## [0.2.47] — 2026-06-14
 
 - Telegram MCP unavailable — logging fallback:

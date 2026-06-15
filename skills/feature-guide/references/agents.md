@@ -14,7 +14,7 @@
 
 - Resolution order: CLI `--agents` flag (1) > `.claude/agents/` (2) > `~/.claude/agents/` (3) > plugins (4)
 - Invoke: Agent tool with `subagent_type`, @-mention in interactive mode, or `claude --agent <name>`
-- Resume via `SendMessage` with agent ID. Auto-compaction supported.
+- Resume via `SendMessage` with agent ID; stopped subagents auto-resume in the background on receipt. Explore/Plan agents are one-shot (no agent ID returned); use general-purpose or a custom subagent when resumable work is needed. Requires `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`. Auto-compaction supported (`CLAUDE_AUTOCOMPACT_PCT_OVERRIDE` applies).
 - Subagents **cannot** spawn other subagents. **Update (v2.1.172)**: Sub-agents can now spawn sub-agents. **Foreground** subagents: unlimited depth. **Background** subagents: depth-5 cap (Agent tool not provided beyond depth 5). To enable in a custom agent: include `Agent` in its `tools` list; to prevent: omit `Agent` or add to `disallowedTools`. `Agent(type)` allowlist syntax is ignored inside a subagent context (type lists have no effect). Forks can spawn non-fork subagents but cannot spawn other forks.
 - Background vs foreground: Ctrl+B to background a running subagent.
 - Model override: `CLAUDE_CODE_SUBAGENT_MODEL` env var (highest priority over per-invocation model and frontmatter).
