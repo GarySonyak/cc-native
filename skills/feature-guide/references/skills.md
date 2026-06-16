@@ -59,7 +59,7 @@ If skill stops influencing behavior, the content is usually still present — st
 - `disableSkillShellExecution: true` in settings disables `` !`command` `` (managed policy). (v2.1.91)
 - `disableBundledSkills: true` in settings hides all bundled skills and built-in commands from the model (no auto-invoke, no listing); manual `/skill-name` invocations still work. (v2.1.169)
 - Live change detection: edits take effect within current session for `~/.claude/skills/`, project `.claude/skills/`, and `--add-dir` skills. New top-level dirs require restart.
-- Auto-discovery from nested `.claude/skills/` directories (monorepo support).
+- Auto-discovery from nested `.claude/skills/` directories (monorepo support). (v2.1.178) Nested skills load **contextually** — a skill in `<dir>/.claude/skills/<name>/` only loads when Claude accesses files in `<dir>/`. Name clashes with parent-level skills are resolved as `<dir>:<name>` (e.g., `src:deploy` for a skill in `src/.claude/skills/deploy/`).
 
 ## Restrict Claude's skill access
 

@@ -31,6 +31,19 @@ Additional protected dirs (v2.1.160): `.config/git`, `.devcontainer`, `.yarn`, `
 
 `permissions.deny` rules now support glob patterns in the **tool-name position** (the part before the parenthesis). Example: `Web*` denies both `WebFetch` and `WebSearch` in a single rule. Previously, tool names in rules were exact-match only; globs only worked inside the argument specifier (e.g. `Bash(npm *)`). (v2.1.166)
 
+## Tool input parameter matching (v2.1.178)
+
+Permission rules now support matching **tool input parameter values** via `Tool(param:value)` syntax (wildcard-enabled):
+- `Agent(model:opus)` — block subagents that use any Opus model
+- `Agent(model:claude-3*)` — match all claude-3 variant subagents
+- Distinct from the existing `Agent(Explore)` type-name form (which matches subagent type, not model parameter)
+
+Use in `permissions.allow` or `permissions.deny` to gate specific model/parameter combinations without blocking the tool entirely. (v2.1.178)
+
+## Auto mode subagent spawn evaluation (v2.1.178)
+
+Auto mode now evaluates subagent spawns via the classifier **before** the subagent launches (previously only checked actions taken during the subagent's run). Dangerous delegated tasks blocked at spawn time. (v2.1.178)
+
 ## Security hardening (v2.1.113)
 
 `sandbox.network.deniedDomains` setting blocks specific domains. Bash deny rules match commands wrapped in `env`/`sudo`/`watch`/`ionice`/`setsid`. `Bash(find:*)` no longer auto-approves `find -exec`/`-delete`. macOS `/private/{etc,var,tmp,home}` treated as dangerous.
