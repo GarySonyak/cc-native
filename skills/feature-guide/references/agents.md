@@ -45,13 +45,15 @@ Manage interactively: `/agents` command.
 
 **Experimental** -- requires `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS` env var or setting.
 
-Architecture: lead + teammates + shared task list + mailbox. Tools: `TeamCreate`, `TeamDelete`, `SendMessage`, `TaskCreate`, `TaskGet`, `TaskList`, `TaskUpdate`. Tasks support dependencies (blocked until deps complete). Display: in-process (Shift+Down) or split-pane (tmux/iTerm2). One team per session, no nesting. Token cost scales linearly with team size. Subagent definitions reusable as teammate types.
+Architecture: lead + teammates + shared task list + mailbox. Active tools: `SendMessage`, `TaskCreate`, `TaskGet`, `TaskList`, `TaskUpdate`. Tasks support dependencies (blocked until deps complete). Display: in-process (Shift+Down) or split-pane (tmux/iTerm2). One team per session, no nesting. Token cost scales linearly with team size. Subagent definitions reusable as teammate types.
 
-Display mode: `teammateMode` global config (`~/.claude.json`) -- `"auto"` (default), `"in-process"`, `"tmux"`. Override per-session: `claude --teammate-mode in-process`. Split pane requires tmux or iTerm2 with it2 CLI.
+**v2.1.178**: `TeamCreate`/`TeamDelete` tools removed. Spawning a teammate is now sufficient to form a team — no setup step. Team name auto-derived as `session-<first-8-chars-of-session-id>`. `team_name` on Agent tool input is accepted but ignored. `team_name` field in `TaskCreated`, `TaskCompleted`, and `TeammateIdle` hook payloads is **deprecated** (carries session-derived name). Team config directory removed automatically when session exits.
+
+Display mode: `teammateMode` setting (`~/.claude/settings.json`) -- `"auto"` (default), `"in-process"`, `"tmux"`. Override per-session: `claude --teammate-mode in-process`. Split pane requires tmux or iTerm2 with it2 CLI.
 
 Require plan approval: tell lead to "require plan approval before they make changes" -- teammate stays in read-only plan mode until lead approves. Lead makes approval decisions autonomously.
 
-Team state stored locally: `~/.claude/teams/{team-name}/config.json`, `~/.claude/tasks/{team-name}/`. Do not hand-author these files.
+Team state stored locally: `~/.claude/teams/{session-name}/config.json`, `~/.claude/tasks/{session-name}/` (where `session-name` = `session-<first-8-chars-of-session-id>`). Do not hand-author these files. Task list directories persist on disk even after session ends (retention governed by `cleanupPeriodDays`).
 
 ## Worktrees
 

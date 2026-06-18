@@ -41,4 +41,6 @@
 - `enforceAvailableModels`: `true` constrains the Default model selection to the `availableModels` allowlist (not just manual `/model` picks). Ensures the session starting model also respects the model allowlist.
 - `cleanupPeriodDays`: number of days to retain subagent transcript files at `~/.claude/projects/{project}/{sessionId}/subagents/`. Default: 30.
 
+- `sandbox.allowAppleEvents`: `true` permits sandboxed Bash processes to send Apple Events on macOS (required for AppleScript and some GUI automations in sandbox mode). (v2.1.181)
+
 Managed-only settings (`disable*`, `allow*Only`, `sandbox.*.allowManaged*Only`, plugin/marketplace policy keys like `pluginTrustMessage`/`strictKnownMarketplaces`/`blockedMarketplaces`/`channelsEnabled`/`allowedChannelPlugins`, `minimumVersion`, `wslInheritsWindowsSettings`, `subagentStatusLine`) intentionally excluded -- see `/en/settings#available-settings` for the full enterprise list.
