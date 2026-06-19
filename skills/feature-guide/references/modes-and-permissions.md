@@ -44,6 +44,10 @@ Use in `permissions.allow` or `permissions.deny` to gate specific model/paramete
 
 Auto mode now evaluates subagent spawns via the classifier **before** the subagent launches (previously only checked actions taken during the subagent's run). Dangerous delegated tasks blocked at spawn time. (v2.1.178)
 
+## Auto mode safety defaults expanded (v2.1.183)
+
+New built-in blocks added to the classifier: **force push** (`git push --force`), **direct push to `main`**, and **infrastructure destroy commands** (e.g. `terraform destroy`, cloud `delete`/`destroy` CLI actions) are now blocked when not explicitly requested. These extend the existing default block list. Use `autoMode.environment` to configure trusted repos/infra. (v2.1.183)
+
 ## Security hardening (v2.1.113)
 
 `sandbox.network.deniedDomains` setting blocks specific domains. Bash deny rules match commands wrapped in `env`/`sudo`/`watch`/`ionice`/`setsid`. `Bash(find:*)` no longer auto-approves `find -exec`/`-delete`. macOS `/private/{etc,var,tmp,home}` treated as dangerous.

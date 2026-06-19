@@ -11,7 +11,7 @@
 | `PowerShell` | Opt-in on all platforms (Windows, Linux, macOS, WSL). Set `CLAUDE_CODE_USE_POWERSHELL_TOOL=1`. Windows: auto-detects pwsh.exe (PS 7+) vs powershell.exe (PS 5.1). Linux/macOS/WSL: requires `pwsh` (PS 7+). PowerShell profiles not loaded; sandboxing not supported on Windows. PowerShell commands auto-approvable in permission mode. (v2.1.114/v2.1.119) |
 | `CronCreate/List/Delete` | Scheduled tasks within session. |
 | `TaskOutput` | Deprecated -- use `Read` on output file path instead. |
-| `TeamCreate` / `TeamDelete` | Create/disband agent teams. Only available when `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`. |
+| `TeamCreate` / `TeamDelete` | **Removed in v2.1.178.** Spawning a teammate with the Agent tool is now sufficient to form a team — no `TeamCreate` step needed. `TeamDelete` also removed; teams are auto-cleaned when the session exits. `SendMessage` and Task tools remain for team coordination. |
 | `TaskStop` | Kill a running background task by ID. |
 | `TodoWrite` | Disabled by default as of v2.1.142; Task tools (`TaskCreate`/`TaskGet`/`TaskList`/`TaskUpdate`) are now the default. Set `CLAUDE_CODE_ENABLE_TASKS=0` to re-enable `TodoWrite` (disables Task tools). |
 | `ScheduleWakeup` | Internal — Claude calls this automatically at end of each self-paced `/loop` iteration to schedule the next one (1min–1hr). Not user-invocable directly. Pending wakeup visible in `session_crons` field of Stop hook input. Not available on Bedrock/Vertex/Foundry. |
@@ -25,6 +25,7 @@
 | `Read` | Oversized whole-file reads return a `PARTIAL view` (first page + notice showing remaining size + how to paginate with `offset`/`limit`). Reads with explicit `offset`/`limit` that still exceed limit return an error. Images/PDFs/notebooks handled natively. (v2.1.145) |
 | `Workflow` | Runs a dynamic workflow — a script Claude writes that orchestrates many background subagents and returns one consolidated result. Permission: Yes. (v2.1.154) |
 | `Write` | Detects when user edits proposed content before accepting (diffed against original). (v2.1.110) |
+| `Artifact` | Publishes an HTML or Markdown file as a private, interactive page on claude.ai, shareable within your organization. Requires Team/Enterprise plan + `/login` auth; not available on Bedrock/Vertex/Foundry. Permission: Yes. (v2.1.183) |
 | Advisor (API server tool) | Pairs main model with stronger advisor at key decision points (before committing to approach, on recurring errors, before declaring done). API-level (not CC-implemented); no permission rule name, hook matcher, or `tools:` field reference. Experimental, Anthropic API only. Supported pairings: any main model ≥ Haiku 4.5 can use Opus/Sonnet/Fable advisor; Fable main requires Fable advisor (v2.1.170+). Enable: `/advisor [opus|sonnet|fable]`, `advisorModel` setting, or `--advisor` flag. Disable: `/advisor off` or `CLAUDE_CODE_DISABLE_ADVISOR_TOOL=1`. (v2.1.98+) |
 
 ## Scheduled Tasks (v2.1.72+)

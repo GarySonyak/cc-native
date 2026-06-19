@@ -42,5 +42,6 @@
 - `cleanupPeriodDays`: number of days to retain subagent transcript files at `~/.claude/projects/{project}/{sessionId}/subagents/`. Default: 30.
 
 - `sandbox.allowAppleEvents`: `true` permits sandboxed Bash processes to send Apple Events on macOS (required for AppleScript and some GUI automations in sandbox mode). (v2.1.181)
+- `disableArtifact`: `true` disables the Artifact tool — prevents publishing session output as interactive pages on claude.ai. (v2.1.183)
 
 Managed-only settings (`disable*`, `allow*Only`, `sandbox.*.allowManaged*Only`, plugin/marketplace policy keys like `pluginTrustMessage`/`strictKnownMarketplaces`/`blockedMarketplaces`/`channelsEnabled`/`allowedChannelPlugins`, `minimumVersion`, `wslInheritsWindowsSettings`, `subagentStatusLine`) intentionally excluded -- see `/en/settings#available-settings` for the full enterprise list.
