@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.52] — 2026-06-22
+
+- Telegram MCP unavailable — logging fallback:
+
 ## [0.2.51] — 2026-06-19
 
 - The Telegram MCP tool (`mcp__plugin_telegram_telegram__reply`) is not in scope for this execution context.

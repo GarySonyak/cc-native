@@ -46,7 +46,11 @@ Auto mode now evaluates subagent spawns via the classifier **before** the subage
 
 ## Auto mode safety defaults expanded (v2.1.183)
 
-New built-in blocks added to the classifier: **force push** (`git push --force`), **direct push to `main`**, and **infrastructure destroy commands** (e.g. `terraform destroy`, cloud `delete`/`destroy` CLI actions) are now blocked when not explicitly requested. These extend the existing default block list. Use `autoMode.environment` to configure trusted repos/infra. (v2.1.183)
+New built-in blocks added to the classifier (extend existing default block list; use `autoMode.environment` to configure trusted repos/infra):
+- **Force push** (`git push --force`) and **direct push to `main`** — blocked when not explicitly requested. (v2.1.183)
+- **Destructive git state resets**: `git reset --hard`, `git checkout -- .`, `git restore .`, `git clean -fd`, `git stash drop`, `git stash clear` — presumed to discard uncommitted changes. (v2.1.183)
+- **Amending non-session commits**: `git commit --amend` when the HEAD commit was not created in the current session. (v2.1.183)
+- **Infrastructure destroy commands**: `terraform destroy`, `pulumi destroy`, `cdk destroy`, `terragrunt destroy`, and applying any plan that destroys resources. (v2.1.183)
 
 ## Security hardening (v2.1.113)
 
