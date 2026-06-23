@@ -12,6 +12,8 @@ Servers in `.mcp.json` (project) or `~/.claude/.mcp.json` (global). Tools appear
 
 `authServerMetadataUrl` (in `oauth` block): override OAuth discovery — bypass default RFC 9728/RFC 8414 chain and point to specific authorization server metadata URL. Requires `https://`. (v2.1.64+)
 
+`claude mcp login <name>` / `claude mcp logout <name>`: authenticate or deauthenticate with a specific MCP server from the CLI, without opening the `/mcp` menu. `--no-browser` flag redirects auth flow to stdin — required in SSH/headless sessions. `claude mcp get`/`claude mcp remove` now suggest typo corrections and truncate long server lists. (v2.1.186)
+
 Managed MCP policy: `allowedMcpServers`/`deniedMcpServers` in managed settings restrict users to approved servers. Match by `serverName`, `serverCommand` (exact array), or `serverUrl` (wildcard `*`). Allowlist behavior: undefined=no restriction, `[]`=full lockdown, list=whitelist. Denylist takes absolute precedence over allowlist. Option 1 (`managed-mcp.json`)=exclusive control over all servers; Option 2 (allowlists/denylists)=policy overlay allowing user-added servers within constraints. Both can coexist. (v2.1.128)
 
 `MCP_TOOL_TIMEOUT` env var: raises per-request fetch timeout for remote MCP servers (was previously capped at 60s regardless of this setting). Set to timeout in ms. (v2.1.142)
