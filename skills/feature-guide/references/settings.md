@@ -45,5 +45,6 @@
 - `disableArtifact`: `true` disables the Artifact tool — prevents publishing session output as interactive pages on claude.ai. (v2.1.183)
 - `teammateMode` options now include `"iterm2"` — iTerm2 native split panes (requires `it2` CLI). Previously only `"in-process"`, `"auto"`, `"tmux"`. (v2.1.186)
 - `respondToBashCommands`: `false` opts out of `!` bash commands automatically triggering Claude's response loop (default `true` as of v2.1.186 — `!` commands now elicit an automatic Claude response). (v2.1.186)
+- `sandbox.credentials`: controls whether sandboxed Bash commands can read credential files and secret environment variables; set to restrict access (new security boundary for sandbox mode). (v2.1.187)
 
 Managed-only settings (`disable*`, `allow*Only`, `sandbox.*.allowManaged*Only`, plugin/marketplace policy keys like `pluginTrustMessage`/`strictKnownMarketplaces`/`blockedMarketplaces`/`channelsEnabled`/`allowedChannelPlugins`, `minimumVersion`, `wslInheritsWindowsSettings`, `subagentStatusLine`) intentionally excluded -- see `/en/settings#available-settings` for the full enterprise list.
