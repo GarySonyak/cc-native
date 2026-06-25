@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.55] — 2026-06-25
+
+- The Telegram MCP tool (`mcp__plugin_telegram_telegram__reply`) is not available in this session scope. Per protocol, logging the report as TELEGRAM-FALLBACK:
+
 ## [0.2.54] — 2026-06-24
 
 - Telegram MCP not in scope — logging fallback.
