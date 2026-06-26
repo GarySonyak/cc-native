@@ -68,6 +68,8 @@ Conversation-stated boundaries (e.g. "don't push") block classifier; lost after 
 
 `autoMode.hard_deny`: prose rules that block unconditionally — user intent and `allow` exceptions cannot override. Use when a boundary must survive regardless of what the user says in conversation. Default includes exfiltration and safety-bypass rules; include `"$defaults"` to extend rather than replace. (v2.1.136)
 
+`autoMode.classifyAllShell`: set `true` to route ALL Bash/PowerShell commands through the classifier, including reads and working-dir edits normally auto-approved in auto mode. More safety overhead, more classifier latency. (v2.1.193)
+
 ## Checkpointing
 
-Auto-snapshots before every file edit. `/rewind` to restore previous state. `/checkpoint` to save manually. Checkpoints are local to session, separate from git. Only covers file changes -- remote actions (DB, API, deploy) cannot be checkpointed.
+Auto-snapshots before every file edit. `/rewind` (alias `/undo`) to restore previous state; as of v2.1.191 also works to jump back to state **before a `/clear`** (not just undo the last turn). `/checkpoint` to save manually. Checkpoints are local to session, separate from git. Only covers file changes -- remote actions (DB, API, deploy) cannot be checkpointed.
