@@ -50,6 +50,7 @@ Architecture: lead + teammates + shared task list + mailbox. Active tools: `Send
 **v2.1.178**: `TeamCreate`/`TeamDelete` tools removed. Spawning a teammate is now sufficient to form a team — no setup step. Team name auto-derived as `session-<first-8-chars-of-session-id>`. `team_name` on Agent tool input is accepted but ignored. `team_name` field in `TaskCreated`, `TaskCompleted`, and `TeammateIdle` hook payloads is **deprecated** (carries session-derived name). Team config directory removed automatically when session exits.
 
 Display mode: `teammateMode` setting (`~/.claude/settings.json`) -- default changed to `"in-process"` (v2.1.179; was `"auto"`). Options: `"in-process"`, `"auto"` (split panes when already in tmux/iTerm2, else in-process), `"tmux"`, `"iterm2"` (iTerm2 native panes, requires `it2` CLI; v2.1.186). Override per-session: `claude --teammate-mode auto`. Split pane requires tmux or iTerm2 with it2 CLI. Idle teammate rows auto-hide after 30s and reappear on next turn (v2.1.181).
+Teammates inherit the lead's effort level; in split-pane mode this applies from v2.1.186 (earlier split-pane sessions did not pass the lead's effort to teammates). (v2.1.186)
 
 Require plan approval: tell lead to "require plan approval before they make changes" -- teammate stays in read-only plan mode until lead approves. Lead makes approval decisions autonomously.
 
