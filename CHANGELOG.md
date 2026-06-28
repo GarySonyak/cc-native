@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.58] — 2026-06-28
+
+- Step 6 log output:
+
 ## [0.2.57] — 2026-06-27
 
 - Telegram MCP unavailable — logging TELEGRAM-FALLBACK as required:
