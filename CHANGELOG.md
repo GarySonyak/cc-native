@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.59] — 2026-06-29
+
+- **Step 6: Stdout log**
+
 ## [0.2.58] — 2026-06-28
 
 - Step 6 log output:
