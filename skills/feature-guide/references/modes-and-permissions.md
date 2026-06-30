@@ -52,6 +52,33 @@ New built-in blocks added to the classifier (extend existing default block list;
 - **Amending non-session commits**: `git commit --amend` when the HEAD commit was not created in the current session. (v2.1.183)
 - **Infrastructure destroy commands**: `terraform destroy`, `pulumi destroy`, `cdk destroy`, `terragrunt destroy`, and applying any plan that destroys resources. (v2.1.183)
 
+## Auto mode safety defaults further expanded (v2.1.195)
+
+`Claude Code v2.1.195+` blocks more categories by default (extends v2.1.183 list; use `autoMode.environment` to configure trusted targets):
+
+**Additional blocks:**
+- Writing to secret managers; changing DNS records or TLS certificates
+- Merging a PR no human has approved; approving Claude's own PR; disabling CI checks
+- Posting comments that are commands to automation (e.g. `atlantis apply`, bot `/deploy` or `/merge`)
+- Toggling, ramping, or deleting production feature flags
+- Applying IaC changes to a protected scope, or draining/removing cluster nodes
+- Writes to a shared compute cluster beyond the named resource (label selector, `--all`)
+- Creating DaemonSets or admission webhooks (run on every node / intercept cluster traffic)
+- Interactive shells or port-forwards into a sensitive remote target
+- Opening a tunnel or reverse shell reachable from the public internet
+- Printing a live credential or token to transcript or file
+- Accessing or copying from a PII / regulated-data location
+- Routing a package install around internal registry to a public one
+- Running commands with safety-disarming flags (e.g. `--insecure`)
+- Claude in Chrome browser actions sending page content, cookies, or credentials off-origin
+
+**Additional allows (v2.1.195):**
+- Deleting exact jobs Claude created earlier in the same session
+- Reading, reviewing, or writing security-related code, configs, threat models
+- Messages between agents in the same multi-agent session
+- Sending data to trusted domains/buckets/services listed in `autoMode.environment`
+- Claude in Chrome navigation to trusted internal domain, localhost, or named URL
+
 ## Security hardening (v2.1.113)
 
 `sandbox.network.deniedDomains` setting blocks specific domains. Bash deny rules match commands wrapped in `env`/`sudo`/`watch`/`ionice`/`setsid`. `Bash(find:*)` no longer auto-approves `find -exec`/`-delete`. macOS `/private/{etc,var,tmp,home}` treated as dangerous.

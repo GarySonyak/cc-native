@@ -38,6 +38,8 @@ Compare options: **Routines** (Cloud, `/schedule`): Anthropic-managed, durable, 
 
 Stop a running `/loop` between iterations with `Esc` (only affects `/loop`; tasks created via natural-language scheduling are unaffected). On Bedrock, Vertex AI, and Microsoft Foundry: `/loop <prompt>` with no interval runs on a fixed 10-minute schedule (not dynamic), and bare `/loop` with no prompt prints usage instead of starting the maintenance loop.
 
+**Scheduled skill invocation control (v2.1.196):** A `/loop` scheduled fire can pass a skill as the prompt (e.g. `/loop 20m /review-pr 1234`), but only skills Claude is allowed to auto-invoke actually execute. The following are passed as plain text instead: built-in commands (`/permissions`, `/model`, `/clear`, etc.); skills with `disable-model-invocation: true`; skills withheld by `skillOverrides` or a `Skill` deny rule; MCP prompts (`/mcp__<server>__<prompt>`). Skills exposed by MCP servers (not MCP prompts) still run. (v2.1.196)
+
 ## Session Management
 
 `/continue` resume last session. `/resume` pick from list. `--fork-session` branch without affecting original. `/branch` fork for exploration. `/teleport` move between surfaces. Sessions tied to directory -- use worktrees for parallel sessions on different branches.
