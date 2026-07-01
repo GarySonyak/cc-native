@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.61] — 2026-07-01
+
+- Telegram MCP not available — logging fallback:
+
 ## [0.2.60] — 2026-06-30
 
 - TELEGRAM-FALLBACK: docs-monitor [2026-06-30] Run #75 — 3 material changes, 1 trivial | Pages checked: 15 | Material: permission-modes (v2.1.195 auto mode expansion), scheduled-tasks (v2.1.196 loop s

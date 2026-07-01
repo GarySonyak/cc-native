@@ -87,7 +87,7 @@ New built-in blocks added to the classifier (extend existing default block list;
 
 Auto mode no longer requires opt-in consent as of v2.1.152 — cycling to auto via Shift+Tab activates immediately without a consent prompt.
 
-Auto mode on Bedrock, Vertex, and Foundry: available for Opus 4.7 and Opus 4.8 — opt in with `CLAUDE_CODE_ENABLE_AUTO_MODE=1`. (v2.1.158)
+Auto mode on Bedrock, Vertex, and Foundry: available for Claude Sonnet 5, Opus 4.7, and Opus 4.8 — opt in with `CLAUDE_CODE_ENABLE_AUTO_MODE=1`. Sonnet 5 support added in v2.1.197. (v2.1.158)
 
 `--enable-auto-mode` (adds to Shift+Tab cycle), `--allow-dangerously-skip-permissions` (adds bypassPermissions to cycle without activating it). Auto mode strips blanket shell rules on entry: `Bash(*)`, `PowerShell(*)`, wildcarded interpreters like `Bash(python*)`, package-manager run commands, and `Agent` allow rules. Narrow rules like `Bash(npm test)` carry over. Classifier never sees tool results (prevents injection). `PermissionDenied` hook fires on classifier denials (v2.1.88). `autoMode.environment` setting for trusted repos/buckets. Run `claude auto-mode defaults` to see full classifier rule lists.
 
