@@ -12,6 +12,7 @@
 | `statusline-setup` | Sonnet | Read/Edit | `/statusline` configuration |
 | `Claude Code Guide` | Haiku | Read-only | CC feature questions |
 
+- **Doc correction (v2.1.198)**: `Explore` now inherits the main conversation's model (capped at Opus on the Claude API) instead of always running on Haiku; on Bedrock/Vertex/Foundry/Claude Platform on AWS it inherits the model directly. Define a project/user `Explore` agent with `model: haiku` to keep the old fixed-Haiku behavior.
 - Resolution order: CLI `--agents` flag (1) > `.claude/agents/` (2) > `~/.claude/agents/` (3) > plugins (4)
 - Invoke: Agent tool with `subagent_type`, @-mention in interactive mode, or `claude --agent <name>`
 - Resume via `SendMessage` with agent ID; stopped subagents auto-resume in the background on receipt. Explore/Plan agents are one-shot (no agent ID returned); use general-purpose or a custom subagent when resumable work is needed. Requires `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`. Auto-compaction supported (`CLAUDE_AUTOCOMPACT_PCT_OVERRIDE` applies).
@@ -32,6 +33,10 @@
 - Subagent transcripts: `~/.claude/projects/{project}/{sessionId}/subagents/agent-{agentId}.jsonl`.
 - `isolation: "worktree"` frontmatter field: subagent runs in a temporary git worktree.
 - `CLAUDE_CODE_FORK_SUBAGENT=1`: enable forked subagents on external/non-Anthropic builds. (v2.1.117)
+- **Background by default (v2.1.198)**: subagents now run in the background by default; Claude runs foreground only when it needs the result before continuing. Background subagents still surface every permission prompt in the main session. Background agents now also auto-commit and open a draft PR when they finish code work. (v2.1.198)
+- **Explore/Plan opt-out**: `CLAUDE_CODE_DISABLE_EXPLORE_PLAN_AGENTS=1` removes the built-in Explore/Plan subagents (Claude reads/explores directly). `CLAUDE_AGENT_SDK_DISABLE_BUILTIN_AGENTS=1` removes all built-in agent types in non-interactive mode/Agent SDK. (v2.1.198)
+- **Subagent API-error handling (v2.1.199)**: a subagent that hits a rate limit or server error now returns partial work instead of failing outright. Foreground: partial output + a cut-off note (or the `Agent terminated early due to an API error` failure if nothing was produced yet). Background: marked failed, with the error and its last output included in the message to the parent.
+- **SendMessage identity check (v2.1.199)**: verifies a name still refers to the same agent reached earlier in the conversation; if a re-spawned agent reused the name, the send is refused and the error names the new target — address the earlier agent by its agent ID instead. Resets on `/clear`.
 
 ## Custom Agents
 
@@ -40,7 +45,7 @@ File: `.claude/agents/<name>.md` or `~/.claude/agents/<name>.md`. YAML frontmatt
 Key frontmatter fields: `name` (required), `description` (required), `model` (opus/sonnet/haiku/inherit), `tools`, `disallowedTools`, `memory` (user/project/local), `permissionMode`, `maxTurns`, `skills` (preload into context), `mcpServers` (scope MCP -- inline defs or name references), `hooks` (scoped lifecycle hooks), `background`, `effort` (low/medium/high/max), `isolation` (worktree), `initialPrompt`, `color` (red/blue/green/yellow/purple/orange/pink/cyan -- display color in task list and transcript).
 
 Restrict spawnable subagents: `tools: Agent(worker, researcher), Read, Bash` -- allowlist syntax.
-Manage interactively: `/agents` command.
+Manage interactively: `/agents` command. **Doc correction (v2.1.198)**: `/agents` no longer opens an interactive wizard — running it prints a reminder to ask Claude or edit `.claude/agents/`/`~/.claude/agents/` directly; frontmatter and file locations are unchanged.
 
 ## Agent Teams
 
@@ -52,6 +57,8 @@ Architecture: lead + teammates + shared task list + mailbox. Active tools: `Send
 
 Display mode: `teammateMode` setting (`~/.claude/settings.json`) -- default changed to `"in-process"` (v2.1.179; was `"auto"`). Options: `"in-process"`, `"auto"` (split panes when already in tmux/iTerm2, else in-process), `"tmux"`, `"iterm2"` (iTerm2 native panes, requires `it2` CLI; v2.1.186). Override per-session: `claude --teammate-mode auto`. Split pane requires tmux or iTerm2 with it2 CLI. Idle teammate rows auto-hide after 30s and reappear on next turn (v2.1.181).
 Teammates inherit the lead's effort level; in split-pane mode this applies from v2.1.186 (earlier split-pane sessions did not pass the lead's effort to teammates). (v2.1.186)
+
+Idle teammate rows stay visible while any teammate/subagent is still working; once everyone is idle, rows hide after 30s (v2.1.181-198 hid each row 30s after its own turn, even while others were busy). More than 3 idle teammates collapse into one "N idle agents" row (Enter to expand). A teammate whose turn ends on an API error notifies the lead with the error text instead of appearing to finish normally; a message from the lead or another teammate wakes an in-process teammate waiting to retry a failed API request. (v2.1.198/v2.1.199)
 
 Require plan approval: tell lead to "require plan approval before they make changes" -- teammate stays in read-only plan mode until lead approves. Lead makes approval decisions autonomously.
 

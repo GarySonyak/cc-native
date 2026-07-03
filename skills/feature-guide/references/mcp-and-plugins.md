@@ -22,6 +22,8 @@ Managed MCP policy: `allowedMcpServers`/`deniedMcpServers` in managed settings r
 
 `list_changed` notification support: MCP servers can send `list_changed` notifications to dynamically refresh their available tools, prompts, and resources mid-session — Claude Code auto-refreshes capabilities on receipt, no disconnect/reconnect needed.
 
+`_meta["anthropic/requiresUserInteraction"]: true` on a tool's `tools/list` entry (server-side): forces a permission prompt on every call to that tool, even in `acceptEdits`/`auto`/`bypassPermissions`, with no "don't ask again" option; `dontAsk` mode denies the call instead of prompting. Use for consent/access-grant tools where auto-approval would defeat the point. (v2.1.199)
+
 ## Plugins
 
 Bundle skills + hooks + agents + MCP servers into distributable unit. `plugin.json` manifest. Plugin `hooks.json` for hook definitions. Distribute via marketplaces. Plugin agents cannot use `hooks`, `mcpServers`, or `permissionMode` frontmatter (security restriction). Plugin `bin/` directory: executables added to Bash tool's PATH while plugin is enabled. `/reload-plugins` reloads without restarting. `--plugin-dir` flag for local testing. Plugin LSP servers via `.lsp.json`. Plugin default settings via `settings.json` at plugin root (`agent` and `subagentStatusLine` keys supported).

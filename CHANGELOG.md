@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.62] — 2026-07-03
+
+- # Lean Handoff — 2026-07-03-071026 — slug=cc-native
+
 ## [0.2.61] — 2026-07-01
 
 - Telegram MCP not available — logging fallback:

@@ -1,6 +1,6 @@
 {
   "name": "cc-native",
-  "version": "0.2.61",
+  "version": "0.2.62",
   "description": "Keep Claude Code feature-aware against weekly releases: feature-guide skill, edit-time reminder + lint + audit for .claude/ artifacts.",
   "author": {
     "name": "Gary Sonyak"

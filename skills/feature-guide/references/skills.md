@@ -33,6 +33,8 @@ Key fields: `name`, `description` (recommended, cap 250 chars), `when_to_use` (e
 
 Invoked via `/skill-name` or auto-loaded when relevant. Dynamic context: `!\`command\`` runs shell before prompt (multi-line via fenced ` ```! ` block). String substitutions: `$ARGUMENTS`, `$ARGUMENTS[N]`, `$N`, `${CLAUDE_SESSION_ID}`, `${CLAUDE_SKILL_DIR}`, `${CLAUDE_EFFORT}` (current effort level: low/medium/high/xhigh/max; `ultracode` is not a distinct level — reports as `xhigh`; adapt skill instructions to active effort). (v2.1.120) Use `\$` before a digit to emit a literal `$` (e.g., `\$1` → `$1` in output; prevents argument substitution). (v2.1.163)
 
+Stacking multiple skill invocations in one message (e.g. `/skill-a /skill-b do XYZ`) loads every named skill (up to 6) and passes the trailing text to each as arguments. (v2.1.199)
+
 Indexed args use shell-style quoting — wrap multi-word values in quotes.
 
 ## Invocation control

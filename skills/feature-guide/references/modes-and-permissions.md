@@ -79,6 +79,17 @@ New built-in blocks added to the classifier (extend existing default block list;
 - Sending data to trusted domains/buckets/services listed in `autoMode.environment`
 - Claude in Chrome navigation to trusted internal domain, localhost, or named URL
 
+## Auto mode safety defaults further expanded (v2.1.198)
+
+Extends the v2.1.195 list:
+- `git commit --amend` also blocked when the HEAD commit was already pushed. A message-only reword (`--amend -m`, nothing newly staged, on a commit Claude created this session) is still allowed.
+- New blocks: deleting files in `/tmp`/`$TMPDIR`/a shared scratch dir by wildcard, glob, or age filter (rather than a specific named path); sharing unauthorized sensitive details with people or shared systems; sending keystrokes to Claude Code's own tmux pane (self-permission escalation).
+- Sandbox network verdicts are now cached per host+port instead of re-classified on every connection. An allow is invalidated when new content enters the conversation; a deny is dropped at turn end interactively, or reused for the rest of the run in non-interactive/SDK sessions.
+
+## MCP tool consent bypass (v2.1.199)
+
+An MCP tool marked with `_meta["anthropic/requiresUserInteraction"]` skips the classifier and always prompts directly in auto mode (no "don't ask again"); denied outright in `dontAsk` mode; still prompts even in `bypassPermissions`. See mcp-and-plugins.md.
+
 ## Security hardening (v2.1.113)
 
 `sandbox.network.deniedDomains` setting blocks specific domains. Bash deny rules match commands wrapped in `env`/`sudo`/`watch`/`ionice`/`setsid`. `Bash(find:*)` no longer auto-approves `find -exec`/`-delete`. macOS `/private/{etc,var,tmp,home}` treated as dangerous.
