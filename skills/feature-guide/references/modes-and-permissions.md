@@ -17,6 +17,8 @@ Read-only exploration -- no edits allowed. Outputs plan file to `.claude/plans/`
 | `dontAsk` | Only pre-approved tools; explicit `ask` rules also denied (never in cycle) |
 | `bypassPermissions` | Skip all checks (only if started with it) |
 
+`default` mode's UI label is now **Manual** in the CLI, `claude --help`, VS Code, and JetBrains; the config value stays `default`, and `manual` is now an accepted alias anywhere a mode value is set (`--permission-mode manual`, `defaultMode: "manual"`, subagent `permissionMode: manual` frontmatter). Requires v2.1.200+. (v2.1.200)
+
 CLI: `--permission-mode <mode>`. Setting: `permissions.defaultMode`. Scheduled tasks: use explicit `--allowedTools` in wrapper.
 
 ## Protected files & dirs
@@ -85,6 +87,12 @@ Extends the v2.1.195 list:
 - `git commit --amend` also blocked when the HEAD commit was already pushed. A message-only reword (`--amend -m`, nothing newly staged, on a commit Claude created this session) is still allowed.
 - New blocks: deleting files in `/tmp`/`$TMPDIR`/a shared scratch dir by wildcard, glob, or age filter (rather than a specific named path); sharing unauthorized sensitive details with people or shared systems; sending keystrokes to Claude Code's own tmux pane (self-permission escalation).
 - Sandbox network verdicts are now cached per host+port instead of re-classified on every connection. An allow is invalidated when new content enters the conversation; a deny is dropped at turn end interactively, or reused for the rest of the run in non-interactive/SDK sessions.
+
+## Auto mode safety defaults further expanded (v2.1.200)
+
+Extends the v2.1.198/v2.1.195 lists:
+- New blocks: tampering with tests/assertions that guard security behavior (auth, access control, input validation, sandboxing); deleting/tearing down a stateful resource Claude didn't create this session, when unnamed and no more specific rule applies; repointing an API base URL, proxy, webhook receiver, or registry mirror at an unfit third-party host (including example files like `.env.example`); retargeting `git remote set-url`/`git remote add` push destination unless the new remote was named; pushing secrets or other confidential material to a repo known to be public; opening a PR against a different repo/org, `gh repo fork`, or pushing to a third-party repo, unless that target was named.
+- Outbound-content rule extended: PR/issue bodies, commit messages, and comments now count as outbound content for the v2.1.198 unauthorized-sensitive-sharing block when the repo is outside the trust boundary or public (including your own org's public repos).
 
 ## MCP tool consent bypass (v2.1.199)
 

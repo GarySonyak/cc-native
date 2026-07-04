@@ -29,6 +29,7 @@ Managed MCP policy: `allowedMcpServers`/`deniedMcpServers` in managed settings r
 Bundle skills + hooks + agents + MCP servers into distributable unit. `plugin.json` manifest. Plugin `hooks.json` for hook definitions. Distribute via marketplaces. Plugin agents cannot use `hooks`, `mcpServers`, or `permissionMode` frontmatter (security restriction). Plugin `bin/` directory: executables added to Bash tool's PATH while plugin is enabled. `/reload-plugins` reloads without restarting. `--plugin-dir` flag for local testing. Plugin LSP servers via `.lsp.json`. Plugin default settings via `settings.json` at plugin root (`agent` and `subagentStatusLine` keys supported).
 
 Submit to official marketplace: `claude.ai/settings/plugins/submit` or `platform.claude.com/plugins/submit`.
+Doc correction: these forms route to **community-marketplace review only** — updated claude.ai form path is `claude.ai/admin-settings/directory/submissions/plugins/new` (needs Team/Enterprise + directory management access; individual authors use the Console form instead). The official marketplace (`claude-plugins-official`) is curated directly by Anthropic with no application process. Approved community submissions are pinned to a commit SHA in the `anthropics/claude-plugins-community` catalog and sync to `marketplace.json` nightly.
 
 `monitors` manifest key: declare background monitors bundled with plugin; started automatically when plugin enabled. (v2.1.105)
 

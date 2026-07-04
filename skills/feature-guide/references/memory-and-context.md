@@ -14,6 +14,8 @@ Claude writes notes to `~/.claude/projects/<project>/memory/MEMORY.md` automatic
 
 Target under 200 lines; use `@path/to/file` imports; `/init` generates initial file (set `CLAUDE_CODE_NEW_INIT=true` for interactive flow). `--add-dir` directories don't load CLAUDE.md by default -- set `CLAUDE_CODE_ADDITIONAL_DIRECTORIES_CLAUDE_MD=1` to load `CLAUDE.md`/`.claude/CLAUDE.md`/`.claude/rules/*.md`/`CLAUDE.local.md` from them. AGENTS.md: CC reads CLAUDE.md, import AGENTS.md with `@AGENTS.md` for cross-agent compatibility.
 
+Path-scoped `.claude/rules/*.md` (`paths:` frontmatter) trigger when Claude reads a matching file, including through a symlinked path back to the project directory (e.g. a symlinked checkout). (v2.1.198)
+
 ## Context Management
 
 `/compact` to summarize and free context. `/compact <focus>` to preserve specific topics. Deferred tools via `ToolSearch` -- only names loaded initially. `/context` to visualize usage. Skills load description only until invoked. Subagents get own fresh context (main conversation not bloated). `/btw` for side questions (no tools, answer discarded).

@@ -4,7 +4,7 @@
 
 | Tool | Notes |
 |------|-------|
-| `AskUserQuestion` | Presents multiple-choice questions to user to gather requirements or clarify ambiguity. Permission: No. |
+| `AskUserQuestion` | Presents multiple-choice questions to user to gather requirements or clarify ambiguity. Permission: No. Dialogs (and permission prompts, incl. plan approval) no longer auto-continue after 60s idle by default — v2.1.198/199 auto-continued unless `CLAUDE_AFK_TIMEOUT_MS` was set; opt back in via `/config`. (v2.1.200) |
 | `ListMcpResourcesTool` | Lists resources exposed by connected MCP servers. Permission: No. |
 | `ReadMcpResourceTool` | Reads a specific MCP resource by URI. Permission: No. |
 | `LSP` | Code intelligence (type errors, go-to-def, find refs). Requires code intelligence plugin + language server binary. |

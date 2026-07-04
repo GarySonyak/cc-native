@@ -19,7 +19,8 @@
 - **Doc correction (2026-06-29)**: `SendMessage` for subagent resumption (by agent ID) is available **without** `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`. Only structured team-protocol messages (teammate-to-teammate comms) require agent teams enabled.
 - Subagents **cannot** spawn other subagents. **Update (v2.1.172)**: Sub-agents can now spawn sub-agents. **Foreground** subagents: unlimited depth. **Background** subagents: depth-5 cap (Agent tool not provided beyond depth 5). To enable in a custom agent: include `Agent` in its `tools` list; to prevent: omit `Agent` or add to `disallowedTools`. `Agent(type)` allowlist syntax is ignored inside a subagent context (type lists have no effect). Forks can spawn non-fork subagents but cannot spawn other forks.
 - Background vs foreground: Ctrl+B to background a running subagent. As of v2.1.186, background subagents surface permission prompts in the main session (previously auto-denied). Prompt names the requesting subagent; press Esc to deny that one tool call without stopping the subagent. (v2.1.186)
-- Model override: `CLAUDE_CODE_SUBAGENT_MODEL` env var (highest priority over per-invocation model and frontmatter).
+- Model override: `CLAUDE_CODE_SUBAGENT_MODEL` env var (highest priority over per-invocation model and frontmatter). Setting it to `inherit` now behaves as if unset — resolution falls through to the per-invocation `model` param, then frontmatter (v2.1.196; earlier versions forced the main conversation's model and ignored both).
+- Subagents inherit the main conversation's extended-thinking on/off state; no per-subagent thinking setting. Before v2.1.198, subagents always ran with thinking disabled regardless of the session. (v2.1.198)
 - `claude agents` CLI command lists configured agents without starting a session. In v2.1.139+ (Agent View research preview), also opens a unified session list showing all running CC sessions and their status. `claude agents --json` outputs live sessions as JSON for scripting (tmux-resurrect, status bars, session pickers). (v2.1.145)
 - `claude agents` rows show `done/total` count before status detail when work is fanned out across agents. (v2.1.161)
 - `claude agents --json` now also shows what each waiting session is blocked on (permission prompt, user input, etc.). (v2.1.162)
@@ -32,7 +33,7 @@
 - `claude agents` dispatched session config flags (v2.1.142): `--add-dir`, `--settings`, `--mcp-config`, `--plugin-dir`, `--permission-mode`, `--model`, `--effort`, `--dangerously-skip-permissions`.
 - Subagent transcripts: `~/.claude/projects/{project}/{sessionId}/subagents/agent-{agentId}.jsonl`.
 - `isolation: "worktree"` frontmatter field: subagent runs in a temporary git worktree.
-- `CLAUDE_CODE_FORK_SUBAGENT=1`: enable forked subagents on external/non-Anthropic builds. (v2.1.117)
+- `CLAUDE_CODE_FORK_SUBAGENT=1`: enable forked subagents on external/non-Anthropic builds. (v2.1.117) The `/fork` command itself is enabled by default from v2.1.161 onward; the env var is only needed on external/non-Anthropic builds or versions before v2.1.161.
 - **Background by default (v2.1.198)**: subagents now run in the background by default; Claude runs foreground only when it needs the result before continuing. Background subagents still surface every permission prompt in the main session. Background agents now also auto-commit and open a draft PR when they finish code work. (v2.1.198)
 - **Explore/Plan opt-out**: `CLAUDE_CODE_DISABLE_EXPLORE_PLAN_AGENTS=1` removes the built-in Explore/Plan subagents (Claude reads/explores directly). `CLAUDE_AGENT_SDK_DISABLE_BUILTIN_AGENTS=1` removes all built-in agent types in non-interactive mode/Agent SDK. (v2.1.198)
 - **Subagent API-error handling (v2.1.199)**: a subagent that hits a rate limit or server error now returns partial work instead of failing outright. Foreground: partial output + a cut-off note (or the `Agent terminated early due to an API error` failure if nothing was produced yet). Background: marked failed, with the error and its last output included in the message to the parent.
@@ -43,6 +44,8 @@
 File: `.claude/agents/<name>.md` or `~/.claude/agents/<name>.md`. YAML frontmatter + markdown system prompt.
 
 Key frontmatter fields: `name` (required), `description` (required), `model` (opus/sonnet/haiku/inherit), `tools`, `disallowedTools`, `memory` (user/project/local), `permissionMode`, `maxTurns`, `skills` (preload into context), `mcpServers` (scope MCP -- inline defs or name references), `hooks` (scoped lifecycle hooks), `background`, `effort` (low/medium/high/max), `isolation` (worktree), `initialPrompt`, `color` (red/blue/green/yellow/purple/orange/pink/cyan -- display color in task list and transcript).
+
+`permissionMode` accepts `manual` as an alias for `default` (v2.1.200).
 
 Restrict spawnable subagents: `tools: Agent(worker, researcher), Read, Bash` -- allowlist syntax.
 Manage interactively: `/agents` command. **Doc correction (v2.1.198)**: `/agents` no longer opens an interactive wizard — running it prints a reminder to ask Claude or edit `.claude/agents/`/`~/.claude/agents/` directly; frontmatter and file locations are unchanged.

@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.63] — 2026-07-04
+
+- # Lean Handoff — 2026-07-04-071043 — slug=cc-native
+
 ## [0.2.62] — 2026-07-03
 
 - # Lean Handoff — 2026-07-03-071026 — slug=cc-native
