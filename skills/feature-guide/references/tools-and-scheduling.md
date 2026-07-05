@@ -4,19 +4,21 @@
 
 | Tool | Notes |
 |------|-------|
-| `AskUserQuestion` | Presents multiple-choice questions to user to gather requirements or clarify ambiguity. Permission: No. Dialogs (and permission prompts, incl. plan approval) no longer auto-continue after 60s idle by default — v2.1.198/199 auto-continued unless `CLAUDE_AFK_TIMEOUT_MS` was set; opt back in via `/config`. (v2.1.200) |
+| `AskUserQuestion` | Presents multiple-choice questions to user to gather requirements or clarify ambiguity. Permission: No. Questions stay open indefinitely by default (no idle auto-continue) — set `askUserQuestionTimeout` (`60s`/`5m`/`10m`) in settings or via the "Question auto-continue timeout" row in `/config` to opt back into auto-continue. Permission prompts (incl. plan approval) never auto-resolve on idle, unlike v2.1.198/199 which auto-continued both after 60s via `CLAUDE_AFK_TIMEOUT_MS`. (v2.1.200) |
 | `ListMcpResourcesTool` | Lists resources exposed by connected MCP servers. Permission: No. |
 | `ReadMcpResourceTool` | Reads a specific MCP resource by URI. Permission: No. |
+| `ReportFindings` | Reports `/code-review` findings as a structured list (file, summary, failure scenario, optional `category` slug v2.1.199) for rendering instead of plain text. Permission: No. (v2.1.196) |
+| `SendUserFile` | Sends a file (report, diagram, screenshot) from the session to the user with an optional caption; `display: render\|attach` controls presentation (v2.1.196). Requires Remote Control or a managed cloud session (e.g. Claude Code on the web); not on Bedrock/Vertex/Foundry. Permission: No. |
 | `LSP` | Code intelligence (type errors, go-to-def, find refs). Requires code intelligence plugin + language server binary. |
 | `PowerShell` | Opt-in on all platforms (Windows, Linux, macOS, WSL). Set `CLAUDE_CODE_USE_POWERSHELL_TOOL=1`. Windows: auto-detects pwsh.exe (PS 7+) vs powershell.exe (PS 5.1). Linux/macOS/WSL: requires `pwsh` (PS 7+). PowerShell profiles not loaded; sandboxing not supported on Windows. PowerShell commands auto-approvable in permission mode. (v2.1.114/v2.1.119) |
 | `CronCreate/List/Delete` | Scheduled tasks within session. |
 | `TaskOutput` | Deprecated -- use `Read` on output file path instead. |
 | `TeamCreate` / `TeamDelete` | **Removed in v2.1.178.** Spawning a teammate with the Agent tool is now sufficient to form a team — no `TeamCreate` step needed. `TeamDelete` also removed; teams are auto-cleaned when the session exits. `SendMessage` and Task tools remain for team coordination. |
-| `TaskStop` | Kill a running background task by ID. |
+| `TaskStop` | Kill a running background task by ID. Also accepts an agent-team teammate or a named background agent by agent ID or name. (v2.1.198) |
 | `TodoWrite` | Disabled by default as of v2.1.142; Task tools (`TaskCreate`/`TaskGet`/`TaskList`/`TaskUpdate`) are now the default. Set `CLAUDE_CODE_ENABLE_TASKS=0` to re-enable `TodoWrite` (disables Task tools). |
 | `ScheduleWakeup` | Internal — Claude calls this automatically at end of each self-paced `/loop` iteration to schedule the next one (1min–1hr). Not user-invocable directly. Pending wakeup visible in `session_crons` field of Stop hook input. Not available on Bedrock/Vertex/Foundry. |
 | `Bash` | `$CLAUDE_CODE_SESSION_ID` is injected into every Bash tool subprocess — scripts can use it for logging or output correlation. (v2.1.132) Failed Bash commands in a parallel batch no longer cancel other calls in the same batch. (v2.1.161) |
-| `Monitor` | Run command in background; each output line fed back to Claude mid-conversation. Watch logs, poll CI, tail files. (v2.1.98) |
+| `Monitor` | Run command in background; each output line fed back to Claude mid-conversation. Watch logs, poll CI, tail files. Can also take a `ws` input (`url`/`protocols`) to open a WebSocket directly instead of polling — each text message becomes an event; binary/oversized (>1MiB) messages end the watch. (v2.1.98; WebSocket source v2.1.195) |
 | `ShareOnboardingGuide` | Uploads `ONBOARDING.md` and returns a share link teammates can open in Claude Code. Called from `/team-onboarding`. Requires claude.ai subscription (Pro/Max/Team/Enterprise). Permission required. |
 | `PushNotification` | Sends desktop notification + phone push when Remote Control is connected. Not available on Bedrock/Vertex/Foundry (Anthropic infra only). Permission: No. (v2.1.139) |
 | `RemoteTrigger` | Creates/updates/runs/lists Routines on claude.ai. Backs `/schedule`. Requires Pro/Max/Team/Enterprise on Anthropic. Not on Bedrock/Vertex/Foundry. Permission: No. (v2.1.139) |

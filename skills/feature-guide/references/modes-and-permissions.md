@@ -94,6 +94,12 @@ Extends the v2.1.198/v2.1.195 lists:
 - New blocks: tampering with tests/assertions that guard security behavior (auth, access control, input validation, sandboxing); deleting/tearing down a stateful resource Claude didn't create this session, when unnamed and no more specific rule applies; repointing an API base URL, proxy, webhook receiver, or registry mirror at an unfit third-party host (including example files like `.env.example`); retargeting `git remote set-url`/`git remote add` push destination unless the new remote was named; pushing secrets or other confidential material to a repo known to be public; opening a PR against a different repo/org, `gh repo fork`, or pushing to a third-party repo, unless that target was named.
 - Outbound-content rule extended: PR/issue bodies, commit messages, and comments now count as outbound content for the v2.1.198 unauthorized-sensitive-sharing block when the repo is outside the trust boundary or public (including your own org's public repos).
 
+## Auto mode classifier trust boundary (v2.1.200)
+
+The classifier trusts your working directory and the remotes configured when the session started. A remote added or repointed mid-session (`git remote add`/`git remote set-url`) is **not** trusted for push-destination checks until you name it explicitly; before v2.1.200, mid-session remotes were trusted like pre-existing ones.
+
+Auto mode on signed-in Claude apps gateway sessions also requires `CLAUDE_CODE_ENABLE_AUTO_MODE=1` (same opt-in as Bedrock/Vertex/Foundry) — it's a separate provider class, not reachable via the Anthropic API opt-in-by-default path.
+
 ## MCP tool consent bypass (v2.1.199)
 
 An MCP tool marked with `_meta["anthropic/requiresUserInteraction"]` skips the classifier and always prompts directly in auto mode (no "don't ask again"); denied outright in `dontAsk` mode; still prompts even in `bypassPermissions`. See mcp-and-plugins.md.

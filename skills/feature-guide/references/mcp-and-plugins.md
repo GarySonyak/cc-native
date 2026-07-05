@@ -24,6 +24,10 @@ Managed MCP policy: `allowedMcpServers`/`deniedMcpServers` in managed settings r
 
 `_meta["anthropic/requiresUserInteraction"]: true` on a tool's `tools/list` entry (server-side): forces a permission prompt on every call to that tool, even in `acceptEdits`/`auto`/`bypassPermissions`, with no "don't ask again" option; `dontAsk` mode denies the call instead of prompting. Use for consent/access-grant tools where auto-approval would defeat the point. (v2.1.199)
 
+`claude mcp list`/`claude mcp get`: as of v2.1.196, project-scoped `.mcp.json` server approvals are read only from settings files not checked into the repo, until the workspace-trust dialog is accepted — a freshly cloned repo can't self-approve its own servers via a committed `enableAllProjectMcpServers`/`enabledMcpjsonServers`.
+
+`CLAUDE_CODE_MCP_TOOL_IDLE_TIMEOUT`: a tool call to a remote HTTP/SSE/WebSocket/claude.ai-connector server that sends no response or progress notification for 5 minutes now aborts instead of waiting for the full wall-clock timeout. Set in ms; `0` disables the check. Stdio servers aren't subject to it. (v2.1.187)
+
 ## Plugins
 
 Bundle skills + hooks + agents + MCP servers into distributable unit. `plugin.json` manifest. Plugin `hooks.json` for hook definitions. Distribute via marketplaces. Plugin agents cannot use `hooks`, `mcpServers`, or `permissionMode` frontmatter (security restriction). Plugin `bin/` directory: executables added to Bash tool's PATH while plugin is enabled. `/reload-plugins` reloads without restarting. `--plugin-dir` flag for local testing. Plugin LSP servers via `.lsp.json`. Plugin default settings via `settings.json` at plugin root (`agent` and `subagentStatusLine` keys supported).

@@ -47,5 +47,7 @@
 - `respondToBashCommands`: `false` opts out of `!` bash commands automatically triggering Claude's response loop (default `true` as of v2.1.186 — `!` commands now elicit an automatic Claude response). (v2.1.186)
 - `sandbox.credentials`: controls whether sandboxed Bash commands can read credential files and secret environment variables; set to restrict access (new security boundary for sandbox mode). (v2.1.187)
 - `autoMode.classifyAllShell`: `true` routes ALL Bash/PowerShell commands through the auto-mode classifier — including reads and working-dir edits normally auto-approved in auto mode. Tightens auto mode safety at the cost of slightly more latency per shell command. (v2.1.193)
+- `askUserQuestionTimeout`: idle auto-continue delay for `AskUserQuestion` dialogs — `60s`/`5m`/`10m`; unset = never auto-continues. Does not apply to permission prompts. (v2.1.200)
+- `disableClaudeAiConnectors`: `true` disables claude.ai MCP connectors in Claude Code (any-source-true: a project-level `false` cannot re-enable what user/policy `true` disabled). Env var equivalent: `ENABLE_CLAUDEAI_MCP_SERVERS=false`.
 
 Managed-only settings (`disable*`, `allow*Only`, `sandbox.*.allowManaged*Only`, plugin/marketplace policy keys like `pluginTrustMessage`/`strictKnownMarketplaces`/`blockedMarketplaces`/`channelsEnabled`/`allowedChannelPlugins`, `minimumVersion`, `wslInheritsWindowsSettings`, `subagentStatusLine`) intentionally excluded -- see `/en/settings#available-settings` for the full enterprise list.
