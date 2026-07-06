@@ -21,7 +21,11 @@
 
 `command` (shell), `http` (webhook), `prompt` (single-turn LLM eval), `agent` (multi-turn with tools, up to 50 tool-use turns, default 60s timeout), `mcp_tool` (invoke MCP tool directly, v2.1.118). Command hooks: optional `args: string[]` field runs command in exec mode (bypasses shell — no interpolation, avoids injection); without `args`, command string is passed to shell. (v2.1.139)
 
-Common per-hook fields: `type` (required), `if` (permission rule filter, tool events only), `timeout` (seconds, default 600; UserPromptSubmit default 30), `statusMessage` (custom spinner text shown while hook runs), `once` (bool: fire only once per session; only honored in skill/agent frontmatter hooks). Command hook async fields: `async: true` — runs hook in background without blocking the model loop; `asyncRewake: true` — implies `async`, and additionally wakes Claude when the background hook exits code 2; hook's stderr (or stdout if stderr is empty) is shown to Claude as a system reminder so it can react to long-running background failures.
+Common per-hook fields: `type` (required), `if` (permission rule filter, tool events only), `timeout` (seconds, default 600 for command/http/mcp_tool; UserPromptSubmit lowers to 30, MessageDisplay to 10, `prompt` type to 30, `agent` type to 60), `statusMessage` (custom spinner text shown while hook runs), `once` (bool: fire only once per session; only honored in skill/agent frontmatter hooks). Command hook async fields: `async: true` — runs hook in background without blocking the model loop; `asyncRewake: true` — implies `async`, and additionally wakes Claude when the background hook exits code 2; hook's stderr (or stdout if stderr is empty) is shown to Claude as a system reminder so it can react to long-running background failures. Command hooks also accept `shell: "bash"|"powershell"` (default bash) to run that specific hook via PowerShell regardless of the global `CLAUDE_CODE_USE_POWERSHELL_TOOL` setting. HTTP hooks (`type: "http"`) take `url` (required), `headers`, and `allowedEnvVars` (env var names whose values `$VAR`/`${VAR}` in `headers` may resolve to; unlisted vars resolve empty).
+
+Path placeholders usable in any hook command/args: `${CLAUDE_PROJECT_DIR}` (project root), `${CLAUDE_PLUGIN_ROOT}` (plugin's versioned install path), `${CLAUDE_PLUGIN_DATA}` (plugin's persistent data directory — survives plugin updates, unlike `CLAUDE_PLUGIN_ROOT`).
+
+`PermissionRequest` hooks don't fire in non-interactive mode (`-p` flag) since there's no dialog to answer — use `PreToolUse` for automated permission decisions there instead.
 
 ## Matchers
 
@@ -53,17 +57,22 @@ Browse: `/hooks`. Disable all: `disableAllHooks: true`.
 - `ConfigChange`: matcher filters by config type: `user_settings`, `project_settings`, `local_settings`, `policy_settings`, `skills`.
 - `InstructionsLoaded`: matcher filters by load reason: `session_start`, `nested_traversal`, `path_glob_match`, `include`, `compact`.
 - `SessionEnd`: matcher filters by reason: `clear`, `resume`, `logout`, `prompt_input_exit`, `bypass_permissions_disabled`, `other`.
-- `Notification`: matcher filters by notification type: `permission_prompt` (tool-use approval needed), `idle_prompt` (Claude waiting for next message), `auth_success` (authentication completed), `elicitation_dialog` (MCP server opened elicitation form), `elicitation_complete` (form submitted/dismissed), `elicitation_response` (response sent back to server). Empty matcher fires on all notification types.
+- `Notification`: matcher filters by notification type: `permission_prompt` (tool-use approval needed), `idle_prompt` (Claude waiting for next message), `auth_success` (authentication completed), `elicitation_dialog` (MCP server opened elicitation form), `elicitation_complete` (form submitted/dismissed), `elicitation_response` (response sent back to server), `agent_needs_input`/`agent_completed` (background session needs input / finishes or fails; fire only while Agent View is open, v2.1.198). Empty matcher fires on all notification types.
 - `TeammateIdle`: exit code 2 to send feedback and keep teammate working (agent teams).
 - `TaskCreated`/`TaskCompleted`: exit code 2 to prevent and send feedback.
 - `PreCompact`: exit code 2 to block compaction (v2.1.105).
-- `StopFailure`: matcher filters by error type: `rate_limit`, `authentication_failed`, `billing_error`, `invalid_request`, `server_error`, `max_output_tokens`, `unknown`.
+- `StopFailure`: matcher filters by error type: `rate_limit`, `overloaded`, `authentication_failed`, `oauth_org_not_allowed`, `billing_error`, `invalid_request`, `model_not_found`, `server_error`, `max_output_tokens`, `unknown`.
+- `Stop` block cap: Claude Code overrides a `Stop` hook after it blocks **8 times in a row** without progress (ends the turn with a warning instead). Check the `stop_hook_active` input field and exit 0 early if `true` to avoid tripping the cap on legitimate re-checks. Raise the cap with `CLAUDE_CODE_STOP_HOOK_BLOCK_CAP`.
 - `PostToolUse`/`PostToolUseFailure`: include `duration_ms` (v2.1.119); `PostToolUse` can replace tool output for any tool (v2.1.121).
 - All hooks: `effort.level` field in JSON input contains the active effort level (low/medium/high/xhigh/max). `$CLAUDE_EFFORT` env var also set for command hooks. Use to conditionally adjust hook behavior per effort. (v2.1.133)
 - All hooks (env vars): `CLAUDE_CODE_REMOTE` = `"true"` in remote environments; `CLAUDE_CODE_BRIDGE_SESSION_ID` = Remote Control session ID. (v2.1.199+)
 - `WorktreeCreate`: command hooks return path on stdout; HTTP hooks return `hookSpecificOutput.worktreePath`. Hook failure or missing path fails worktree creation.
 - `SessionStart`/`Setup`: `hookSpecificOutput.additionalContext` injects text into Claude's context. `SessionStart` also accepts plain stdout (single hook); `Setup` concatenates `additionalContext` from multiple hooks.
 - **`Stop`/`SubagentStop` hooks can return `hookSpecificOutput.additionalContext` (v2.1.163/164)**: these events join SessionStart/Setup/UserPromptSubmit in supporting the nested `hookSpecificOutput: { hookEventName: "...", additionalContext: "..." }` format to inject context. Note: the top-level `additionalContext` field in hook JSON output is available to all hooks (general); the nested `hookSpecificOutput.additionalContext` path is event-specific.
+
+## Multiple hooks on the same event
+
+All hooks matching an event run in parallel to completion before Claude Code merges results; one hook's `deny` doesn't stop sibling hooks from running their side effects. For `PreToolUse`, the most restrictive `permissionDecision` wins in the order `deny` > `defer` > `ask` > `allow`. A hook `"allow"` never overrides a `deny`/`ask` permission **rule** from settings (including managed settings) — hooks can tighten but not loosen what the rule system already decided. When multiple `PreToolUse` hooks return `updatedInput`, the last one to finish is applied (non-deterministic since hooks run in parallel) — avoid having more than one hook rewrite the same tool's input.
 
 ## Plugin hook gotchas
 

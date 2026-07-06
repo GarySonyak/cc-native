@@ -28,9 +28,13 @@ Managed MCP policy: `allowedMcpServers`/`deniedMcpServers` in managed settings r
 
 `CLAUDE_CODE_MCP_TOOL_IDLE_TIMEOUT`: a tool call to a remote HTTP/SSE/WebSocket/claude.ai-connector server that sends no response or progress notification for 5 minutes now aborts instead of waiting for the full wall-clock timeout. Set in ms; `0` disables the check. Stdio servers aren't subject to it. (v2.1.187)
 
+Plugin-provided MCP tools use the full name `mcp__plugin_<plugin-name>_<server-name>__<tool-name>` (any character outside `A-Z a-z 0-9 _ -` sanitized to `_`) — use this exact form in permission rules, a skill's `allowed-tools`, or a subagent's `tools` field, not the shorter `mcp__<server>__<tool>` form used for user-configured servers.
+
+`${CLAUDE_PLUGIN_DATA}`: a plugin's persistent data directory, distinct from `${CLAUDE_PLUGIN_ROOT}` (the versioned install path) — state written here survives plugin updates. Available in plugin `.mcp.json`/`plugin.json` server configs and hooks.
+
 ## Plugins
 
-Bundle skills + hooks + agents + MCP servers into distributable unit. `plugin.json` manifest. Plugin `hooks.json` for hook definitions. Distribute via marketplaces. Plugin agents cannot use `hooks`, `mcpServers`, or `permissionMode` frontmatter (security restriction). Plugin `bin/` directory: executables added to Bash tool's PATH while plugin is enabled. `/reload-plugins` reloads without restarting. `--plugin-dir` flag for local testing. Plugin LSP servers via `.lsp.json`. Plugin default settings via `settings.json` at plugin root (`agent` and `subagentStatusLine` keys supported).
+Bundle skills + hooks + agents + MCP servers into distributable unit. `plugin.json` manifest. Plugin `hooks.json` for hook definitions. Distribute via marketplaces. Plugin agents cannot use `hooks`, `mcpServers`, or `permissionMode` frontmatter (security restriction). Plugin `bin/` directory: executables added to Bash tool's PATH while plugin is enabled. `/reload-plugins` reloads without restarting — warns and skips the reload if it would change loaded MCP tools and invalidate the prompt cache; pass `--force` to proceed anyway. `--plugin-dir` flag for local testing. Plugin LSP servers via `.lsp.json`. Plugin default settings via `settings.json` at plugin root (`agent` and `subagentStatusLine` keys supported).
 
 Submit to official marketplace: `claude.ai/settings/plugins/submit` or `platform.claude.com/plugins/submit`.
 Doc correction: these forms route to **community-marketplace review only** — updated claude.ai form path is `claude.ai/admin-settings/directory/submissions/plugins/new` (needs Team/Enterprise + directory management access; individual authors use the Console form instead). The official marketplace (`claude-plugins-official`) is curated directly by Anthropic with no application process. Approved community submissions are pinned to a commit SHA in the `anthropics/claude-plugins-community` catalog and sync to `marketplace.json` nightly.

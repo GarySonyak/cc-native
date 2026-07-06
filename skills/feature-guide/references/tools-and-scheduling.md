@@ -44,7 +44,7 @@ Stop a running `/loop` between iterations with `Esc` (only affects `/loop`; task
 
 ## Session Management
 
-`/continue` resume last session. `/resume` pick from list. `--fork-session` branch without affecting original. `/branch` fork for exploration. `/teleport` move between surfaces. Sessions tied to directory -- use worktrees for parallel sessions on different branches.
+`/continue` resume last session. `/resume` pick from list. `--fork-session` branch without affecting original. `/branch` fork for exploration. `/teleport` move between surfaces. `/cd <path>` moves the session's working directory without breaking the prompt cache (new dir's CLAUDE.md appended as a message instead of rebuilding the system prompt); restrict targets with a `Cd(path)` permission rule. (v2.1.169) Sessions tied to directory -- use worktrees for parallel sessions on different branches.
 
 `/goal`: set completion condition; Claude works across turns until met; use for non-interactive autonomous tasks. (v2.1.139)
 Agent View (v2.1.139+, research preview): `claude agents` opens unified session list showing all running CC sessions. `/background` detaches current session as background agent and frees the terminal. Background sessions can now be resumed with `/resume` (marked `bg` in the list). (v2.1.144)

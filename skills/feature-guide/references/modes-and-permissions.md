@@ -42,6 +42,8 @@ Permission rules now support matching **tool input parameter values** via `Tool(
 
 Use in `permissions.allow` or `permissions.deny` to gate specific model/parameter combinations without blocking the tool entirely. (v2.1.178)
 
+`Cd(path)` permission rule restricts or disables which directories `/cd` can move a session into (v2.1.169+).
+
 ## Auto mode subagent spawn evaluation (v2.1.178)
 
 Auto mode now evaluates subagent spawns via the classifier **before** the subagent launches (previously only checked actions taken during the subagent's run). Dangerous delegated tasks blocked at spawn time. (v2.1.178)
@@ -114,7 +116,7 @@ Auto mode no longer requires opt-in consent as of v2.1.152 — cycling to auto v
 
 Auto mode on Bedrock, Vertex, and Foundry: available for Claude Sonnet 5, Opus 4.7, and Opus 4.8 — opt in with `CLAUDE_CODE_ENABLE_AUTO_MODE=1`. Sonnet 5 support added in v2.1.197. (v2.1.158)
 
-`--enable-auto-mode` (adds to Shift+Tab cycle), `--allow-dangerously-skip-permissions` (adds bypassPermissions to cycle without activating it). Auto mode strips blanket shell rules on entry: `Bash(*)`, `PowerShell(*)`, wildcarded interpreters like `Bash(python*)`, package-manager run commands, and `Agent` allow rules. Narrow rules like `Bash(npm test)` carry over. Classifier never sees tool results (prevents injection). `PermissionDenied` hook fires on classifier denials (v2.1.88). `autoMode.environment` setting for trusted repos/buckets. Run `claude auto-mode defaults` to see full classifier rule lists.
+`--enable-auto-mode` (adds to Shift+Tab cycle), `--allow-dangerously-skip-permissions` (adds bypassPermissions to cycle without activating it). Administrators can lock auto mode off entirely with `permissions.disableAutoMode: "disable"` in managed settings — overrides `CLAUDE_CODE_ENABLE_AUTO_MODE` and hides auto mode from the cycle for everyone. Auto mode strips blanket shell rules on entry: `Bash(*)`, `PowerShell(*)`, wildcarded interpreters like `Bash(python*)`, package-manager run commands, and `Agent` allow rules. Narrow rules like `Bash(npm test)` carry over. Classifier never sees tool results (prevents injection). `PermissionDenied` hook fires on classifier denials (v2.1.88). `autoMode.environment` setting for trusted repos/buckets. Run `claude auto-mode defaults` to see full classifier rule lists.
 
 Conversation-stated boundaries (e.g. "don't push") block classifier; lost after compaction -- use deny rules for hard guarantees.
 

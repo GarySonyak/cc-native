@@ -6,7 +6,7 @@ description: TRIGGER when designing, editing, or generating any Claude Code conf
 # Claude Code Native Architecture
 
 Quick reference for CC's native features. Source: code.claude.com/docs/en/. Updated by docs-monitor agent.
-Last updated: 2026-07-05
+Last updated: 2026-07-06
 
 ## Workflow rule (always-on while this skill is loaded)
 
