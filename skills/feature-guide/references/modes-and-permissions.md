@@ -19,6 +19,8 @@ Read-only exploration -- no edits allowed. Outputs plan file to `.claude/plans/`
 
 `default` mode's UI label is now **Manual** in the CLI, `claude --help`, VS Code, and JetBrains; the config value stays `default`, and `manual` is now an accepted alias anywhere a mode value is set (`--permission-mode manual`, `defaultMode: "manual"`, subagent `permissionMode: manual` frontmatter). Requires v2.1.200+. (v2.1.200)
 
+Remote Control mode reporting (v2.1.202): the permission-mode dropdown on claude.ai/mobile now shows the local session's actual mode live, including mode changes made from the terminal — except `bypassPermissions`, which a session never reports remotely. Before v2.1.202, Remote Control sessions didn't report their mode at all, so the app's dropdown could show a stale or wrong mode; permission prompts themselves always reflected the session's real mode regardless.
+
 CLI: `--permission-mode <mode>`. Setting: `permissions.defaultMode`. Scheduled tasks: use explicit `--allowedTools` in wrapper.
 
 ## Protected files & dirs

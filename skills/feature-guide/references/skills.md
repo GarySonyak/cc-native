@@ -51,6 +51,8 @@ Once invoked, `SKILL.md` content stays in conversation. Claude does **not** re-r
 
 If skill stops influencing behavior, the content is usually still present — strengthen description or use hooks to enforce. Re-invoke after compaction to restore full content.
 
+Re-invoking a skill whose rendered content is identical to the copy already in context now adds a short "already loaded" note instead of a duplicate copy; before v2.1.202, every re-invocation appended the full content again even when nothing had changed (e.g. same arguments, no new dynamic-context output). (v2.1.202)
+
 ## Other
 
 - Bundled: `/batch`, `/debug`, `/loop`, `/code-review [--fix] [--comment] [ultra]` (renamed from `/simplify` in v2.1.147; `--fix` applies findings to working tree, `--comment` posts findings as inline GitHub PR comments, `ultra` runs cloud multi-agent review; v2.1.152; optional effort-level arg). New in v2.1.145: `/run` (launch app to verify a change), `/verify` (confirm code change without tests), `/run-skill-generator` (record build/launch recipe so `/run`+`/verify` can follow it; run once per project).

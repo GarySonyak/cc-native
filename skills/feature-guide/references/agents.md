@@ -14,6 +14,8 @@
 
 - **Doc correction (v2.1.198)**: `Explore` now inherits the main conversation's model (capped at Opus on the Claude API) instead of always running on Haiku; on Bedrock/Vertex/Foundry/Claude Platform on AWS it inherits the model directly. Define a project/user `Explore` agent with `model: haiku` to keep the old fixed-Haiku behavior.
 - Resolution order: CLI `--agents` flag (1) > `.claude/agents/` (2) > `~/.claude/agents/` (3) > plugins (4)
+- **Doc correction**: full resolution order is actually Managed settings (1, org-wide, deployed via managed settings) > CLI `--agents` flag (2) > `.claude/agents/` (3) > `~/.claude/agents/` (4) > plugin `agents/` (5) — the line above omits the managed tier (enterprise-only, takes precedence over all other scopes).
+- `tools`/`disallowedTools` also accept MCP server-level patterns: `mcp__<server>` or `mcp__<server>__*` grants/removes every tool from that server in one entry; in `disallowedTools`, `mcp__*` removes every MCP tool from any server.
 - Invoke: Agent tool with `subagent_type`, @-mention in interactive mode, or `claude --agent <name>`
 - Resume via `SendMessage` with agent ID; stopped subagents auto-resume in the background on receipt. Explore/Plan agents are one-shot (no agent ID returned); use general-purpose or a custom subagent when resumable work is needed. Requires `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`. Auto-compaction supported (`CLAUDE_AUTOCOMPACT_PCT_OVERRIDE` applies).
 - **Doc correction (2026-06-29)**: `SendMessage` for subagent resumption (by agent ID) is available **without** `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`. Only structured team-protocol messages (teammate-to-teammate comms) require agent teams enabled.

@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.66] — 2026-07-07
+
+- # Lean Handoff — 2026-07-07-071309 — slug=cc-native
+
 ## [0.2.65] — 2026-07-06
 
 - No unpushed commits against `origin/main`. Worker is up (v13.10.2, 14447 observations). Now emitting the handoff.

@@ -65,6 +65,7 @@ Browse: `/hooks`. Disable all: `disableAllHooks: true`.
 - `Stop` block cap: Claude Code overrides a `Stop` hook after it blocks **8 times in a row** without progress (ends the turn with a warning instead). Check the `stop_hook_active` input field and exit 0 early if `true` to avoid tripping the cap on legitimate re-checks. Raise the cap with `CLAUDE_CODE_STOP_HOOK_BLOCK_CAP`.
 - `PostToolUse`/`PostToolUseFailure`: include `duration_ms` (v2.1.119); `PostToolUse` can replace tool output for any tool (v2.1.121).
 - All hooks: `effort.level` field in JSON input contains the active effort level (low/medium/high/xhigh/max). `$CLAUDE_EFFORT` env var also set for command hooks. Use to conditionally adjust hook behavior per effort. (v2.1.133)
+- All hooks: `prompt_id` — UUID for the current user prompt, included in every hook's JSON input; correlate multiple hook firings (PreToolUse, PostToolUse, etc.) back to the same user turn. (v2.1.196)
 - All hooks (env vars): `CLAUDE_CODE_REMOTE` = `"true"` in remote environments; `CLAUDE_CODE_BRIDGE_SESSION_ID` = Remote Control session ID. (v2.1.199+)
 - `WorktreeCreate`: command hooks return path on stdout; HTTP hooks return `hookSpecificOutput.worktreePath`. Hook failure or missing path fails worktree creation.
 - `SessionStart`/`Setup`: `hookSpecificOutput.additionalContext` injects text into Claude's context. `SessionStart` also accepts plain stdout (single hook); `Setup` concatenates `additionalContext` from multiple hooks.
