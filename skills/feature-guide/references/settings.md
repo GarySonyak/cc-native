@@ -43,6 +43,7 @@
 
 - `sandbox.allowAppleEvents`: `true` permits sandboxed Bash processes to send Apple Events on macOS (required for AppleScript and some GUI automations in sandbox mode). (v2.1.181)
 - `disableArtifact`: `true` disables the Artifact tool — prevents publishing session output as interactive pages on claude.ai. (v2.1.183)
+- `enableArtifact`: user-level override to re-enable the Artifact tool for yourself when a higher (e.g. managed/project) scope set `disableArtifact`.
 - `teammateMode` options now include `"iterm2"` — iTerm2 native split panes (requires `it2` CLI). Previously only `"in-process"`, `"auto"`, `"tmux"`. (v2.1.186)
 - `respondToBashCommands`: `false` opts out of `!` bash commands automatically triggering Claude's response loop (default `true` as of v2.1.186 — `!` commands now elicit an automatic Claude response). (v2.1.186)
 - `sandbox.credentials`: controls whether sandboxed Bash commands can read credential files and secret environment variables; set to restrict access (new security boundary for sandbox mode). (v2.1.187)

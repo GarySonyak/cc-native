@@ -32,6 +32,8 @@ Plugin-provided MCP tools use the full name `mcp__plugin_<plugin-name>_<server-n
 
 `${CLAUDE_PLUGIN_DATA}`: a plugin's persistent data directory, distinct from `${CLAUDE_PLUGIN_ROOT}` (the versioned install path) — state written here survives plugin updates. Available in plugin `.mcp.json`/`plugin.json` server configs and hooks.
 
+MCP `roots/list` request now also returns the session's additional working directories (`--add-dir`), not just the directory Claude Code was launched from. (v2.1.203)
+
 ## Plugins
 
 Bundle skills + hooks + agents + MCP servers into distributable unit. `plugin.json` manifest. Plugin `hooks.json` for hook definitions. Distribute via marketplaces. Plugin agents cannot use `hooks`, `mcpServers`, or `permissionMode` frontmatter (security restriction). Plugin `bin/` directory: executables added to Bash tool's PATH while plugin is enabled. `/reload-plugins` reloads without restarting — warns and skips the reload if it would change loaded MCP tools and invalidate the prompt cache; pass `--force` to proceed anyway. `--plugin-dir` flag for local testing. Plugin LSP servers via `.lsp.json`. Plugin default settings via `settings.json` at plugin root (`agent` and `subagentStatusLine` keys supported).

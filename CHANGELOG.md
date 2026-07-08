@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.67] — 2026-07-08
+
+- No untracked files. Now emitting the handoff as the final message.
+
 ## [0.2.66] — 2026-07-07
 
 - # Lean Handoff — 2026-07-07-071309 — slug=cc-native
