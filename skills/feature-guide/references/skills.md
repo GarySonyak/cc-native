@@ -62,9 +62,11 @@ Re-invoking a skill whose rendered content is identical to the copy already in c
 - Description budget: `skillListingBudgetFraction` setting (e.g. `0.02` = 2% of context) or `SLASH_COMMAND_TOOL_CHAR_BUDGET` env var (fixed char count). Per-skill cap: `maxSkillDescriptionChars` setting (default 1536 chars). Run `/doctor` to see if budget is overflowing and which skills are affected.
 - Skills from `--add-dir` directories are auto-loaded with live change detection.
 - `disableSkillShellExecution: true` in settings disables `` !`command` `` (managed policy). (v2.1.91)
-- `disableBundledSkills: true` in settings hides all bundled skills and built-in commands from the model (no auto-invoke, no listing); manual `/skill-name` invocations still work. (v2.1.169)
+- `disableBundledSkills: true` in settings hides all bundled skills and built-in commands from the model (no auto-invoke, no listing); manual `/skill-name` invocations still work. (v2.1.169) **Exception (v2.1.205)**: `/doctor` stays typable even when this is set (it became a bundled skill, not a built-in command, in v2.1.205). Hide it too with `DISABLE_DOCTOR_COMMAND` env var or `skillOverrides: {"doctor": "off"}`.
 - Live change detection: edits take effect within current session for `~/.claude/skills/`, project `.claude/skills/`, and `--add-dir` skills. New top-level dirs require restart.
 - Auto-discovery from nested `.claude/skills/` directories (monorepo support). (v2.1.178) Nested skills load **contextually** — a skill in `<dir>/.claude/skills/<name>/` only loads when Claude accesses files in `<dir>/`. Name clashes with parent-level skills are resolved as `<dir>:<name>` (e.g., `src:deploy` for a skill in `src/.claude/skills/deploy/`).
+- **Refinement (v2.1.203)**: both stay available on a name clash — invoking the unqualified name loads the project-root skill, and Claude Code appends the list of directory-qualified variants with an instruction to also invoke any variant whose directory holds the files being worked on. So `/deploy` alone can still trigger the nested `apps/web:deploy` variant when relevant; type the qualified name directly to run only that one.
+- `skillOverrides: "off"` also hides a skill from Remote Control and Agent SDK command listings, not just the terminal `/` menu. Invoking it by full name still errors instead of running. (v2.1.199)
 
 ## Restrict Claude's skill access
 

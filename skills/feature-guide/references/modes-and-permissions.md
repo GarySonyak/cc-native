@@ -23,6 +23,12 @@ Remote Control mode reporting (v2.1.202): the permission-mode dropdown on claude
 
 CLI: `--permission-mode <mode>`. Setting: `permissions.defaultMode`. Scheduled tasks: use explicit `--allowedTools` in wrapper.
 
+**Doc update**: current live docs describe the auto mode model requirement more simply — Anthropic API: Opus 4.6 or later, or Sonnet 4.6 or later (so this now includes Opus 4.8 too); Bedrock/Vertex/Foundry/Claude apps gateway: only Sonnet 5, Opus 4.7, Opus 4.8. No plan-tier distinction is called out anymore. The Team/Enterprise/API row above may be stale for the Anthropic-API case now that newer models qualify.
+
+`defaultMode: "auto"` is ignored when set in `.claude/settings.json` or `.claude/settings.local.json` (v2.1.142+, so a repo can't grant itself auto mode) — set it in `~/.claude/settings.json` (or managed settings) instead.
+
+`acceptEdits` mode also auto-approves PowerShell `Set-Content`, `Add-Content`, `Clear-Content`, and `Remove-Item` (plus common aliases) on in-scope paths, mirroring its Bash filesystem-command allowlist, when the PowerShell tool is enabled.
+
 ## Protected files & dirs
 
 Protected files (never auto-approved in most modes): `.gitconfig`, `.gitmodules`, `.bashrc`, `.bash_profile`, `.zshrc`, `.zprofile`, `.profile`, `.zshenv`, `.zlogin`, `.bash_login`, `.ripgreprc`, `.mcp.json`, `.claude.json`, `~/.config/git/`. (`.zshenv`, `.zlogin`, `.bash_login`, `~/.config/git/` added v2.1.160.) Protected dirs: `.git`, `.vscode`, `.idea`, `.husky`, `.cargo`, and `.claude` (except `.claude/worktrees` where Claude stores its own git worktrees). Note: as of v2.1.162, `.claude/commands`, `.claude/agents`, and `.claude/skills` are now also protected — the prior exceptions were removed. `.claude-plugin` removed from protected dirs. `bypassPermissions` bypasses ALL protected paths as of v2.1.126 (only `rm -rf /` and `rm -rf ~` still prompt). (v2.1.126)

@@ -19,3 +19,5 @@ Path-scoped `.claude/rules/*.md` (`paths:` frontmatter) trigger when Claude read
 ## Context Management
 
 `/compact` to summarize and free context. `/compact <focus>` to preserve specific topics. Deferred tools via `ToolSearch` -- only names loaded initially. `/context` to visualize usage. Skills load description only until invoked. Subagents get own fresh context (main conversation not bloated). `/btw` for side questions (no tools, answer discarded).
+
+Project-root CLAUDE.md survives `/compact` — Claude re-reads it from disk and re-injects it after the summary. Nested CLAUDE.md files (subdirectories) are **not** auto re-injected; they only reload the next time Claude reads a file in that subdirectory. An instruction that "disappears" after compaction was either conversation-only (never written to a file) or lives in a not-yet-reloaded nested CLAUDE.md.

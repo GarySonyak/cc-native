@@ -61,7 +61,9 @@ MCP elicitation: MCP servers can request structured user input mid-task via inte
 
 `claude plugin init <name>`: scaffolds a new plugin in `~/.claude/skills/<name>/` with `.claude-plugin/plugin.json` manifest and starter `SKILL.md`. Loads automatically at next session start. (v2.1.157)
 
-Plugins in `.claude/skills/` directories auto-load at session start — no marketplace, install step, or `--plugin-dir` flag needed. Named as `<name>@skills-dir` in plugin list. (v2.1.157)
+Plugins in `.claude/skills/` directories auto-load at session start — no marketplace, install step, or `--plugin-dir` flag needed. Named as `<name>@skills-dir` in plugin list. (v2.1.157) In a **project's** `.claude/skills/` (not `~/.claude/skills/`), this requires accepting the workspace-trust dialog first.
+
+`--plugin-url <url>` can be repeated, or passed as one quoted space-separated string, to load multiple hosted `.zip` plugins in one session (complements the single-plugin form above).
 
 claude.ai connectors: unused connectors (never signed in to) are collapsed behind a "Show unused connectors" row in `/mcp` as of v2.1.161 — org-provisioned lists no longer fill the panel. Previously-signed-in connectors stay visible even when re-authentication is needed. (v2.1.161)
 
