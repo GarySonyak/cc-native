@@ -27,6 +27,9 @@ Managed MCP policy: `allowedMcpServers`/`deniedMcpServers` in managed settings r
 `claude mcp list`/`claude mcp get`: as of v2.1.196, project-scoped `.mcp.json` server approvals are read only from settings files not checked into the repo, until the workspace-trust dialog is accepted — a freshly cloned repo can't self-approve its own servers via a committed `enableAllProjectMcpServers`/`enabledMcpjsonServers`.
 
 `CLAUDE_CODE_MCP_TOOL_IDLE_TIMEOUT`: a tool call to a remote HTTP/SSE/WebSocket/claude.ai-connector server that sends no response or progress notification for 5 minutes now aborts instead of waiting for the full wall-clock timeout. Set in ms; `0` disables the check. Stdio servers aren't subject to it. (v2.1.187)
+**Update (v2.1.203)**: stdio servers are now also subject to the idle timeout (30-minute default window, vs 5 minutes for HTTP/SSE/WebSocket/connector servers) — supersedes the "stdio servers aren't subject to it" note above. A per-server `timeout` (in `.mcp.json`) of ≥1000ms also floors the idle window so it never fires sooner than that value.
+
+Reserved MCP server names (rejected for user-configured servers): `workspace`, `claude-in-chrome`, `computer-use`, `Claude Preview`, `Claude Browser` (the last reserved as of v2.1.205 ahead of a Desktop pane rename — previously available to user servers).
 
 Plugin-provided MCP tools use the full name `mcp__plugin_<plugin-name>_<server-name>__<tool-name>` (any character outside `A-Z a-z 0-9 _ -` sanitized to `_`) — use this exact form in permission rules, a skill's `allowed-tools`, or a subagent's `tools` field, not the shorter `mcp__<server>__<tool>` form used for user-configured servers.
 

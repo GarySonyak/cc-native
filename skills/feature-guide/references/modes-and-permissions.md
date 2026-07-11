@@ -132,6 +132,8 @@ Auto mode no longer requires opt-in consent as of v2.1.152 — cycling to auto v
 
 Auto mode on Bedrock, Vertex, and Foundry: available for Claude Sonnet 5, Opus 4.7, and Opus 4.8 — opt in with `CLAUDE_CODE_ENABLE_AUTO_MODE=1`. Sonnet 5 support added in v2.1.197. (v2.1.158)
 
+**Doc update (v2.1.207)**: the `CLAUDE_CODE_ENABLE_AUTO_MODE=1` opt-in above is superseded — auto mode is now available **by default** on Bedrock/Vertex/Foundry, no env var needed. Use the existing `permissions.disableAutoMode: "disable"` managed setting to turn it off org-wide. Doc lag: the live permission-modes page fetched 2026-07-11 still describes the opt-in-required flow; changelog is authoritative here.
+
 `--enable-auto-mode` (adds to Shift+Tab cycle), `--allow-dangerously-skip-permissions` (adds bypassPermissions to cycle without activating it). Administrators can lock auto mode off entirely with `permissions.disableAutoMode: "disable"` in managed settings — overrides `CLAUDE_CODE_ENABLE_AUTO_MODE` and hides auto mode from the cycle for everyone. Auto mode strips blanket shell rules on entry: `Bash(*)`, `PowerShell(*)`, wildcarded interpreters like `Bash(python*)`, package-manager run commands, and `Agent` allow rules. Narrow rules like `Bash(npm test)` carry over. Classifier never sees tool results (prevents injection). `PermissionDenied` hook fires on classifier denials (v2.1.88). `autoMode.environment` setting for trusted repos/buckets. Run `claude auto-mode defaults` to see full classifier rule lists.
 
 Conversation-stated boundaries (e.g. "don't push") block classifier; lost after compaction -- use deny rules for hard guarantees.
