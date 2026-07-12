@@ -13,9 +13,11 @@
 | `Claude Code Guide` | Haiku | Read-only | CC feature questions |
 
 - **Doc correction (v2.1.198)**: `Explore` now inherits the main conversation's model (capped at Opus on the Claude API) instead of always running on Haiku; on Bedrock/Vertex/Foundry/Claude Platform on AWS it inherits the model directly. Define a project/user `Explore` agent with `model: haiku` to keep the old fixed-Haiku behavior.
+- When invoking `Explore`, Claude specifies a thoroughness level: **quick** (targeted lookups), **medium** (balanced), or **very thorough** (comprehensive analysis).
 - Resolution order: CLI `--agents` flag (1) > `.claude/agents/` (2) > `~/.claude/agents/` (3) > plugins (4)
 - **Doc correction**: full resolution order is actually Managed settings (1, org-wide, deployed via managed settings) > CLI `--agents` flag (2) > `.claude/agents/` (3) > `~/.claude/agents/` (4) > plugin `agents/` (5) — the line above omits the managed tier (enterprise-only, takes precedence over all other scopes).
 - `tools`/`disallowedTools` also accept MCP server-level patterns: `mcp__<server>` or `mcp__<server>__*` grants/removes every tool from that server in one entry; in `disallowedTools`, `mcp__*` removes every MCP tool from any server.
+- Plugin `agents/` directories are scanned recursively, and (unlike project/user scope) a subfolder becomes part of the scoped identifier: a file at `agents/review/security.md` in plugin `my-plugin` registers as `my-plugin:review:security`. @-mention manually with `@agent-<name>` (local) or `@agent-<scoped-name>` (plugin, e.g. `@agent-my-plugin:code-reviewer`).
 - Invoke: Agent tool with `subagent_type`, @-mention in interactive mode, or `claude --agent <name>`
 - Resume via `SendMessage` with agent ID; stopped subagents auto-resume in the background on receipt. Explore/Plan agents are one-shot (no agent ID returned); use general-purpose or a custom subagent when resumable work is needed. Requires `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`. Auto-compaction supported (`CLAUDE_AUTOCOMPACT_PCT_OVERRIDE` applies).
 - **Doc correction (2026-06-29)**: `SendMessage` for subagent resumption (by agent ID) is available **without** `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`. Only structured team-protocol messages (teammate-to-teammate comms) require agent teams enabled.
@@ -77,6 +79,8 @@ Idle teammate rows stay visible while any teammate/subagent is still working; on
 Require plan approval: tell lead to "require plan approval before they make changes" -- teammate stays in read-only plan mode until lead approves. Lead makes approval decisions autonomously.
 
 Team state stored locally: `~/.claude/teams/{session-name}/config.json`, `~/.claude/tasks/{session-name}/` (where `session-name` = `session-<first-8-chars-of-session-id>`). Do not hand-author these files. Task list directories persist on disk even after session ends (retention governed by `cleanupPeriodDays`).
+
+Limitations: **no nested teams** (teammates cannot spawn their own teammates — only the lead can); **no background subagents from in-process teammates** (a teammate's own subagents always run in the foreground; requesting a background one errors, since it can't outlive the lead's process); **no session resumption** for in-process teammates (`/resume`/`/rewind` don't restore them — tell the lead to respawn). When spawning a teammate from a [subagent definition](#custom-agents), only `tools`/`model` apply and the body is appended as additional instructions — the definition's `skills`/`mcpServers` frontmatter fields are ignored; teammates load skills/MCP servers from project/user settings like a regular session.
 
 ## Worktrees
 

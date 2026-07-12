@@ -8,11 +8,12 @@
 
 ### Auto memory (v2.1.59+)
 
-Claude writes notes to `~/.claude/projects/<project>/memory/MEMORY.md` automatically. First 200 lines or 25KB loaded at session start. Topic files (e.g. `debugging.md`) not auto-loaded -- Claude reads on demand. Toggle: `autoMemoryEnabled` in settings or `CLAUDE_CODE_DISABLE_AUTO_MEMORY=1`. Custom location: `autoMemoryDirectory` setting (not accepted from project settings.json -- security: prevents shared project redirecting writes). `/memory` command to browse and edit. All worktrees in same git repo share one auto memory directory.
+Claude writes notes to `~/.claude/projects/<project>/memory/MEMORY.md` automatically. First 200 lines or 25KB loaded at session start. Topic files (e.g. `debugging.md`) not auto-loaded -- Claude reads on demand. Toggle: `autoMemoryEnabled` in settings or `CLAUDE_CODE_DISABLE_AUTO_MEMORY=1`. Custom location: `autoMemoryDirectory` setting (must be absolute or `~/`-prefixed). `/memory` command to browse and edit. All worktrees in same git repo share one auto memory directory.
+- **Correction**: `autoMemoryDirectory` IS read from any settings scope including project `.claude/settings.json`/`.claude/settings.local.json` — the earlier "not accepted from project settings" note was wrong for the current docs. When set at project/local scope it's honored only after accepting the workspace-trust dialog for that folder (same gate as hooks), not blocked outright.
 
 ### CLAUDE.md tips
 
-Target under 200 lines; use `@path/to/file` imports; `/init` generates initial file (set `CLAUDE_CODE_NEW_INIT=true` for interactive flow). `--add-dir` directories don't load CLAUDE.md by default -- set `CLAUDE_CODE_ADDITIONAL_DIRECTORIES_CLAUDE_MD=1` to load `CLAUDE.md`/`.claude/CLAUDE.md`/`.claude/rules/*.md`/`CLAUDE.local.md` from them. AGENTS.md: CC reads CLAUDE.md, import AGENTS.md with `@AGENTS.md` for cross-agent compatibility.
+Target under 200 lines; use `@path/to/file` imports; `/init` generates initial file (set `CLAUDE_CODE_NEW_INIT=1` for interactive flow — **correction**: value is `1`, not `true`). `--add-dir` directories don't load CLAUDE.md by default -- set `CLAUDE_CODE_ADDITIONAL_DIRECTORIES_CLAUDE_MD=1` to load `CLAUDE.md`/`.claude/CLAUDE.md`/`.claude/rules/*.md`/`CLAUDE.local.md` from them. AGENTS.md: CC reads CLAUDE.md, import AGENTS.md with `@AGENTS.md` for cross-agent compatibility.
 
 Path-scoped `.claude/rules/*.md` (`paths:` frontmatter) trigger when Claude reads a matching file, including through a symlinked path back to the project directory (e.g. a symlinked checkout). (v2.1.198)
 

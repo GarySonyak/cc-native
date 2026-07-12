@@ -31,7 +31,7 @@ Key fields: `name`, `description` (recommended, cap 250 chars), `when_to_use` (e
 
 ## Invocation
 
-Invoked via `/skill-name` or auto-loaded when relevant. Dynamic context: `!\`command\`` runs shell before prompt (multi-line via fenced ` ```! ` block). String substitutions: `$ARGUMENTS`, `$ARGUMENTS[N]`, `$N`, `${CLAUDE_SESSION_ID}`, `${CLAUDE_SKILL_DIR}`, `${CLAUDE_EFFORT}` (current effort level: low/medium/high/xhigh/max; `ultracode` is not a distinct level — reports as `xhigh`; adapt skill instructions to active effort). (v2.1.120) Use `\$` before a digit to emit a literal `$` (e.g., `\$1` → `$1` in output; prevents argument substitution). (v2.1.163)
+Invoked via `/skill-name` or auto-loaded when relevant. Dynamic context: `!\`command\`` runs shell before prompt (multi-line via fenced ` ```! ` block). String substitutions: `$ARGUMENTS`, `$ARGUMENTS[N]`, `$N`, `${CLAUDE_SESSION_ID}`, `${CLAUDE_SKILL_DIR}`, `${CLAUDE_EFFORT}` (current effort level: low/medium/high/xhigh/max; `ultracode` is not a distinct level — reports as `xhigh`; adapt skill instructions to active effort). (v2.1.120) `${CLAUDE_PROJECT_DIR}` — project root; resolves the same in skill body and `allowed-tools` (e.g. `Bash(${CLAUDE_PROJECT_DIR}/scripts/lint.sh *)`). (v2.1.196) Use `\$` before a digit to emit a literal `$` (e.g., `\$1` → `$1` in output; prevents argument substitution). (v2.1.163)
 
 Stacking multiple skill invocations in one message (e.g. `/skill-a /skill-b do XYZ`) loads every named skill (up to 6) and passes the trailing text to each as arguments. (v2.1.199)
 
@@ -68,6 +68,7 @@ Re-invoking a skill whose rendered content is identical to the copy already in c
 - Auto-discovery from nested `.claude/skills/` directories (monorepo support). (v2.1.178) Nested skills load **contextually** — a skill in `<dir>/.claude/skills/<name>/` only loads when Claude accesses files in `<dir>/`. Name clashes with parent-level skills are resolved as `<dir>:<name>` (e.g., `src:deploy` for a skill in `src/.claude/skills/deploy/`).
 - **Refinement (v2.1.203)**: both stay available on a name clash — invoking the unqualified name loads the project-root skill, and Claude Code appends the list of directory-qualified variants with an instruction to also invoke any variant whose directory holds the files being worked on. So `/deploy` alone can still trigger the nested `apps/web:deploy` variant when relevant; type the qualified name directly to run only that one.
 - `skillOverrides: "off"` also hides a skill from Remote Control and Agent SDK command listings, not just the terminal `/` menu. Invoking it by full name still errors instead of running. (v2.1.199)
+- A skill entry (enterprise/personal/project) can be a symlink to a directory elsewhere on disk — Claude Code follows it and reads `SKILL.md` from the target, loading the skill once even if reachable from multiple locations.
 
 ## Restrict Claude's skill access
 

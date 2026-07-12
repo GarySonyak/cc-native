@@ -35,7 +35,13 @@ Plugin-provided MCP tools use the full name `mcp__plugin_<plugin-name>_<server-n
 
 `${CLAUDE_PLUGIN_DATA}`: a plugin's persistent data directory, distinct from `${CLAUDE_PLUGIN_ROOT}` (the versioned install path) — state written here survives plugin updates. Available in plugin `.mcp.json`/`plugin.json` server configs and hooks.
 
-MCP `roots/list` request now also returns the session's additional working directories (`--add-dir`), not just the directory Claude Code was launched from. (v2.1.203)
+MCP `roots/list` request now also returns the session's additional working directories (`--add-dir`), not just the directory Claude Code was launched from; Claude Code sends `notifications/roots/list_changed` when that set changes. (v2.1.203)
+
+Stdio servers receive `CLAUDE_PROJECT_DIR` (project root) in their spawned process env — same value hooks get — so a server can resolve project-relative paths without depending on cwd. In `.mcp.json` `command`/`args`, reference it as `${CLAUDE_PROJECT_DIR:-.}` (needs a default since the var isn't set in CC's own env); plugin-provided configs can use `${CLAUDE_PROJECT_DIR}` directly.
+
+`ENABLE_TOOL_SEARCH` env var controls MCP tool deferral: unset (default — all tools deferred; falls back to upfront-load on Google Cloud's Agent Platform or a non-first-party `ANTHROPIC_BASE_URL` proxy), `true` (force deferred everywhere, requires `tool_reference`-capable model — not Haiku), `auto`/`auto:N` (threshold mode — load upfront if schemas fit within N% of context window, default 10%), `false` (all tools loaded upfront). Also settable via `settings.json` `env`.
+
+MCP resources are referenced with `@server:protocol://resource/path` (e.g. `@github:issue://123`), same as file @-mentions; fuzzy-searchable in the @ autocomplete alongside files.
 
 ## Plugins
 
