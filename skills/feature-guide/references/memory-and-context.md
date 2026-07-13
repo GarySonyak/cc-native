@@ -6,6 +6,8 @@
 
 `claudeMd` key in `managed-settings.json`: embed CLAUDE.md content directly in the managed settings file instead of deploying a separate CLAUDE.md. Only honored in managed/policy settings (not project or local). Same precedence as a managed CLAUDE.md file.
 
+`.claude/rules/` entries can be symlinks — link a shared rules directory or individual file into multiple projects (e.g. `ln -s ~/shared-claude-rules .claude/rules/shared`) to keep one canonical copy. Symlinks resolve and load normally; circular symlinks are detected and handled gracefully.
+
 ### Auto memory (v2.1.59+)
 
 Claude writes notes to `~/.claude/projects/<project>/memory/MEMORY.md` automatically. First 200 lines or 25KB loaded at session start. Topic files (e.g. `debugging.md`) not auto-loaded -- Claude reads on demand. Toggle: `autoMemoryEnabled` in settings or `CLAUDE_CODE_DISABLE_AUTO_MEMORY=1`. Custom location: `autoMemoryDirectory` setting (must be absolute or `~/`-prefixed). `/memory` command to browse and edit. All worktrees in same git repo share one auto memory directory.
