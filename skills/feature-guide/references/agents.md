@@ -51,6 +51,7 @@
 - Resuming a subagent starts a new run under the same agent ID; the task list now shows it as running again immediately (before v2.1.205 it kept showing the earlier failed/completed status while the resumed run was still working).
 - Subagent-declared `mcpServers` (frontmatter or `--agent`) are subject to the same restrictions as the main session as of v2.1.153: `--strict-mcp-config`/`--bare`, enterprise managed MCP config, and `allowedMcpServers`/`deniedMcpServers` policies. A blocked server is skipped with a warning naming it. Managed-settings restrictions apply regardless of how the subagent is defined; `--strict-mcp-config` does not filter servers passed inline via `--agents` or the SDK `agents` option (explicit caller input).
 - A `/fork`'s system prompt, tools, and model are identical to the parent, so its first request reuses the parent's prompt cache — cheaper than spawning a fresh named subagent for a task that needs the same context.
+- Subagents with `SendMessage` in their tools get a "sibling roster" system reminder listing `main` and every other named agent in the session as valid `to` targets — a snapshot taken when the subagent starts, so agents named later don't appear. Only shown when at least one other agent already has a name. Requires v2.1.206+.
 
 ## Custom Agents
 
@@ -79,6 +80,8 @@ Idle teammate rows stay visible while any teammate/subagent is still working; on
 Require plan approval: tell lead to "require plan approval before they make changes" -- teammate stays in read-only plan mode until lead approves. Lead makes approval decisions autonomously.
 
 Team state stored locally: `~/.claude/teams/{session-name}/config.json`, `~/.claude/tasks/{session-name}/` (where `session-name` = `session-<first-8-chars-of-session-id>`). Do not hand-author these files. Task list directories persist on disk even after session ends (retention governed by `cleanupPeriodDays`).
+
+Mailbox entries are validated on read: a malformed entry is dropped with an error while valid messages still deliver; before v2.1.207 a single malformed mailbox entry caused a repeated error every second and blocked delivery for that mailbox until the file was deleted manually. (v2.1.207)
 
 Limitations: **no nested teams** (teammates cannot spawn their own teammates — only the lead can); **no background subagents from in-process teammates** (a teammate's own subagents always run in the foreground; requesting a background one errors, since it can't outlive the lead's process); **no session resumption** for in-process teammates (`/resume`/`/rewind` don't restore them — tell the lead to respawn). When spawning a teammate from a [subagent definition](#custom-agents), only `tools`/`model` apply and the body is appended as additional instructions — the definition's `skills`/`mcpServers` frontmatter fields are ignored; teammates load skills/MCP servers from project/user settings like a regular session.
 

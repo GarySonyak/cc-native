@@ -19,6 +19,8 @@ Target under 200 lines; use `@path/to/file` imports; `/init` generates initial f
 
 Path-scoped `.claude/rules/*.md` (`paths:` frontmatter) trigger when Claude reads a matching file, including through a symlinked path back to the project directory (e.g. a symlinked checkout). (v2.1.198)
 
+A `paths` glob containing an unreadable `[` bracket expression (e.g. `photos [2024/**`) now matches nothing instead of erroring — escape a literal `[` as `\[` if needed. Before v2.1.207, one invalid pattern made the Read tool fail for every file the rule was evaluated against, not just skip matching. (v2.1.207)
+
 ## Context Management
 
 `/compact` to summarize and free context. `/compact <focus>` to preserve specific topics. Deferred tools via `ToolSearch` -- only names loaded initially. `/context` to visualize usage. Skills load description only until invoked. Subagents get own fresh context (main conversation not bloated). `/btw` for side questions (no tools, answer discarded).

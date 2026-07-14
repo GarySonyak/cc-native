@@ -52,4 +52,8 @@
 - `askUserQuestionTimeout`: idle auto-continue delay for `AskUserQuestion` dialogs — `60s`/`5m`/`10m`; unset = never auto-continues. Does not apply to permission prompts. (v2.1.200)
 - `disableClaudeAiConnectors`: `true` disables claude.ai MCP connectors in Claude Code (any-source-true: a project-level `false` cannot re-enable what user/policy `true` disabled). Env var equivalent: `ENABLE_CLAUDEAI_MCP_SERVERS=false`.
 
+- `axScreenReader`: opt-in plain-text rendering mode for screen readers; equivalent to `--ax-screen-reader` CLI flag / `CLAUDE_AX_SCREEN_READER=1` env var. (v2.1.208)
+- `vimInsertModeRemaps`: define Vim insert-mode key sequences (e.g. `jj` → Escape) when Vim mode is enabled.
+- `CLAUDE_CODE_PROCESS_WRAPPER`: env var pointing at a corporate/enterprise launcher wrapper script around the `claude` process. (v2.1.208)
+
 Managed-only settings (`disable*`, `allow*Only`, `sandbox.*.allowManaged*Only`, plugin/marketplace policy keys like `pluginTrustMessage`/`strictKnownMarketplaces`/`blockedMarketplaces`/`channelsEnabled`/`allowedChannelPlugins`, `minimumVersion`, `wslInheritsWindowsSettings`, `subagentStatusLine`) intentionally excluded -- see `/en/settings#available-settings` for the full enterprise list.
