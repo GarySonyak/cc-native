@@ -43,6 +43,12 @@ Stdio servers receive `CLAUDE_PROJECT_DIR` (project root) in their spawned proce
 
 MCP resources are referenced with `@server:protocol://resource/path` (e.g. `@github:issue://123`), same as file @-mentions; fuzzy-searchable in the @ autocomplete alongside files.
 
+An untracked `.claude/settings.local.json`'s `.mcp.json` server approvals now apply only after you accept the workspace-trust dialog for that folder or a parent directory (your own config home — `~/` or `CLAUDE_CONFIG_DIR` — is exempt from this gate). Before v2.1.207, an untracked `settings.local.json` approved servers even in a folder you'd never trusted. Approvals from `~/.claude/settings.json`, managed settings, and `--settings` always apply regardless of trust state. (v2.1.207)
+
+A plugin-provided `headersHelper` can no longer reference the plugin's `${user_config.*}` values — the command runs through a shell, so Claude Code reports the server as misconfigured instead of substituting the value; put `${user_config.KEY}` in the server's static `headers` field instead (not shell-parsed), or have the helper script read its own environment/config file. Before v2.1.207, `headersHelper` substituted `${user_config.*}` values directly. (v2.1.207)
+
+A remote server whose config has an empty `url` now shows as `not configured` in `/mcp`, `claude mcp list`, and `/plugin`, with no connection attempted — useful for a plugin placeholder entry you fill in later. Before v2.1.208, an empty `url` was reported as a configuration issue with a misleading prompt to reconnect. (v2.1.208)
+
 ## Plugins
 
 Bundle skills + hooks + agents + MCP servers into distributable unit. `plugin.json` manifest. Plugin `hooks.json` for hook definitions. Distribute via marketplaces. Plugin agents cannot use `hooks`, `mcpServers`, or `permissionMode` frontmatter (security restriction). Plugin `bin/` directory: executables added to Bash tool's PATH while plugin is enabled. `/reload-plugins` reloads without restarting — warns and skips the reload if it would change loaded MCP tools and invalidate the prompt cache; pass `--force` to proceed anyway. `--plugin-dir` flag for local testing; repeatable to load multiple plugins in one session (`--plugin-dir ./a --plugin-dir ./b`). Cannot override a plugin that managed settings force-enables or force-disables. Plugin LSP servers via `.lsp.json`. Plugin default settings via `settings.json` at plugin root (`agent` and `subagentStatusLine` keys supported).

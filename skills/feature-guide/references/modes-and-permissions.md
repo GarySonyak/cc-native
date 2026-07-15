@@ -126,6 +126,14 @@ Auto mode on signed-in Claude apps gateway sessions also requires `CLAUDE_CODE_E
 
 An MCP tool marked with `_meta["anthropic/requiresUserInteraction"]` skips the classifier and always prompts directly in auto mode (no "don't ask again"); denied outright in `dontAsk` mode; still prompts even in `bypassPermissions`. See mcp-and-plugins.md.
 
+## Circuit-breaker hardened against substitution wrapping (v2.1.208)
+
+The `rm -rf /` / `rm -rf ~` circuit-breaker prompt (fires instead of going to the classifier, in both auto mode and `bypassPermissions`) now also fires when the removal is wrapped in command substitution (`$(...)`, backticks) or process substitution (`<(...)`) anywhere in the command, e.g. `echo "$(rm -rf ~)"`. Before v2.1.208, wrapped forms went to the classifier instead of prompting, sidestepping the breaker. (v2.1.208)
+
+## Deprecated permission-rule tool names (v2.1.210)
+
+Claude Code now warns at startup if `permissions.allow`/`deny`/`ask` rules reference `Write()`, `NotebookEdit()`, or `Glob()` — these are deprecated rule targets in favor of `Edit()`/`Read()`. Existing rules still work but should be migrated. (v2.1.210)
+
 ## Security hardening (v2.1.113)
 
 `sandbox.network.deniedDomains` setting blocks specific domains. Bash deny rules match commands wrapped in `env`/`sudo`/`watch`/`ionice`/`setsid`. `Bash(find:*)` no longer auto-approves `find -exec`/`-delete`. macOS `/private/{etc,var,tmp,home}` treated as dangerous.

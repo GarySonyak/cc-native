@@ -52,6 +52,8 @@
 - Subagent-declared `mcpServers` (frontmatter or `--agent`) are subject to the same restrictions as the main session as of v2.1.153: `--strict-mcp-config`/`--bare`, enterprise managed MCP config, and `allowedMcpServers`/`deniedMcpServers` policies. A blocked server is skipped with a warning naming it. Managed-settings restrictions apply regardless of how the subagent is defined; `--strict-mcp-config` does not filter servers passed inline via `--agents` or the SDK `agents` option (explicit caller input).
 - A `/fork`'s system prompt, tools, and model are identical to the parent, so its first request reuses the parent's prompt cache — cheaper than spawning a fresh named subagent for a task that needs the same context.
 - Subagents with `SendMessage` in their tools get a "sibling roster" system reminder listing `main` and every other named agent in the session as valid `to` targets — a snapshot taken when the subagent starts, so agents named later don't appear. Only shown when at least one other agent already has a name. Requires v2.1.206+.
+- When a subagent's `tools` list resolves to no tools at all (every entry misspelled or names a tool unavailable to subagents), the Agent tool now refuses to launch and returns an error naming the unresolved entries. Before v2.1.208, it launched anyway with no tools and could return an empty or confusing result. (v2.1.208)
+- A completed background subagent now stays listed in `/tasks`, marked done and sorted below running work, until the session cleans up its task list; its detail view also stays open. Subagents that fail or that you stop still leave the list. Before v2.1.208, a completed subagent vanished from `/tasks` the moment it finished and its detail view closed. (v2.1.208)
 
 ## Custom Agents
 
