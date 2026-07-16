@@ -130,6 +130,10 @@ An MCP tool marked with `_meta["anthropic/requiresUserInteraction"]` skips the c
 
 The `rm -rf /` / `rm -rf ~` circuit-breaker prompt (fires instead of going to the classifier, in both auto mode and `bypassPermissions`) now also fires when the removal is wrapped in command substitution (`$(...)`, backticks) or process substitution (`<(...)`) anywhere in the command, e.g. `echo "$(rm -rf ~)"`. Before v2.1.208, wrapped forms went to the classifier instead of prompting, sidestepping the breaker. (v2.1.208)
 
+## Auto mode no longer overrides hook `ask` decisions (v2.1.211)
+
+Auto mode's classifier no longer silently overrides a `PreToolUse` hook's explicit `permissionDecision: "ask"` for unsandboxed Bash commands — before v2.1.211, the classifier could allow a command outright even when a hook had already decided it needed a prompt, effectively downgrading the hook's decision. The hook `ask` now takes precedence, consistent with `hooks.md`'s "most restrictive decision wins" rule. (v2.1.211)
+
 ## Deprecated permission-rule tool names (v2.1.210)
 
 Claude Code now warns at startup if `permissions.allow`/`deny`/`ask` rules reference `Write()`, `NotebookEdit()`, or `Glob()` — these are deprecated rule targets in favor of `Edit()`/`Read()`. Existing rules still work but should be migrated. (v2.1.210)

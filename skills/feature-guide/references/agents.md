@@ -54,6 +54,7 @@
 - Subagents with `SendMessage` in their tools get a "sibling roster" system reminder listing `main` and every other named agent in the session as valid `to` targets — a snapshot taken when the subagent starts, so agents named later don't appear. Only shown when at least one other agent already has a name. Requires v2.1.206+.
 - When a subagent's `tools` list resolves to no tools at all (every entry misspelled or names a tool unavailable to subagents), the Agent tool now refuses to launch and returns an error naming the unresolved entries. Before v2.1.208, it launched anyway with no tools and could return an empty or confusing result. (v2.1.208)
 - A completed background subagent now stays listed in `/tasks`, marked done and sorted below running work, until the session cleans up its task list; its detail view also stays open. Subagents that fail or that you stop still leave the list. Before v2.1.208, a completed subagent vanished from `/tasks` the moment it finished and its detail view closed. (v2.1.208)
+- `--forward-subagent-text` CLI flag / `CLAUDE_CODE_FORWARD_SUBAGENT_TEXT=1` env var: includes subagent text and thinking blocks in `--output-format stream-json` output; before v2.1.211 only the parent session's text streamed, so a script consuming `stream-json` couldn't see subagent reasoning/output as it happened. (v2.1.211)
 
 ## Custom Agents
 

@@ -41,6 +41,7 @@
 
 ## Version notes
 
+- **v2.1.211** (2026-07-15): `--forward-subagent-text` flag / `CLAUDE_CODE_FORWARD_SUBAGENT_TEXT` env var — includes subagent text and thinking blocks in `stream-json` output (previously only the parent session's text streamed); see agents.md. Auto mode fix: no longer overrides a `PreToolUse` hook's explicit `ask` decision for unsandboxed Bash commands; see modes-and-permissions.md. Security: permission-preview text now neutralizes bidirectional-override and zero-width characters that could visually alter an approval message. Bug fixes: parallel sessions no longer log out simultaneously after wake-from-sleep; plugin MCP servers now reconnect after idle web sessions; Vertex/Bedrock no longer attempt the default Opus model at startup; Vim `s`/`S` (substitute) now work in NORMAL mode; fixed a prompt-caching regression on Bedrock/Vertex/Mantle/Foundry that billed trailing system context as fresh input; terminal layout/rendering and memory-usage improvements. (v2.1.211)
 - **v2.1.210** (2026-07-14): Live elapsed-time counter added to tool summaries so long-running operations don't look frozen. Startup warnings for deprecated `Write()`/`NotebookEdit()`/`Glob()` permission-rule tool names — use `Edit()`/`Read()` instead (see modes-and-permissions.md). Bug fixes: isolated (`isolation: worktree`) subagents could run git commands against the main repo instead of staying scoped to the worktree; paste markers leaking into external editors; session crashes on numeric bigint or plain-text tool results; MCP server/plugin fixes; file-operation fixes on network filesystems and Windows. (v2.1.210)
 - **v2.1.209** (2026-07-14): Bug fix only — `/model` and other dialogs no longer blocked while viewing a `claude agents` background session. (v2.1.209)
 - **v2.1.208** (2026-07-14): **Screen reader mode** — opt-in plain-text rendering via `--ax-screen-reader` CLI flag, `CLAUDE_AX_SCREEN_READER=1` env var, or `axScreenReader` setting (see settings.md). `vimInsertModeRemaps` setting defines Vim insert-mode key sequences, e.g. `jj` → Escape. `CLAUDE_CODE_PROCESS_WRAPPER` env var for enterprise corporate-launcher wrappers. Trivial: mouse-click support for fullscreen multi-select menus; reliability fixes for background sessions, context windows, file operations. (v2.1.208)
@@ -140,12 +141,11 @@ New CC version this run (v2.1.210, see Version notes above) plus a wide v2.1.208
 
 ### Doc-gap sweep (2026-07-14)
 
-v2.1.208/v2.1.209 released today (see Version notes above). Small doc-gap sweep alongside the version bump:
-- Agent teams: mailbox entries are validated on read — a malformed entry is now dropped with an error while valid messages still deliver; before v2.1.207 a single malformed entry caused a repeated error every second and blocked delivery until the file was deleted manually. See agents.md.
-- Sub-agents: a "sibling roster" system reminder lists `main` and every other named agent as valid `SendMessage` `to` targets, snapshotted when the subagent starts (agents named later don't appear); requires the subagent's tools to include `SendMessage` and at least one other named agent. Requires v2.1.206+. See agents.md.
-- Memory: a `.claude/rules/` `paths` glob containing an unreadable `[` bracket expression now matches nothing instead of failing the Read tool for every file the rule was evaluated against. Requires v2.1.207+. See memory-and-context.md.
-- Permission modes: the live page has now caught up on the v2.1.207 auto-mode-on-Bedrock/Vertex/Foundry opt-in removal (previously flagged as a same-day doc lag in the v2.1.207 note) — updated the note in modes-and-permissions.md to reflect this rather than leaving it as an open lag.
-- llms.txt oscillated again (narrative "Core Topics/Platforms/Key Features" overview style, yet another distinct format) — no confirmed new/removed priority-page slugs.
+v2.1.208/v2.1.209 released; small doc-gap sweep (agent-teams mailbox validation, sub-agents sibling roster, memory rules bracket-expression fix, permission-modes doc-lag resolution) — facts already applied, see agents.md/memory-and-context.md/modes-and-permissions.md.
+
+### Doc-gap sweep (2026-07-16)
+
+New CC version this run (v2.1.211, see Version notes above). No further doc-gap items beyond it — today's full fetches of agent-teams/hooks/hooks-guide/mcp/plugins/memory/permission-modes/scheduled-tasks matched existing reference content almost exactly (the wide sweeps in Runs 86-89 already closed most gaps). One small backfill: `--plugin-dir` also accepts a path to a `.zip` archive, not just a directory (v2.1.128, previously uncaptured — see mcp-and-plugins.md). settings/commands/tools-reference fetches condensed by WebFetch again (recurring pattern) — no contradictions found. llms.txt oscillated again (finer-grained categorical-by-header style, ~23 categories) — no confirmed new/removed priority-page slugs; `whats-new/2026-w28` weekly digest is new but non-priority, expected given the date.
 
 ### Doc-gap sweep (2026-07-13)
 
