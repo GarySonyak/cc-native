@@ -5,6 +5,7 @@
 | Tool | Notes |
 |------|-------|
 | `AskUserQuestion` | Presents multiple-choice questions to user to gather requirements or clarify ambiguity. Permission: No. Questions stay open indefinitely by default (no idle auto-continue) — set `askUserQuestionTimeout` (`60s`/`5m`/`10m`) in settings or via the "Question auto-continue timeout" row in `/config` to opt back into auto-continue. Permission prompts (incl. plan approval) never auto-resolve on idle, unlike v2.1.198/199 which auto-continued both after 60s via `CLAUDE_AFK_TIMEOUT_MS`. (v2.1.200) |
+| `WebSearch` | Session-wide cap of 200 calls by default (`CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION` to change) — guards against runaway search loops. Doesn't fetch page content; follow up with `WebFetch` to read a result. Permission rule takes no specifier (bare `WebSearch` in allow/deny). (v2.1.212) |
 | `ListMcpResourcesTool` | Lists resources exposed by connected MCP servers. Permission: No. |
 | `ReadMcpResourceTool` | Reads a specific MCP resource by URI. Permission: No. |
 | `ReportFindings` | Reports `/code-review` findings as a structured list (file, summary, failure scenario, optional `category` slug v2.1.199) for rendering instead of plain text. Permission: No. (v2.1.196) |

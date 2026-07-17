@@ -34,6 +34,7 @@
 - Background agents preserve their launch permission mode and MCP configuration (v2.1.141/v2.1.143 fixes — previously reverted to defaults on wake).
 - Background session persistence (v2.1.143): model and effort level are now also preserved after idle wake.
 - Background sessions can now be resumed with `/resume`; they appear marked `bg` in the session list. (v2.1.144)
+- Typing `/resume` inside the agent view now opens a picker of past sessions, including ones deleted from the list, and resumes the pick as a new background session. (v2.1.212)
 - `! <command>` in interactive sessions runs a shell command as a detached background session — frees the terminal; session appears in Agent View. (v2.1.154)
 - **Dynamic workflows** (v2.1.154): ask Claude to create a workflow script that orchestrates work across tens to hundreds of background agents in parallel — for large migrations, codebase audits, cross-checked research. See `workflows.md` page.
 - `claude agents` dispatched session config flags (v2.1.142): `--add-dir`, `--settings`, `--mcp-config`, `--plugin-dir`, `--permission-mode`, `--model`, `--effort`, `--dangerously-skip-permissions`.
@@ -55,6 +56,9 @@
 - When a subagent's `tools` list resolves to no tools at all (every entry misspelled or names a tool unavailable to subagents), the Agent tool now refuses to launch and returns an error naming the unresolved entries. Before v2.1.208, it launched anyway with no tools and could return an empty or confusing result. (v2.1.208)
 - A completed background subagent now stays listed in `/tasks`, marked done and sorted below running work, until the session cleans up its task list; its detail view also stays open. Subagents that fail or that you stop still leave the list. Before v2.1.208, a completed subagent vanished from `/tasks` the moment it finished and its detail view closed. (v2.1.208)
 - `--forward-subagent-text` CLI flag / `CLAUDE_CODE_FORWARD_SUBAGENT_TEXT=1` env var: includes subagent text and thinking blocks in `--output-format stream-json` output; before v2.1.211 only the parent session's text streamed, so a script consuming `stream-json` couldn't see subagent reasoning/output as it happened. (v2.1.211)
+- **`/fork` behavior changed (v2.1.212)**: `/fork <directive>` now copies the conversation into a **new background session** with its own row in `claude agents`, instead of launching an in-session forked subagent. The old in-session-subagent behavior (inherits full conversation, works while you keep going, result returns to your conversation) is now `/subtask <directive>`.
+- Per-session subagent spawn cap (v2.1.212): default 200 spawns per session, override with `CLAUDE_CODE_MAX_SUBAGENTS_PER_SESSION`; guards against runaway delegation loops. `/clear` resets the budget.
+- Task tool `mode` parameter is deprecated and ignored as of v2.1.212 — subagents now inherit the parent session's permission mode by default instead of taking an explicit mode override at spawn time.
 
 ## Custom Agents
 
