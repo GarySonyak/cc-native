@@ -27,7 +27,7 @@ Path placeholders usable in any hook command/args: `${CLAUDE_PROJECT_DIR}` (proj
 
 `PermissionRequest` hooks don't fire in non-interactive mode (`-p` flag) since there's no dialog to answer — use `PreToolUse` for automated permission decisions there instead.
 
-**Bash `if` matching mechanics**: leading env-var assignments are stripped before matching (`Bash(git *)` matches `FOO=bar git push`); each subcommand of a compound command (`&&`, `;`, `|`) is checked separately (`Bash(git *)` matches `npm test && git push`); commands nested in `$()` or backticks are also checked (`Bash(rm *)` matches `echo $(rm -rf /)`, but not `echo $(date)` since no subcommand matches).
+**Bash `if` matching mechanics**: leading env-var assignments are stripped before matching (`Bash(git *)` matches `FOO=bar git push`); each subcommand of a compound command (`&&`, `;`, `|`) is checked separately (`Bash(git *)` matches `npm test && git push`); commands nested in `$()` or backticks are also checked (`Bash(rm *)` matches `echo $(rm -rf /)`, but not `echo $(date)` since no subcommand matches). A single-segment `dir/**` pattern in `if:` now matches only `<cwd>/dir` (was any-depth before v2.1.214) — write `**/dir/**` for any-depth matching; matches the same fix to `permissions.allow` rules (see modes-and-permissions.md).
 
 ## Matchers
 
@@ -53,7 +53,7 @@ Browse: `/hooks`. Disable all: `disableAllHooks: true`.
 
 ## Event-specific notes
 
-- `SessionStart`: matcher values: `startup` (fresh launch), `resume` (--resume/--continue), `clear` (/clear), `compact` (post-compaction reload). hookSpecificOutput also accepts `watchPaths: ["path/to/watch", ...]` to register additional file paths for `FileChanged` events (paths watched only while session is running); `reloadSkills: true` to trigger a skill directory re-scan at session start (v2.1.153); `sessionTitle: "name"` to set the session name at startup (v2.1.153).
+- `SessionStart`: matcher values: `startup` (fresh launch), `resume` (--resume/--continue), `clear` (/clear), `compact` (post-compaction reload), `fork` (session begins as a fork of another session — before v2.1.214 this reported as `resume`). hookSpecificOutput also accepts `watchPaths: ["path/to/watch", ...]` to register additional file paths for `FileChanged` events (paths watched only while session is running); `reloadSkills: true` to trigger a skill directory re-scan at session start (v2.1.153); `sessionTitle: "name"` to set the session name at startup (v2.1.153).
 - `CwdChanged`: fires when Claude cd's. Write to `CLAUDE_ENV_FILE` to persist env vars.
 - `FileChanged`: matcher specifies filenames to watch (pipe-separated). Configures which files are watched AND filters hook execution.
 - `ConfigChange`: matcher filters by config type: `user_settings`, `project_settings`, `local_settings`, `policy_settings`, `skills`.

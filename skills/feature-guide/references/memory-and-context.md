@@ -12,6 +12,7 @@
 
 Claude writes notes to `~/.claude/projects/<project>/memory/MEMORY.md` automatically. First 200 lines or 25KB loaded at session start. Topic files (e.g. `debugging.md`) not auto-loaded -- Claude reads on demand. Toggle: `autoMemoryEnabled` in settings or `CLAUDE_CODE_DISABLE_AUTO_MEMORY=1`. Custom location: `autoMemoryDirectory` setting (must be absolute or `~/`-prefixed). `/memory` command to browse and edit. All worktrees in same git repo share one auto memory directory.
 - **Correction**: `autoMemoryDirectory` IS read from any settings scope including project `.claude/settings.json`/`.claude/settings.local.json` — the earlier "not accepted from project settings" note was wrong for the current docs. When set at project/local scope it's honored only after accepting the workspace-trust dialog for that folder (same gate as hooks), not blocked outright.
+- Memory file frontmatter now includes an ISO `modified` timestamp, written automatically when Claude updates a memory file. (v2.1.214)
 
 ### CLAUDE.md tips
 

@@ -144,6 +144,16 @@ Auto mode's classifier no longer silently overrides a `PreToolUse` hook's explic
 
 Claude Code now warns at startup if `permissions.allow`/`deny`/`ask` rules reference `Write()`, `NotebookEdit()`, or `Glob()` — these are deprecated rule targets in favor of `Edit()`/`Read()`. Existing rules still work but should be migrated. (v2.1.210)
 
+## Security hardening (v2.1.214)
+
+Bash/PowerShell permission-check bypass fixes: PowerShell 5.1 permission-check bypass closed; Bash checks now fail closed on file-descriptor redirect forms parsed differently by bash vs. the permission analyzer; commands over **10,000 characters** now always prompt instead of silently auto-approving; zsh variable subscripts/modifiers inside `[[ ]]` comparisons (previously treated as inert text) now prompt; certain `help`/`man` invocations that could run unsafe options, command substitutions, or backslash paths no longer auto-approve. Remote-session permission prompts can no longer proceed before the local confirmation dialog answers. `docker`/Podman `docker`-shim commands carrying daemon-redirect flags (`--url`, `--connection`, `--identity`, Podman remote mode) now require a permission prompt (previously ran unprompted).
+
+**Single-segment `dir/**` glob scope fix (v2.1.214)**: an `allow` rule like `Edit(src/**)` previously matched a `src/` directory anywhere in the tree; it now matches only `<cwd>/src/**`. `deny`/`ask` rules are unaffected and keep matching at any depth. Write `**/dir/**` in an allow rule to intentionally match any depth. The same single-segment-vs-any-depth change applies to hook `if:` conditions — see hooks.md.
+
+## Auto mode classifier model & cost (v2.1.210, doc-gap backfill)
+
+The classifier runs on Claude Sonnet 5 by default regardless of your `/model` selection (an Anthropic server-side override takes precedence); falls back to the session's own model when that's Sonnet 4.6 or when `availableModels` excludes Sonnet 5, or to an Opus model when the session runs on Fable 5 (provider's default Opus off the Anthropic API). Resolved once, on the session's first auto-mode request. Auto mode model requirement now also includes **Fable 5** on every provider (Anthropic API/Claude Platform on AWS: Opus 4.6+/Sonnet 4.6+/Fable 5; Bedrock/Vertex/Foundry/Claude apps gateway: Sonnet 5, Opus 4.7, Opus 4.8, Fable 5). (confirmed 2026-07-18)
+
 ## Security hardening (v2.1.113)
 
 `sandbox.network.deniedDomains` setting blocks specific domains. Bash deny rules match commands wrapped in `env`/`sudo`/`watch`/`ionice`/`setsid`. `Bash(find:*)` no longer auto-approves `find -exec`/`-delete`. macOS `/private/{etc,var,tmp,home}` treated as dangerous.
