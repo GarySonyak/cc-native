@@ -58,7 +58,7 @@ Use in `permissions.allow` or `permissions.deny` to gate specific model/paramete
 
 ## Auto mode subagent spawn evaluation (v2.1.178)
 
-Auto mode now evaluates subagent spawns via the classifier **before** the subagent launches (previously only checked actions taken during the subagent's run). Dangerous delegated tasks blocked at spawn time. (v2.1.178)
+Auto mode now evaluates subagent spawns via the classifier **before** the subagent launches (previously only checked actions taken during the subagent's run). Dangerous delegated tasks blocked at spawn time. (v2.1.178) Full picture (3 checkpoints): (1) task description evaluated before spawn (v2.1.178, above); (2) each action the subagent takes is checked against the same rules as the parent session, with any `permissionMode` in its frontmatter ignored; (3) on completion the classifier reviews the subagent's full action history, and prepends a security warning to its results if that review flags a concern.
 
 ## Auto mode safety defaults expanded (v2.1.183)
 

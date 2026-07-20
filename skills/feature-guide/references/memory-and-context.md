@@ -23,6 +23,10 @@ Path-scoped `.claude/rules/*.md` (`paths:` frontmatter) trigger when Claude read
 
 A `paths` glob containing an unreadable `[` bracket expression (e.g. `photos [2024/**`) now matches nothing instead of erroring — escape a literal `[` as `\[` if needed. Before v2.1.207, one invalid pattern made the Read tool fail for every file the rule was evaluated against, not just skip matching. (v2.1.207)
 
+Excluding `project` from `--setting-sources` skips rules without `paths` frontmatter (loaded at launch). Before v2.1.211, on-demand rules — path-scoped rules and rules in nested `.claude/rules/` directories — still loaded even with `project` excluded; now they're skipped too. (v2.1.211)
+
+`/doctor` (v2.1.206) proposes trims for a checked-in CLAUDE.md: cuts content Claude can derive from the codebase (directory layouts, dependency lists, architecture overviews), keeps pitfalls/rationale/conventions that differ from tool defaults.
+
 ## Context Management
 
 `/compact` to summarize and free context. `/compact <focus>` to preserve specific topics. Deferred tools via `ToolSearch` -- only names loaded initially. `/context` to visualize usage. Skills load description only until invoked. Subagents get own fresh context (main conversation not bloated). `/btw` for side questions (no tools, answer discarded).
