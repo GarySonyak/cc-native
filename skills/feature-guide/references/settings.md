@@ -55,5 +55,6 @@
 - `axScreenReader`: opt-in plain-text rendering mode for screen readers; equivalent to `--ax-screen-reader` CLI flag / `CLAUDE_AX_SCREEN_READER=1` env var. (v2.1.208)
 - `vimInsertModeRemaps`: define Vim insert-mode key sequences (e.g. `jj` → Escape) when Vim mode is enabled.
 - `CLAUDE_CODE_PROCESS_WRAPPER`: env var pointing at a corporate/enterprise launcher wrapper script around the `claude` process. (v2.1.208)
+- `sandbox.filesystem.disabled`: `true` skips filesystem isolation while keeping the sandbox's network egress control active — use when you want network restrictions but not filesystem sandboxing. (v2.1.216)
 
 Managed-only settings (`disable*`, `allow*Only`, `sandbox.*.allowManaged*Only`, plugin/marketplace policy keys like `pluginTrustMessage`/`strictKnownMarketplaces`/`blockedMarketplaces`/`channelsEnabled`/`allowedChannelPlugins`, `minimumVersion`, `wslInheritsWindowsSettings`, `subagentStatusLine`) intentionally excluded -- see `/en/settings#available-settings` for the full enterprise list.
