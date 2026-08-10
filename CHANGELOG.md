@@ -2,271 +2,271 @@
 
 ## [0.2.81] — 2026-08-10
 
-- You've hit your session limit · resets 12:20pm (UTC)
+- Catch-up docs sync after 20-day cron auth outage (OAuth refresh token expired 2026-07-21): folded in CC v2.1.217–v2.1.226 — cross-session SendMessage/ListAgents, `claude self-hosted-runner`, `archive` plugin source, `DirectoryAdded` hook, sandbox credential masking, subagent nesting/concurrency changes, `/review`→`/code-review` alias, `/ultraplan` removed, Bash/PowerShell/workflow-sandbox security fixes; refs: agents, changelog, hooks, mcp-and-plugins, memory-and-context, modes-and-permissions, settings, skills, tools-and-scheduling
 
 ## [0.2.80] — 2026-07-21
 
-- # Lean Handoff — 2026-07-21-070643 — slug=cc-native
+- Daily docs sync — new CC v2.1.216; refs: settings, tools-and-scheduling
 
 ## [0.2.79] — 2026-07-20
 
-- # Lean Handoff — 2026-07-20-071126 — slug=cc-native
+- Daily docs sync — doc-gap sweep, no new CC version; refs: agents, memory-and-context, modes-and-permissions, tools-and-scheduling
 
 ## [0.2.78] — 2026-07-19
 
-- # Lean Handoff — 2026-07-19-070541 — slug=cc-native
+- Daily docs sync — new CC v2.1.215; refs: memory-and-context, skills
 
 ## [0.2.77] — 2026-07-18
 
-- # Lean Handoff — 2026-07-18-071022 — slug=cc-native
+- Daily docs sync — new CC v2.1.214; refs: hooks, mcp-and-plugins, memory-and-context, modes-and-permissions, tools-and-scheduling
 
 ## [0.2.76] — 2026-07-17
 
-- # Lean Handoff — 2026-07-17-071148 — slug=cc-native
+- Daily docs sync — new CC v2.1.212; refs: agents, mcp-and-plugins, modes-and-permissions, tools-and-scheduling
 
 ## [0.2.75] — 2026-07-16
 
-- # Lean Handoff — 2026-07-16-070815 — slug=cc-native
+- Daily docs sync — new CC v2.1.211; refs: agents, mcp-and-plugins, modes-and-permissions
 
 ## [0.2.74] — 2026-07-15
 
-- # Lean Handoff — 2026-07-15-071028 — slug=cc-native
+- Daily docs sync — new CC v2.1.210; refs: agents, mcp-and-plugins, modes-and-permissions, tools-and-scheduling
 
 ## [0.2.73] — 2026-07-14
 
-- # Lean Handoff — 2026-07-14-070803 UTC — slug=cc-native
+- Daily docs sync — new CC v2.1.208, v2.1.209; refs: agents, memory-and-context, modes-and-permissions, settings
 
 ## [0.2.72] — 2026-07-13
 
-- # Lean Handoff — 2026-07-13-070807 — slug=cc-native
+- Daily docs sync — doc-gap sweep, no new CC version; refs: mcp-and-plugins, memory-and-context, modes-and-permissions
 
 ## [0.2.71] — 2026-07-12
 
-- # Lean Handoff — 2026-07-12-071026 — slug=cc-native
+- Daily docs sync — doc-gap sweep, no new CC version; refs: agents, mcp-and-plugins, memory-and-context, skills, tools-and-scheduling
 
 ## [0.2.70] — 2026-07-11
 
-- # Lean Handoff — 2026-07-11-070919 — slug=cc-native
+- Daily docs sync — new CC v2.1.207; refs: agents, mcp-and-plugins, modes-and-permissions, settings, skills
 
 ## [0.2.69] — 2026-07-10
 
-- # Lean Handoff — 2026-07-10-070947 — slug=cc-native
+- Daily docs sync — new CC v2.1.206; refs: agents, mcp-and-plugins, memory-and-context, modes-and-permissions, skills, tools-and-scheduling
 
 ## [0.2.68] — 2026-07-09
 
-- # Lean Handoff — 2026-07-09-070950 — slug=cc-native
+- Daily docs sync — new CC v2.1.205; refs: hooks, modes-and-permissions
 
 ## [0.2.67] — 2026-07-08
 
-- No untracked files. Now emitting the handoff as the final message.
+- Daily docs sync — new CC v2.1.203, v2.1.204; refs: mcp-and-plugins, settings
 
 ## [0.2.66] — 2026-07-07
 
-- # Lean Handoff — 2026-07-07-071309 — slug=cc-native
+- Daily docs sync — new CC v2.1.202; refs: agents, hooks, modes-and-permissions, skills, tools-and-scheduling
 
 ## [0.2.65] — 2026-07-06
 
-- No unpushed commits against `origin/main`. Worker is up (v13.10.2, 14447 observations). Now emitting the handoff.
+- Daily docs sync — doc-gap sweep, no new CC version; refs: agents, hooks, mcp-and-plugins, modes-and-permissions, settings, tools-and-scheduling
 
 ## [0.2.64] — 2026-07-05
 
-- # Lean Handoff — 2026-07-05-071147 — slug=cc-native
+- Daily docs sync — doc-gap sweep, no new CC version; refs: agents, mcp-and-plugins, modes-and-permissions, settings, skills, tools-and-scheduling
 
 ## [0.2.63] — 2026-07-04
 
-- # Lean Handoff — 2026-07-04-071043 — slug=cc-native
+- Daily docs sync — new CC v2.1.200, v2.1.201; refs: agents, mcp-and-plugins, memory-and-context, modes-and-permissions, tools-and-scheduling
 
 ## [0.2.62] — 2026-07-03
 
-- # Lean Handoff — 2026-07-03-071026 — slug=cc-native
+- Daily docs sync — new CC v2.1.198, v2.1.199; refs: agents, hooks, mcp-and-plugins, modes-and-permissions, skills
 
 ## [0.2.61] — 2026-07-01
 
-- Telegram MCP not available — logging fallback:
+- Daily docs sync — new CC v2.1.197; revised v2.1.196 notes; refs: modes-and-permissions
 
 ## [0.2.60] — 2026-06-30
 
-- TELEGRAM-FALLBACK: docs-monitor [2026-06-30] Run #75 — 3 material changes, 1 trivial | Pages checked: 15 | Material: permission-modes (v2.1.195 auto mode expansion), scheduled-tasks (v2.1.196 loop s
+- Daily docs sync — new CC v2.1.196; revised v2.1.195 notes; refs: modes-and-permissions, tools-and-scheduling
 
 ## [0.2.59] — 2026-06-29
 
-- **Step 6: Stdout log**
+- Daily docs sync — doc-gap sweep, no new CC version; refs: agents
 
 ## [0.2.58] — 2026-06-28
 
-- Step 6 log output:
+- Daily docs sync — doc-gap sweep, no new CC version; refs: hooks
 
 ## [0.2.57] — 2026-06-27
 
-- Telegram MCP unavailable — logging TELEGRAM-FALLBACK as required:
+- Daily docs sync — new CC v2.1.194, v2.1.195; refs: agents, hooks
 
 ## [0.2.56] — 2026-06-26
 
-- Telegram MCP unavailable — logging fallback as required:
+- Daily docs sync — new CC v2.1.191, v2.1.193; refs: modes-and-permissions, settings
 
 ## [0.2.55] — 2026-06-25
 
-- The Telegram MCP tool (`mcp__plugin_telegram_telegram__reply`) is not available in this session scope. Per protocol, logging the report as TELEGRAM-FALLBACK:
+- Daily docs sync — new CC v2.1.190; changelog ref only
 
 ## [0.2.54] — 2026-06-24
 
-- Telegram MCP not in scope — logging fallback.
+- Daily docs sync — new CC v2.1.187; refs: settings
 
 ## [0.2.53] — 2026-06-23
 
-- Telegram MCP tool not in scope. Logging fallback:
+- Daily docs sync — new CC v2.1.186; refs: agents, mcp-and-plugins, settings
 
 ## [0.2.52] — 2026-06-22
 
-- Telegram MCP unavailable — logging fallback:
+- Daily docs sync — new CC v2.1.184, v2.1.185; refs: modes-and-permissions
 
 ## [0.2.51] — 2026-06-19
 
-- The Telegram MCP tool (`mcp__plugin_telegram_telegram__reply`) is not in scope for this execution context.
+- Daily docs sync — new CC v2.1.182, v2.1.183; refs: agents, modes-and-permissions, settings, tools-and-scheduling
 
 ## [0.2.50] — 2026-06-18
 
-- Attempting Telegram MCP tool for Step 5:
+- Daily docs sync — new CC v2.1.181; revised v2.1.119, v2.1.178 notes; refs: agents, settings
 
 ## [0.2.49] — 2026-06-16
 
-- Telegram MCP unavailable. Logging fallback:
+- Daily docs sync — new CC v2.1.177, v2.1.178; refs: modes-and-permissions, skills
 
 ## [0.2.48] — 2026-06-15
 
-- [2026-06-15] docs-monitor: completed but produced no summary (duration 12m22s)
+- Daily docs sync — doc-gap sweep, no new CC version; refs: agents, settings
 
 ## [0.2.47] — 2026-06-14
 
-- Telegram MCP unavailable — logging fallback:
+- Daily docs sync — doc-gap sweep, no new CC version; refs: hooks, mcp-and-plugins
 
 ## [0.2.46] — 2026-06-13
 
-- Telegram MCP not in scope — logging fallback:
+- Daily docs sync — new CC v2.1.174, v2.1.175, v2.1.176; refs: agents
 
 ## [0.2.45] — 2026-06-12
 
-- Telegram MCP unavailable — logging fallback:
+- Daily docs sync — new CC v2.1.173; changelog ref only
 
 ## [0.2.44] — 2026-06-11
 
-- Telegram MCP unavailable — logging fallback as required:
+- Daily docs sync — new CC v2.1.171, v2.1.172; refs: agents
 
 ## [0.2.43] — 2026-06-10
 
-- Telegram MCP unavailable — logging fallback as required:
+- Daily docs sync — new CC v2.1.170; refs: settings, tools-and-scheduling
 
 ## [0.2.42] — 2026-06-09
 
-- TELEGRAM-FALLBACK: Telegram MCP not in scope. Report logged to stdout:
+- Daily docs sync — new CC v2.1.169; refs: settings, skills
 
 ## [0.2.41] — 2026-06-08
 
-- **Step 6 — Stdout log:**
+- Daily docs sync — doc-gap sweep, no new CC version; refs: hooks
 
 ## [0.2.40] — 2026-06-07
 
-- Telegram MCP tool not available. Logging fallback:
+- Daily docs sync — new CC v2.1.168; refs: settings
 
 ## [0.2.39] — 2026-06-06
 
-- **TELEGRAM-FALLBACK:** MCP tool `mcp__plugin_telegram_telegram__reply` not available in this session scope. Would-be message:
+- Daily docs sync — new CC v2.1.166, v2.1.167; revised v2.1.163 notes; refs: hooks, modes-and-permissions, settings
 
 ## [0.2.38] — 2026-06-05
 
-- Now Step 5: Send Telegram report. Attempting Telegram MCP.
+- Daily docs sync — new CC v2.1.163, v2.1.164, v2.1.165; refs: hooks, skills
 
 ## [0.2.37] — 2026-06-04
 
-- TELEGRAM-FALLBACK: docs-monitor 2026-06-04 (Run #52): 4 material, 1 trivial changes (15 pages checked). New index page: mcp-quickstart. v2.1.162 released. Material: (1) changelog v2.1.162 entry; (2) p
+- Daily docs sync — new CC v2.1.162; refs: agents, mcp-and-plugins, modes-and-permissions
 
 ## [0.2.36] — 2026-06-03
 
-- [2026-06-03] docs-monitor: 4 pages changed — changelog, agents, tools-and-scheduling, permission-modes (3 material, 1 trivial)
+- Daily docs sync — new CC v2.1.161; refs: agents, modes-and-permissions, tools-and-scheduling
 
 ## [0.2.35] — 2026-06-02
 
-- **Step 6 — Log output:**
+- Daily docs sync — new CC v2.1.160; refs: modes-and-permissions
 
 ## [0.2.34] — 2026-06-01
 
-- [2026-06-01] docs-monitor: 2 material, 1 trivial changes (15 pages checked) — permission-modes (.cargo protected dir), mcp (ws WebSocket transport), changelog (v2.1.159 internal)
+- Daily docs sync — new CC v2.1.159; refs: mcp-and-plugins, modes-and-permissions
 
 ## [0.2.33] — 2026-05-31
 
-- Now send the Telegram notification. The MCP tool should be `mcp__plugin_telegram_telegram__reply`:
+- Daily docs sync — doc-gap sweep, no new CC version; refs: skills, tools-and-scheduling
 
 ## [0.2.32] — 2026-05-30
 
-- TELEGRAM-FALLBACK: docs-monitor [2026-05-30] run #47: 3 material, 1 trivial (15 pages checked) | New CC versions: v2.1.158 (auto mode on Bedrock/Vertex/Foundry, CLAUDE_CODE_ENABLE_AUTO_MODE=1), v2.1.1
+- Daily docs sync — new CC v2.1.157, v2.1.158; refs: mcp-and-plugins, modes-and-permissions, tools-and-scheduling
 
 ## [0.2.31] — 2026-05-29
 
-- Telegram MCP unavailable — logging fallback.
+- Daily docs sync — new CC v2.1.154, v2.1.155, v2.1.156; refs: agents, mcp-and-plugins, tools-and-scheduling
 
 ## [0.2.30] — 2026-05-28
 
-- `[2026-05-28] docs-monitor: 3 material changes, 3 trivial (15 pages checked) — v2.1.153`
+- Daily docs sync — new CC v2.1.153; refs: hooks, mcp-and-plugins, tools-and-scheduling
 
 ## [0.2.29] — 2026-05-27
 
-- Telegram MCP unavailable — logging fallback.
+- Daily docs sync — new CC v2.1.151, v2.1.152; refs: hooks, modes-and-permissions, skills
 
 ## [0.2.28] — 2026-05-26
 
-- Telegram MCP tool is unavailable in this dontAsk session. Per protocol, logging the would-be message:
+- Daily docs sync — doc-gap sweep, no new CC version; refs: skills
 
 ## [0.2.27] — 2026-05-25
 
-- Telegram MCP unavailable — logging fallback:
+- Daily docs sync — doc-gap sweep, no new CC version; refs: hooks
 
 ## [0.2.26] — 2026-05-24
 
-- Telegram MCP unavailable. Logging report as TELEGRAM-FALLBACK:
+- Daily docs sync — doc-gap sweep, no new CC version; refs: mcp-and-plugins
 
 ## [0.2.25] — 2026-05-23
 
-- **Step 6 log:**
+- Daily docs sync — new CC v2.1.149, v2.1.150; refs: mcp-and-plugins, memory-and-context
 
 ## [0.2.24] — 2026-05-22
 
-- Telegram MCP unavailable — logging fallback:
+- Daily docs sync — new CC v2.1.147, v2.1.148; refs: skills
 
 ## [0.2.23] — 2026-05-21
 
-- Telegram MCP tool unavailable in dontAsk mode. Logging fallback:
+- Daily docs sync — new CC v2.1.146; refs: skills, tools-and-scheduling
 
 ## [0.2.22] — 2026-05-20
 
-- Confirmed v2.1.145. Now sending Telegram notification:
+- Daily docs sync — new CC v2.1.145; refs: agents, skills, tools-and-scheduling
 
 ## [0.2.21] — 2026-05-19
 
-- Telegram MCP unavailable — logging fallback per protocol:
+- Daily docs sync — new CC v2.1.144; refs: agents, tools-and-scheduling
 
 ## [0.2.20] — 2026-05-18
 
-- Telegram MCP tool unavailable — logging via TELEGRAM-FALLBACK:
+- Daily docs sync — doc-gap sweep, no new CC version; refs: modes-and-permissions, tools-and-scheduling
 
 ## [0.2.19] — 2026-05-17
 
-- The Telegram MCP is not available in this session. Sending TELEGRAM-FALLBACK:
+- Daily docs sync — doc-gap sweep, no new CC version; refs: hooks, tools-and-scheduling
 
 ## [0.2.18] — 2026-05-16
 
-- Telegram MCP not in scope. Logging fallback:
+- Daily docs sync — new CC v2.1.143; refs: agents, mcp-and-plugins, settings
 
 ## [0.2.17] — 2026-05-15
 
-- TELEGRAM-FALLBACK: docs-monitor 2026-05-15 | Run #32 | v2.1.142 detected
+- Daily docs sync — new CC v2.1.142; refs: agents, mcp-and-plugins
 
 ## [0.2.16] — 2026-05-14
 
-- Telegram MCP is not in scope for this session (only WebFetch/Read/Write/Edit/Bash/Grep available; dontAsk blocks direct API calls). Falling back to log output per protocol:
+- Daily docs sync — new CC v2.1.141; refs: hooks
 
 ## [0.2.15] — 2026-05-13
 
-- TELEGRAM-FALLBACK: `docs-monitor 2026-05-13 | Run #30 | Pages checked: 15 | Changes: 0 material, 1 trivial | v2.1.140 (May 12) — bug fixes only (subagent_type case/separator matching fix; /goal hang
+- Daily docs sync — new CC v2.1.140; changelog ref only
 
 ## [0.2.14] — 2026-05-12
 
@@ -278,27 +278,27 @@
 
 ## [0.2.12] — 2026-05-12
 
-- Telegram MCP unavailable — logging fallback:
+- Daily docs sync — new CC v2.1.139; refs: agents, tools-and-scheduling
 
 ## [0.2.11] — 2026-05-11
 
-- Telegram MCP unavailable. Logging fallback:
+- Daily docs sync — doc-gap sweep, no new CC version; refs: settings, skills, tools-and-scheduling
 
 ## [0.2.10] — 2026-05-10
 
-- Telegram MCP not in scope — logging fallback as required:
+- Daily docs sync — doc-gap sweep, no new CC version; refs: tools-and-scheduling
 
 ## [0.2.9] — 2026-05-09
 
-- Telegram MCP tool is not in scope for this session. Logging TELEGRAM-FALLBACK:
+- Daily docs sync — new CC v2.1.136, v2.1.137, v2.1.138; refs: mcp-and-plugins, modes-and-permissions, settings
 
 ## [0.2.8] — 2026-05-08
 
-- Telegram MCP unavailable. Logging fallback:
+- Daily docs sync — new CC v2.1.133; refs: hooks, settings
 
 ## [0.2.7] — 2026-05-07
 
-- **Step 6 log output:**
+- Daily docs sync — new CC v2.1.132; refs: tools-and-scheduling
 
 ## [0.2.6] — 2026-05-06
 
