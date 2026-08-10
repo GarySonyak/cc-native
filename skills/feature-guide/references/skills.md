@@ -70,6 +70,9 @@ Re-invoking a skill whose rendered content is identical to the copy already in c
 - **Refinement (v2.1.203)**: both stay available on a name clash — invoking the unqualified name loads the project-root skill, and Claude Code appends the list of directory-qualified variants with an instruction to also invoke any variant whose directory holds the files being worked on. So `/deploy` alone can still trigger the nested `apps/web:deploy` variant when relevant; type the qualified name directly to run only that one.
 - `skillOverrides: "off"` also hides a skill from Remote Control and Agent SDK command listings, not just the terminal `/` menu. Invoking it by full name still errors instead of running. (v2.1.199)
 - A skill entry (enterprise/personal/project) can be a symlink to a directory elsewhere on disk — Claude Code follows it and reads `SKILL.md` from the target, loading the skill once even if reachable from multiple locations.
+- Skills with `context: fork` now run as a **background** subagent by default; set `background: false` in frontmatter to opt out and run in the foreground. (v2.1.218)
+- Skill/plugin frontmatter booleans now also accept `yes`/`no`/`on`/`off`/`1`/`0` (case-insensitive) alongside `true`/`false`. (v2.1.218)
+- `/claude-api` gained a `prompt-audit` subcommand: audits prompts and tool descriptions for patterns written for older models. (v2.1.221)
 
 ## Restrict Claude's skill access
 

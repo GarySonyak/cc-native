@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.81] — 2026-08-10
+
+- You've hit your session limit · resets 12:20pm (UTC)
+
 ## [0.2.80] — 2026-07-21
 
 - # Lean Handoff — 2026-07-21-070643 — slug=cc-native

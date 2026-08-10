@@ -51,7 +51,13 @@ A remote server whose config has an empty `url` now shows as `not configured` in
 
 An MCP tool call running longer than 2 minutes now moves to the background automatically, same as a long-running Bash command, so the session stays usable while it finishes. Configure the threshold or disable with `CLAUDE_CODE_MCP_AUTO_BACKGROUND_MS` (ms; not yet reflected on the live MCP reference page as of this run — captured from the changelog). (v2.1.212)
 
+`mcp_server_errors` field in the headless `stream-json` init event lists `--mcp-config` entries skipped by config validation; terminal runs print a startup warning instead. `claude mcp list`/`/mcp` now show HTTP status + error text when a server fails to connect, plus a warning for config values with hidden leading/trailing whitespace. (v2.1.219)
+
 ## Plugins
+
+**`archive` plugin source (v2.1.224)**: install a plugin from a `.zip` over HTTPS with no git or npm required, with optional SHA-256 pinning for integrity. Complements `--plugin-dir`/`--plugin-url` for local/hosted testing.
+
+Plugins installed via `/plugin install` now activate immediately when safe, instead of always requiring `/reload-plugins`. Plugins now accept `"."` as a `skills` path (the root-level-`SKILL.md` validation error suggests this too). `claude plugin validate` now warns when a marketplace or plugin name would be rejected by Claude Desktop's managed marketplace sync. Agent markdown files reject names containing `:` (reserved for plugin namespacing). (v2.1.221/v2.1.218)
 
 Bundle skills + hooks + agents + MCP servers into distributable unit. `plugin.json` manifest. Plugin `hooks.json` for hook definitions. Distribute via marketplaces. Plugin agents cannot use `hooks`, `mcpServers`, or `permissionMode` frontmatter (security restriction). Plugin `bin/` directory: executables added to Bash tool's PATH while plugin is enabled. `/reload-plugins` reloads without restarting — warns and skips the reload if it would change loaded MCP tools and invalidate the prompt cache; pass `--force` to proceed anyway. `--plugin-dir` flag for local testing; repeatable to load multiple plugins in one session (`--plugin-dir ./a --plugin-dir ./b`); also accepts a path to a `.zip` archive of the plugin directory, not just a directory. (v2.1.128) Cannot override a plugin that managed settings force-enables or force-disables. Plugin LSP servers via `.lsp.json`. Plugin default settings via `settings.json` at plugin root (`agent` and `subagentStatusLine` keys supported). `subagentStatusLine` payload now also includes the active reasoning effort level, so a custom agent-row renderer can show model + effort together. (v2.1.214)
 

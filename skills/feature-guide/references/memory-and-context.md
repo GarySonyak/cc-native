@@ -23,6 +23,8 @@ Path-scoped `.claude/rules/*.md` (`paths:` frontmatter) trigger when Claude read
 
 A `paths` glob containing an unreadable `[` bracket expression (e.g. `photos [2024/**`) now matches nothing instead of erroring — escape a literal `[` as `\[` if needed. Before v2.1.207, one invalid pattern made the Read tool fail for every file the rule was evaluated against, not just skip matching. (v2.1.207)
 
+Brace expansion in a rule's `paths` list (e.g. `src/**/*.{ts,tsx}`) shares one budget of 1,000 expanded patterns and 4 MiB across the whole list; a pattern that would exceed the budget is used unexpanded (its literal braces then match no files). Before v2.1.217, a `paths` value with many brace groups could stall or OOM-crash the CLI at startup. (v2.1.217)
+
 Excluding `project` from `--setting-sources` skips rules without `paths` frontmatter (loaded at launch). Before v2.1.211, on-demand rules — path-scoped rules and rules in nested `.claude/rules/` directories — still loaded even with `project` excluded; now they're skipped too. (v2.1.211)
 
 `/doctor` (v2.1.206) proposes trims for a checked-in CLAUDE.md: cuts content Claude can derive from the codebase (directory layouts, dependency lists, architecture overviews), keeps pitfalls/rationale/conventions that differ from tool defaults.

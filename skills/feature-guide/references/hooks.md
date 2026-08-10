@@ -4,7 +4,7 @@
 
 ## Events by category
 
-- Session: `SessionStart`, `SessionEnd`, `Setup` (matcher: `init`/`maintenance` -- fires on `--init-only`/`--init`/`--maintenance` flags), `InstructionsLoaded`, `ConfigChange`, `CwdChanged`
+- Session: `SessionStart`, `SessionEnd`, `Setup` (matcher: `init`/`maintenance` -- fires on `--init-only`/`--init`/`--maintenance` flags), `InstructionsLoaded`, `ConfigChange`, `CwdChanged`, `DirectoryAdded` (fires after `/add-dir` or SDK `register_repo_root` registers a new working directory mid-session; matcher: `slash_command`/`register_repo_root`) (v2.1.219)
 - User input: `UserPromptSubmit`, `UserPromptExpansion` (fires when user command expands; can block), `Elicitation`, `ElicitationResult`
 - Tool: `PreToolUse`, `PermissionRequest`, `PostToolUse`, `PostToolUseFailure`, `PostToolBatch` (fires after full parallel tool batch, before next model call; no matcher -- always fires) (v2.1.121)
 - Notification: `Notification`

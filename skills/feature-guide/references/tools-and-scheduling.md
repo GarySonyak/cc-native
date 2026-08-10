@@ -7,6 +7,7 @@
 | `AskUserQuestion` | Presents multiple-choice questions to user to gather requirements or clarify ambiguity. Permission: No. Questions stay open indefinitely by default (no idle auto-continue) — set `askUserQuestionTimeout` (`60s`/`5m`/`10m`) in settings or via the "Question auto-continue timeout" row in `/config` to opt back into auto-continue. Permission prompts (incl. plan approval) never auto-resolve on idle, unlike v2.1.198/199 which auto-continued both after 60s via `CLAUDE_AFK_TIMEOUT_MS`. (v2.1.200) |
 | `EndConversation` | Ends the session as a last resort against sustained abusive input (only after a warning + failed redirect) or when you explicitly ask to see it demonstrated — never for mere frustration/profanity/a bad task. Mirrors claude.ai behavior. Can't be blocked: deny/ask rules, `--disallowedTools`, and restrictive `--tools` lists naming it have no effect while any other tool remains (a full `"*"` deny removes it too, unless an allow rule names it explicitly). Ends the session — locks it (`/clear`/`/resume`/`/help`/`/exit`/`/feedback` still work); never given to subagents. Requires Opus 4.8/Sonnet 5/Fable 5+, an interactive terminal (not `-p`, SDK, VS Code panel, GitHub Actions, or CC on the web), non-`--bare` startup, Anthropic API only (not Bedrock/Vertex/Foundry/cloud gateway). (v2.1.213) |
 | `WebSearch` | Session-wide cap of 200 calls by default, counted across the main conversation **and every subagent it spawns** (`CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION` to change; resets on `/clear`) — guards against runaway search loops. A capped call returns a silent notice telling Claude to continue with what it has rather than an error inviting retry. Issues up to 8 backend searches per call; scope with `allowed_domains`/`blocked_domains` (not combinable). Doesn't fetch page content; follow up with `WebFetch` to read a result. Permission rule takes no specifier (bare `WebSearch` in allow/deny). An overloaded-API search now retries with backoff instead of leaking the raw API error into results. (v2.1.212) |
+| `ListAgents` | Lists agents (subagents, teammates, other Claude Code sessions) reachable via `SendMessage`, including cross-session/Remote Control targets shown as `name [ref]`. Permission: No. (v2.1.224) |
 | `ListMcpResourcesTool` | Lists resources exposed by connected MCP servers. Permission: No. |
 | `ReadMcpResourceTool` | Reads a specific MCP resource by URI. Permission: No. |
 | `ReportFindings` | Reports `/code-review` findings as a structured list (file, summary, failure scenario, optional `category` slug v2.1.199) for rendering instead of plain text. Permission: No. (v2.1.196) |
@@ -38,6 +39,10 @@
 
 Long-running tool calls now emit a periodic progress heartbeat instead of going silent while they run. (v2.1.214)
 
+`claude self-hosted-runner`: turns your own machine or container into a place Claude Code web/mobile/desktop sessions can run — Team/Enterprise plans. (v2.1.224)
+
+`/code-review` now runs as a background subagent (review work no longer fills your conversation); keeps stacked slash commands as its review target. (v2.1.218) `/review` is now an alias of `/code-review` (`/code-review <level> <pr#>`; omit the effort level to reuse the level you last typed; `/code-review ultra` for the deep cloud review). (v2.1.223) **Removed (v2.1.222)**: the `/ultraplan` command/feature no longer exists.
+
 ## Scheduled Tasks (v2.1.72+)
 
 Session-scoped; restored on `--resume`/`--continue` if unexpired (7-day window). (v2.1.114) Tools: `CronCreate`, `CronList`, `CronDelete`. Max 50 tasks per session. 7-day auto-expiry for recurring tasks. Jitter: recurring tasks fire up to **30 minutes** after scheduled time (or up to half the interval for sub-hourly tasks; e.g. hourly job at :00 may fire up to :30). One-shot tasks at :00/:30 fire up to 90s early. Offset is derived from task ID (same task always gets same offset). Disable: `CLAUDE_CODE_DISABLE_CRON=1`.
@@ -49,6 +54,8 @@ Compare options: **Routines** (Cloud, `/schedule`): Anthropic-managed, durable, 
 Stop a running `/loop` between iterations with `Esc` (only affects `/loop`; tasks created via natural-language scheduling are unaffected). On Bedrock, Vertex AI, and Microsoft Foundry: `/loop <prompt>` with no interval runs on a fixed 10-minute schedule (not dynamic), and bare `/loop` with no prompt prints usage instead of starting the maintenance loop.
 
 Fixed (v2.1.214): scheduled tasks no longer refuse their own configured prompt as untrusted input when they fire — the prompt is now delivered as the session's assigned task.
+
+Scheduling a task now fails with an error if the project's `.claude` directory or the task-list file inside it is a symlink (before v2.1.216, Claude Code silently wrote through the link).
 
 **Scheduled skill invocation control (v2.1.196):** A `/loop` scheduled fire can pass a skill as the prompt (e.g. `/loop 20m /review-pr 1234`), but only skills Claude is allowed to auto-invoke actually execute. The following are passed as plain text instead: built-in commands (`/permissions`, `/model`, `/clear`, etc.); skills with `disable-model-invocation: true`; skills withheld by `skillOverrides` or a `Skill` deny rule; MCP prompts (`/mcp__<server>__<prompt>`). Skills exposed by MCP servers (not MCP prompts) still run. (v2.1.196)
 

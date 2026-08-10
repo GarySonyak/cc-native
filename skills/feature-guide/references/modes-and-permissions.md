@@ -154,6 +154,13 @@ Bash/PowerShell permission-check bypass fixes: PowerShell 5.1 permission-check b
 
 The classifier runs on Claude Sonnet 5 by default regardless of your `/model` selection (an Anthropic server-side override takes precedence); falls back to the session's own model when that's Sonnet 4.6 or when `availableModels` excludes Sonnet 5, or to an Opus model when the session runs on Fable 5 (provider's default Opus off the Anthropic API). Resolved once, on the session's first auto-mode request. Auto mode model requirement now also includes **Fable 5** on every provider (Anthropic API/Claude Platform on AWS: Opus 4.6+/Sonnet 4.6+/Fable 5; Bedrock/Vertex/Foundry/Claude apps gateway: Sonnet 5, Opus 4.7, Opus 4.8, Fable 5). (confirmed 2026-07-18)
 
+## Security & auto-mode hardening (v2.1.218-223)
+
+- **Bash/PowerShell bypass fixes**: crafted commands hiding parts of themselves from permission checks (v2.1.223); tab/invisible-Unicode padding hiding command text from the approval dialog (v2.1.223); zsh `[[ ]]` regex conditionals executing hidden commands (v2.1.221); PowerShell paths containing quote characters mishandled (v2.1.221); workflow scripts using dynamic `import()` to escape the workflow sandbox (v2.1.223); an agent definition's `bypassPermissions` mode ignoring the org's bypass-permissions-disable policy (v2.1.223).
+- **Auto mode now adjudicates more directly instead of dialog-prompting**: dangerous-`rm`, background-`&`, and suspicious-Windows-path checks go straight to the classifier instead of opening a permission dialog; plan-mode-with-auto no longer prompts for Bash the static analyzer can't prove read-only — the classifier judges it instead. (v2.1.218)
+- **Cross-session `SendMessage` evaluated by the classifier** before dispatch, same as other auto-mode-gated actions. (v2.1.222)
+- Worktree isolation hardened: worktree-isolated sessions/subagents could previously run destructive git commands against the main checkout; isolation now covers file edits and Bash in every session type. (v2.1.222)
+
 ## Security hardening (v2.1.113)
 
 `sandbox.network.deniedDomains` setting blocks specific domains. Bash deny rules match commands wrapped in `env`/`sudo`/`watch`/`ionice`/`setsid`. `Bash(find:*)` no longer auto-approves `find -exec`/`-delete`. macOS `/private/{etc,var,tmp,home}` treated as dangerous.
