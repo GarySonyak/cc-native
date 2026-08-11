@@ -2,7 +2,7 @@
 
 ## [0.2.83] — 2026-08-11
 
-- Daily docs sync (run summary unavailable)
+- Daily docs sync — new CC v2.1.227; upcoming 2026-08-14 rollout of `auto` as default permission mode for Pro/Max/Team, subagent frontmatter hooks gated by workspace trust (v2.1.218), `/reload-plugins` misleading "0 skills" count; refs: agents, mcp-and-plugins, modes-and-permissions
 
 ## [0.2.81] — 2026-08-10
 
