@@ -88,6 +88,8 @@ Plugins in `.claude/skills/` directories auto-load at session start — no marke
 
 `--plugin-url <url>` can be repeated, or passed as one quoted space-separated string, to load multiple hosted `.zip` plugins in one session (complements the single-plugin form above).
 
+After editing a skill and running `/reload-plugins`, the reload summary's skill count only tallies `commands/`-style directories — it can print `0 skills` even though the skill you just edited reloaded correctly. Not a failure signal; check `/plugin-name:skill-name` directly to confirm.
+
 claude.ai connectors: unused connectors (never signed in to) are collapsed behind a "Show unused connectors" row in `/mcp` as of v2.1.161 — org-provisioned lists no longer fill the panel. Previously-signed-in connectors stay visible even when re-authentication is needed. (v2.1.161)
 
 ## Channels (v2.1.81+)

@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.83] — 2026-08-11
+
+- Daily docs sync (run summary unavailable)
+
 ## [0.2.81] — 2026-08-10
 
 - Catch-up docs sync after 20-day cron auth outage (OAuth refresh token expired 2026-07-21): folded in CC v2.1.217–v2.1.226 — cross-session SendMessage/ListAgents, `claude self-hosted-runner`, `archive` plugin source, `DirectoryAdded` hook, sandbox credential masking, subagent nesting/concurrency changes, `/review`→`/code-review` alias, `/ultraplan` removed, Bash/PowerShell/workflow-sandbox security fixes; refs: agents, hooks, mcp-and-plugins, memory-and-context, modes-and-permissions, settings, skills, tools-and-scheduling
