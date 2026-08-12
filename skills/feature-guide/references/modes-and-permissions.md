@@ -185,6 +185,10 @@ Conversation-stated boundaries (e.g. "don't push") block classifier; lost after 
 
 **Starting 2026-08-14**, `auto` becomes the default permission mode for *new* sessions on Pro, Max, and Team plans (announced 2026-08-10, live docs). Existing sessions and any `defaultMode` you already set yourself are unaffected unless you accept a one-time switch prompt; an org-managed default is also unaffected. Enterprise is not mentioned in the rollout. See the blog announcement linked from the live permission-modes page for details.
 
+## Cowork tab has its own permission-modes system
+
+Desktop's Cowork tab does **not** use the 6 modes above. It has a separate, independently-enabled permission-modes system with no mode selector shown at all until a mode beyond Cowork's default is enabled for your account — don't assume `defaultMode`/`permissions.defaultMode` settings apply there.
+
 ## Checkpointing
 
 Auto-snapshots before every file edit. `/rewind` (alias `/undo`) to restore previous state; as of v2.1.191 also works to jump back to state **before a `/clear`** (not just undo the last turn). `/checkpoint` to save manually. Checkpoints are local to session, separate from git. Only covers file changes -- remote actions (DB, API, deploy) cannot be checkpointed.

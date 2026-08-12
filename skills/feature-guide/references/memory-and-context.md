@@ -29,6 +29,10 @@ Excluding `project` from `--setting-sources` skips rules without `paths` frontma
 
 `/doctor` (v2.1.206) proposes trims for a checked-in CLAUDE.md: cuts content Claude can derive from the codebase (directory layouts, dependency lists, architecture overviews), keeps pitfalls/rationale/conventions that differ from tool defaults.
 
+The first time a project-level memory file (CLAUDE.md/CLAUDE.local.md) uses an `@import` that resolves outside the working directory (e.g. `@~/.claude/my-project-instructions.md`), Claude Code shows a one-time approval dialog listing the external files; declining disables those imports for the session without asking again. User-scope files (`~/.claude/CLAUDE.md`, `~/.claude/rules/`) skip the dialog since they're self-authored.
+
+`/import [codex|gemini] [--dry-run] [--yes]`: brings another coding agent's config into Claude Code — appends its instruction files (e.g. `AGENTS.md`) to the matching `CLAUDE.md` and carries over MCP servers, commands, subagents, and skills, one-time. (v2.1.213)
+
 ## Context Management
 
 `/compact` to summarize and free context. `/compact <focus>` to preserve specific topics. Deferred tools via `ToolSearch` -- only names loaded initially. `/context` to visualize usage. Skills load description only until invoked. Subagents get own fresh context (main conversation not bloated). `/btw` for side questions (no tools, answer discarded).

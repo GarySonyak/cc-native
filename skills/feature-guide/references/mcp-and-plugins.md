@@ -53,6 +53,12 @@ An MCP tool call running longer than 2 minutes now moves to the background autom
 
 `mcp_server_errors` field in the headless `stream-json` init event lists `--mcp-config` entries skipped by config validation; terminal runs print a startup warning instead. `claude mcp list`/`/mcp` now show HTTP status + error text when a server fails to connect, plus a warning for config values with hidden leading/trailing whitespace. (v2.1.219)
 
+`.mcp.json` supports env var expansion in `command`, `args`, `env`, `url`, and `headers`: `${VAR}` expands to the env var's value, `${VAR:-default}` falls back to `default` when unset. An unset var with no default still loads (unexpanded `${VAR}` text used as-is) but `claude mcp list` shows a missing-variable warning.
+
+A remote (HTTP/SSE) server you've used before can show `cached` status in `/mcp` (e.g. `cached 2h ago · connects on first use`) instead of connecting at startup — Claude Code reuses the prior session's tool list and connects on first actual tool call. Set `MCP_DISCOVERY_CACHE=0` to force every server to connect at startup instead. (v2.1.221)
+
+Per-server `timeout` (ms, in `.mcp.json`) is a hard wall-clock cap per tool call and floors the idle-timeout window; it's distinct from `MCP_TOOL_TIMEOUT`, whose unset default is ~28 hours. HTTP/SSE/connector servers also have a separate 60s per-request timer (time to first response byte) that only a `timeout`/`MCP_TOOL_TIMEOUT` of ≥60s raises; stdio/WebSocket servers have no per-request timer.
+
 ## Plugins
 
 **`archive` plugin source (v2.1.224)**: install a plugin from a `.zip` over HTTPS with no git or npm required, with optional SHA-256 pinning for integrity. Complements `--plugin-dir`/`--plugin-url` for local/hosted testing.

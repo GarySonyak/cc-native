@@ -73,6 +73,9 @@ Re-invoking a skill whose rendered content is identical to the copy already in c
 - Skills with `context: fork` now run as a **background** subagent by default; set `background: false` in frontmatter to opt out and run in the foreground. (v2.1.218)
 - Skill/plugin frontmatter booleans now also accept `yes`/`no`/`on`/`off`/`1`/`0` (case-insensitive) alongside `true`/`false`. (v2.1.218)
 - `/claude-api` gained a `prompt-audit` subcommand: audits prompts and tool descriptions for patterns written for older models. (v2.1.221)
+- `synced` is a reserved skill-folder name at every level (personal/project/enterprise) — Claude Code downloads claude.ai-enabled skills there via `CLAUDE_CODE_SYNC_SKILLS`; before v2.1.227 a folder you created named `synced` loaded as a real skill instead. **Hardened (v2.1.228)**: skills synced from claude.ai no longer shadow local commands or MCP prompts, their descriptions are sanitized and labeled, and their bodies don't run `!` shell-injection commands or expand `@` files on your machine.
+- New frontmatter fields (Agent Skills spec, accepted but not acted on by Claude Code): `metadata` (free-form YAML map for your own tooling — don't reuse other frontmatter names as keys), `license`, `compatibility` (environment requirements, up to 500 chars).
+- A skill folder can hold its own `.claude-plugin/plugin.json`, which loads it as a plugin named `<name>@skills-dir` so it can also bundle hooks/agents/MCP servers; in a project's `.claude/skills/` this requires accepting the workspace-trust dialog first. `claude plugin init <name>` scaffolds one directly.
 
 ## Restrict Claude's skill access
 

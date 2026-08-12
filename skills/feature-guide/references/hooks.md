@@ -15,7 +15,7 @@
 - Context: `PreCompact`, `PostCompact`
 - Stop: `Stop`, `StopFailure`
 - Display: `MessageDisplay` (v2.1.152) -- fires when assistant message text is about to be displayed; hook can transform or suppress the text before it reaches the terminal
-- Auto mode: `PermissionDenied` (v2.1.88 -- fires after auto mode classifier denial; return `{retry: true}` to let model retry)
+- Auto mode: `PermissionDenied` (v2.1.88 -- fires after auto mode classifier denial, including denials with no classifier verdict at all; return `{retry: true}` to let model retry — Claude Code ignores `retry` specifically when the classifier produced no verdict)
 
 ## Hook types
 
@@ -25,13 +25,15 @@ Common per-hook fields: `type` (required), `if` (permission rule filter, tool ev
 
 Path placeholders usable in any hook command/args: `${CLAUDE_PROJECT_DIR}` (project root), `${CLAUDE_PLUGIN_ROOT}` (plugin's versioned install path), `${CLAUDE_PLUGIN_DATA}` (plugin's persistent data directory — survives plugin updates, unlike `CLAUDE_PLUGIN_ROOT`).
 
-`PermissionRequest` hooks don't fire in non-interactive mode (`-p` flag) since there's no dialog to answer — use `PreToolUse` for automated permission decisions there instead.
+`PermissionRequest` hooks don't fire in non-interactive mode (`-p` flag) since there's no dialog to answer — use `PreToolUse` for automated permission decisions there instead. Exception: background subagents can't show a prompt even in an interactive session's non-interactive-mode call path — Claude Code still runs the matching hooks, and if none of them return a decision, the call is denied by default.
+
+`prompt`-type `PreToolUse`/`PostToolUse` hooks returning `"ok": false`: by default the turn ends and `reason` shows as a warning line in chat; set `continueOnBlock: true` to instead feed `reason` back to Claude as the tool error/deny reason so it can adjust and continue. Before v2.1.210, a `PreToolUse` prompt-hook deny always returned the reason to Claude as the tool error and the turn continued (the opposite default). `SessionEnd` hooks of any type share one combined 1.5s timeout budget across all of them; setting a longer per-hook `timeout` raises that shared budget, capped at 60s.
 
 **Bash `if` matching mechanics**: leading env-var assignments are stripped before matching (`Bash(git *)` matches `FOO=bar git push`); each subcommand of a compound command (`&&`, `;`, `|`) is checked separately (`Bash(git *)` matches `npm test && git push`); commands nested in `$()` or backticks are also checked (`Bash(rm *)` matches `echo $(rm -rf /)`, but not `echo $(date)` since no subcommand matches). A single-segment `dir/**` pattern in `if:` now matches only `<cwd>/dir` (was any-depth before v2.1.214) — write `**/dir/**` for any-depth matching; matches the same fix to `permissions.allow` rules (see modes-and-permissions.md).
 
 ## Matchers
 
-Regex on event metadata: tool name (`PreToolUse`/`PostToolUse`/`PostToolUseFailure`/`PermissionRequest`/`PermissionDenied`), session source (`SessionStart`), agent type (`SubagentStart`/`SubagentStop`), MCP server name (`Elicitation`/`ElicitationResult`), notification type (`Notification`), command name (`UserPromptExpansion`), `manual`/`auto` (`PreCompact`/`PostCompact`), `init`/`maintenance` (`Setup`). Exact-string match when matcher uses only letters/digits/`_`/`|`/`-`/spaces/`,`. As of v2.1.191, `,` is interchangeable with `|` as a list separator (e.g., `Edit,Write` ≡ `Edit|Write`). (v2.1.191) As of v2.1.195, matchers with hyphens (e.g., `mcp__brave-search`, `code-reviewer`) also exact-match correctly; before v2.1.195, hyphenated tool names were incorrectly treated as regex substring patterns. Per-event notes below cover `ConfigChange`/`InstructionsLoaded`/`SessionEnd`/`StopFailure`/`FileChanged` matcher values. `if` field (v2.1.85+): permission rule syntax for tool name + argument filtering. Only works on tool events (PreToolUse, PostToolUse, PostToolUseFailure, PermissionRequest).
+Regex on event metadata: tool name (`PreToolUse`/`PostToolUse`/`PostToolUseFailure`/`PermissionRequest`/`PermissionDenied`), session source (`SessionStart`), agent type (`SubagentStart`/`SubagentStop`), MCP server name (`Elicitation`/`ElicitationResult`), notification type (`Notification`), command name (`UserPromptExpansion`), `manual`/`auto` (`PreCompact`/`PostCompact`), `init`/`maintenance` (`Setup`). Exact-string match when matcher uses only letters/digits/`_`/`|`/`-`/spaces/`,`. As of v2.1.191, `,` is interchangeable with `|` as a list separator (e.g., `Edit,Write` ≡ `Edit|Write`). (v2.1.191) As of v2.1.195, matchers with hyphens (e.g., `mcp__brave-search`, `code-reviewer`) also exact-match correctly; before v2.1.195, hyphenated tool names were incorrectly treated as regex substring patterns. Per-event notes below cover `ConfigChange`/`InstructionsLoaded`/`SessionEnd`/`StopFailure`/`FileChanged` matcher values. `if` field (v2.1.85+): permission rule syntax for tool name + argument filtering. Only works on tool events (PreToolUse, PostToolUse, PostToolUseFailure, PermissionRequest, and — previously uncaptured — PermissionDenied); adding it to any other event prevents the hook from running.
 
 ## Exit codes
 
