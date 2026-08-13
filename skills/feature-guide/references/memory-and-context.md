@@ -33,6 +33,10 @@ The first time a project-level memory file (CLAUDE.md/CLAUDE.local.md) uses an `
 
 `/import [codex|gemini] [--dry-run] [--yes]`: brings another coding agent's config into Claude Code — appends its instruction files (e.g. `AGENTS.md`) to the matching `CLAUDE.md` and carries over MCP servers, commands, subagents, and skills, one-time. (v2.1.213)
 
+`@path` imports recurse up to 4 hops deep. Import parsing skips Markdown code spans/fenced code blocks — wrap a path in backticks (`` `@README` ``) to mention it without importing it.
+
+`/init` already reads Cursor rules (`.cursor/rules/`/`.cursorrules`) and Copilot rules (`.github/copilot-instructions.md`) by default, folding relevant parts into the generated CLAUDE.md. With `CLAUDE_CODE_NEW_INIT=1` set, it additionally reads `AGENTS.md`, `.devin/rules/`, `.windsurf/rules/`/`.windsurfrules`, and `.clinerules`.
+
 ## Context Management
 
 `/compact` to summarize and free context. `/compact <focus>` to preserve specific topics. Deferred tools via `ToolSearch` -- only names loaded initially. `/context` to visualize usage. Skills load description only until invoked. Subagents get own fresh context (main conversation not bloated). `/btw` for side questions (no tools, answer discarded).

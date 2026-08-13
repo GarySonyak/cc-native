@@ -77,6 +77,10 @@ Re-invoking a skill whose rendered content is identical to the copy already in c
 - New frontmatter fields (Agent Skills spec, accepted but not acted on by Claude Code): `metadata` (free-form YAML map for your own tooling — don't reuse other frontmatter names as keys), `license`, `compatibility` (environment requirements, up to 500 chars).
 - A skill folder can hold its own `.claude-plugin/plugin.json`, which loads it as a plugin named `<name>@skills-dir` so it can also bundle hooks/agents/MCP servers; in a project's `.claude/skills/` this requires accepting the workspace-trust dialog first. `claude plugin init <name>` scaffolds one directly.
 
+## Evaluate skills
+
+`skill-creator` plugin (`/plugin install skill-creator@claude-plugins-official`) automates with/without-skill baseline comparisons: generates test cases in `evals/evals.json`, runs each in an isolated subagent, grades against assertions, and aggregates pass-rate/tokens/time into `benchmark.json`; also supports blind A/B version comparison and description-tuning (should-trigger/should-not-trigger hit-rate).
+
 ## Restrict Claude's skill access
 
 - Disable all: deny `Skill` tool in `/permissions`.
