@@ -12,6 +12,8 @@ Servers in `.mcp.json` (project) or `~/.claude/.mcp.json` (global). Tools appear
 
 `authServerMetadataUrl` (in `oauth` block): override OAuth discovery — bypass default RFC 9728/RFC 8414 chain and point to specific authorization server metadata URL. Requires `https://`. (v2.1.64+)
 
+`--callback-port` fixes the local OAuth callback port (default: random) to match a pre-registered `http://localhost:PORT/callback` redirect URI some servers require. v2.1.229 regressed this to send `http://127.0.0.1:PORT/callback` instead, breaking sign-in for servers that exact-match the registered URI (e.g. Slack); fixed in v2.1.231, which restored the `localhost` form. (v2.1.231)
+
 `claude mcp login <name>` / `claude mcp logout <name>`: authenticate or deauthenticate with a specific MCP server from the CLI, without opening the `/mcp` menu. `--no-browser` flag redirects auth flow to stdin — required in SSH/headless sessions. `claude mcp get`/`claude mcp remove` now suggest typo corrections and truncate long server lists. (v2.1.186)
 
 Managed MCP policy: `allowedMcpServers`/`deniedMcpServers` in managed settings restrict users to approved servers. Match by `serverName`, `serverCommand` (exact array), or `serverUrl` (wildcard `*`). Allowlist behavior: undefined=no restriction, `[]`=full lockdown, list=whitelist. Denylist takes absolute precedence over allowlist. Option 1 (`managed-mcp.json`)=exclusive control over all servers; Option 2 (allowlists/denylists)=policy overlay allowing user-added servers within constraints. Both can coexist. (v2.1.128)
@@ -63,7 +65,9 @@ Per-server `timeout` (ms, in `.mcp.json`) is a hard wall-clock cap per tool call
 
 **`archive` plugin source (v2.1.224)**: install a plugin from a `.zip` over HTTPS with no git or npm required, with optional SHA-256 pinning for integrity. Complements `--plugin-dir`/`--plugin-url` for local/hosted testing.
 
-**Marketplace `command` source (v2.1.229)**: a marketplace entry can point at a local command (e.g. run by an IDE) that prints the plugin's directory path; re-resolved every session and applied without a restart. `mode: "link"` uses the printed path in place, like a local symlink source.
+**Marketplace `command` source (v2.1.229)**: a marketplace entry can point at a local command (e.g. run by an IDE) that prints the plugin's directory path; re-resolved every session and applied without a restart. `mode: "link"` uses the printed path in place, like a local symlink source. Constraints: `command` must be printable ASCII, ≤500 chars, no runs of 4+ spaces (so users can review it); shown once for explicit accept (`--yes` non-interactively) and every later re-run reuses only the accepted string; never installed as a dependency of another plugin. Admins can block org-wide with `disableCommandPluginSources` (also blocked by default when `allowManagedHooksOnly` is set).
+
+GitLab (and other git hosts) is supported as a plugin marketplace source via the generic `url` type (full URL incl. scheme, e.g. `https://gitlab.com/team/plugin.git`) — has worked for a while. **v2.1.232 changelog also lists "GitLab support in plugin marketplaces with bare URLs"** as a new, more direct form — not yet reflected on the live plugin-marketplaces page as of this run; re-confirm mechanics next run.
 
 Plugins installed via `/plugin install` now activate immediately when safe, instead of always requiring `/reload-plugins`. Plugins now accept `"."` as a `skills` path (the root-level-`SKILL.md` validation error suggests this too). `claude plugin validate` now warns when a marketplace or plugin name would be rejected by Claude Desktop's managed marketplace sync. Agent markdown files reject names containing `:` (reserved for plugin namespacing). (v2.1.221/v2.1.218)
 
