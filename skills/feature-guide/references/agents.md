@@ -114,3 +114,5 @@ Limitations: **no nested teams** (teammates cannot spawn their own teammates —
 ## Worktrees
 
 `isolation: "worktree"` on Agent tool (or subagent frontmatter) for git-isolated parallel work. Worktree auto-cleaned if no changes; branch returned if changes made. Also available via `EnterWorktree`/`ExitWorktree` tools. Use for parallel sessions, A/B experimentation, or `/batch` skill.
+
+`--worktree` and the `claude agents` view now also display GitLab merge request URLs (shown as `!N`), alongside existing GitHub PR support. (v2.1.233)
