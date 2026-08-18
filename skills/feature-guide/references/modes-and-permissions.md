@@ -100,7 +100,7 @@ New built-in blocks added to the classifier (extend existing default block list;
 Extends the v2.1.195 list:
 - `git commit --amend` also blocked when the HEAD commit was already pushed. A message-only reword (`--amend -m`, nothing newly staged, on a commit Claude created this session) is still allowed.
 - New blocks: deleting files in `/tmp`/`$TMPDIR`/a shared scratch dir by wildcard, glob, or age filter (rather than a specific named path); sharing unauthorized sensitive details with people or shared systems; sending keystrokes to Claude Code's own tmux pane (self-permission escalation).
-- Sandbox network verdicts are now cached per host+port instead of re-classified on every connection. An allow is invalidated when new content enters the conversation; a deny is dropped at turn end interactively, or reused for the rest of the run in non-interactive/SDK sessions.
+- Sandbox network verdicts are now cached per host+port instead of re-classified on every connection. An allow is invalidated when new content enters the conversation; a deny is dropped at turn end interactively, or reused for the rest of the run in non-interactive/SDK sessions. A deny caused specifically by the classifier's context window overflowing is reused until new content arrives or compaction shrinks what it reads, then re-checked. (v2.1.234)
 
 ## Auto mode safety defaults further expanded (v2.1.200)
 

@@ -39,7 +39,11 @@ Regex on event metadata: tool name (`PreToolUse`/`PostToolUse`/`PostToolUseFailu
 
 `0` = proceed, `2` = block (stderr -> Claude feedback), other = proceed + log.
 
+`PreToolUse`/`PostToolUse` fire on every tool call except `EndConversation`, which skips both. Hook output (stdout/stderr shown to Claude) is capped at 10,000 characters.
+
 ## Structured JSON output
+
+Universal fields on any hook's JSON output: `continue` (bool), `stopReason` (message shown when `continue: false`), `systemMessage` (warning text shown to the user), `suppressOutput` (bool), `terminalSequence`.
 
 `permissionDecision` (allow/deny/ask/defer) for PreToolUse; `UserPromptSubmit` hookSpecificOutput accepts `sessionTitle: "name"` to set session name and `additionalContext: "..."` to inject context. `decision: "block"` for `UserPromptSubmit`, `UserPromptExpansion`, `PostToolUse`, `PostToolUseFailure`, `PostToolBatch`, `Stop` (see "Plugin hook gotchas" — `decision: "block"` triggers a synthetic user-relay message that re-invokes the model and can re-fire the Stop hook), `SubagentStop`, `ConfigChange`, `PreCompact`; `behavior` for PermissionRequest. `defer` (PreToolUse, non-interactive `-p` only): pauses for SDK wrapper to collect input and resume. `PermissionRequest` hook can return `updatedPermissions: [{type: "setMode", mode: "acceptEdits|auto|...", destination: "session"}]` to programmatically change permission mode.
 
