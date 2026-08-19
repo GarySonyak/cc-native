@@ -189,6 +189,10 @@ Conversation-stated boundaries (e.g. "don't push") block classifier; lost after 
 
 Desktop's Cowork tab does **not** use the 6 modes above. It has a separate, independently-enabled permission-modes system with no mode selector shown at all until a mode beyond Cowork's default is enabled for your account — don't assume `defaultMode`/`permissions.defaultMode` settings apply there.
 
+## Permission dialog accuracy (v2.1.235)
+
+Permission dialogs' displayed text and "don't ask again" options now always match what accepting would actually grant; "don't ask again" is withheld entirely when the prompt's contents can't be fully displayed (previously the option could appear even when the full grant scope wasn't shown). (v2.1.235)
+
 ## Checkpointing
 
 Auto-snapshots before every file edit. `/rewind` (alias `/undo`) to restore previous state; as of v2.1.191 also works to jump back to state **before a `/clear`** (not just undo the last turn). `/checkpoint` to save manually. Checkpoints are local to session, separate from git. Only covers file changes -- remote actions (DB, API, deploy) cannot be checkpointed.

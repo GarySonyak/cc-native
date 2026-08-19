@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.89] — 2026-08-19
+
+- Daily docs sync — CC v2.1.235 (new, jump from v2.1.234); material: changelog, settings, tools-reference, permission-modes, sub-agents/agent-teams; refs: changelog, settings, tools-and-scheduling, modes-and-permissions, agents, SKILL
+
 ## [0.2.88] — 2026-08-18
 
 - Daily docs sync (run summary unavailable)

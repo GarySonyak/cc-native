@@ -62,5 +62,6 @@
 - Sandbox credential-masking (user/managed/`--settings` scopes only, requires `network.tlsTerminate`): `extract`/`onExtractNoMatch` for structured env values, `decode: "jwt"` + `maskClaims` for JWT-aware masking, `awsPairs`/`sigv4` for AWS SigV4 re-signing. `mode: "mask"` on sandbox credential files (Linux/WSL): sandboxed commands see a sentinel copy while the sandbox proxy substitutes the real value on egress; macOS falls back to `deny`. (v2.1.221/v2.1.224)
 - `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS` / `CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH`: subagent concurrency and nesting-depth caps — see agents.md. (v2.1.217/v2.1.219)
 - `CLAUDE_CODE_PROJECT_DIR_NAME`: overrides the per-project transcript directory name under `~/.claude/projects/` (default derives from the working directory path). (v2.1.234)
+- `spellcheck`: optional setting that underlines misspelled words in the prompt input as you type, using your installed `aspell`, `hunspell`, or `ispell`. (v2.1.235)
 
 Managed-only settings (`disable*`, `allow*Only`, `sandbox.*.allowManaged*Only`, plugin/marketplace policy keys like `pluginTrustMessage`/`strictKnownMarketplaces`/`blockedMarketplaces`/`channelsEnabled`/`allowedChannelPlugins`, `minimumVersion`, `wslInheritsWindowsSettings`, `subagentStatusLine`) intentionally excluded -- see `/en/settings#available-settings` for the full enterprise list.
