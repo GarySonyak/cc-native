@@ -22,7 +22,7 @@ Managed MCP policy: `allowedMcpServers`/`deniedMcpServers` in managed settings r
 
 `type: "ws"` in server config: WebSocket transport — persistent bidirectional connection for servers that push events unprompted. Configure via `claude mcp add-json`. Does NOT support `--transport` flag or OAuth. Accepts url, headers, headersHelper, timeout, alwaysLoad fields.
 
-`list_changed` notification support: MCP servers can send `list_changed` notifications to dynamically refresh their available tools, prompts, and resources mid-session — Claude Code auto-refreshes capabilities on receipt, no disconnect/reconnect needed.
+`list_changed` notification support: MCP servers can send `list_changed` notifications to dynamically refresh their available tools, prompts, and resources mid-session — Claude Code auto-refreshes capabilities on receipt, no disconnect/reconnect needed. If the refresh request itself fails, Claude Code keeps the server's previously discovered tools/prompts/resources until a later refresh succeeds; before v2.1.214, a failed refresh replaced them with an empty list.
 
 `_meta["anthropic/requiresUserInteraction"]: true` on a tool's `tools/list` entry (server-side): forces a permission prompt on every call to that tool, even in `acceptEdits`/`auto`/`bypassPermissions`, with no "don't ask again" option; `dontAsk` mode denies the call instead of prompting. Use for consent/access-grant tools where auto-approval would defeat the point. (v2.1.199)
 
@@ -86,7 +86,7 @@ Plugin with root-level `SKILL.md` and no `skills/` subdirectory automatically su
 
 `claude plugin disable` now refuses if another enabled plugin declares a dependency on the target, displaying which plugin depends on it. Disable the dependent plugin first, then retry. (v2.1.143)
 
-`claude plugin validate`: run locally before submitting to marketplace — same checks the review pipeline runs. Use before `claude.ai/settings/plugins/submit` submissions.
+`claude plugin validate`: run locally before submitting to marketplace — same checks the review pipeline runs. Use before `claude.ai/settings/plugins/submit` submissions. Prints `✔ Validation passed` (or `✔ Validation passed with warnings`); warnings don't fail validation unless `--strict` is passed, which treats them as errors.
 
 Community marketplace: add with `/plugin marketplace add anthropics/claude-plugins-community`, then install from it as `@claude-community`. Official marketplace (`claude-plugins-official`) is auto-available in every install.
 

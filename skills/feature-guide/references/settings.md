@@ -63,5 +63,7 @@
 - `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS` / `CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH`: subagent concurrency and nesting-depth caps — see agents.md. (v2.1.217/v2.1.219)
 - `CLAUDE_CODE_PROJECT_DIR_NAME`: overrides the per-project transcript directory name under `~/.claude/projects/` (default derives from the working directory path). (v2.1.234)
 - `spellcheck`: optional setting that underlines misspelled words in the prompt input as you type, using your installed `aspell`, `hunspell`, or `ispell`. (v2.1.235)
+- `ANTHROPIC_DEFAULT_MODEL` env var: sets the model new sessions start on. Unlike `ANTHROPIC_MODEL`, a later `/model` pick overrides it and persists across restarts. (v2.1.236)
+- Built-in **"Concise"** output style added to the `outputStyle` picker: Claude leads with results and skips preamble/narration while doing the work just as thoroughly. Select under Output style in `/config`. (v2.1.237)
 
 Managed-only settings (`disable*`, `allow*Only`, `sandbox.*.allowManaged*Only`, plugin/marketplace policy keys like `pluginTrustMessage`/`strictKnownMarketplaces`/`blockedMarketplaces`/`channelsEnabled`/`allowedChannelPlugins`, `minimumVersion`, `wslInheritsWindowsSettings`, `subagentStatusLine`) intentionally excluded -- see `/en/settings#available-settings` for the full enterprise list.
