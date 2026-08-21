@@ -4,6 +4,8 @@
 
 Servers in `.mcp.json` (project) or `~/.claude/.mcp.json` (global). Tools appear as `mcp__<server>__<tool>`. Use `ToolSearch` to discover deferred tools (only names loaded initially -- saves context). Scoping: local > project > user. Check per-server context cost with `/mcp`. MCP OAuth RFC 9728 supported (v2.1.85+). MCP prompts appear as commands: `/mcp__<server>__<prompt>`. In `.mcp.json`/`~/.claude.json`/`claude mcp add-json` configs, `type: "streamable-http"` is accepted as alias for `type: "http"` (MCP spec name). (v2.1.153)
 
+**MCP client runtimes (v1/v2, previously undocumented)**: Claude Code v2.1.232+ defaults to a v2 runtime (MCP TypeScript SDK 2.0, adds protocol revision 2026-07-28), picked once at startup and kept for the session; it falls back to v1 on Bedrock/Claude Platform on AWS/Google Cloud's Agent Platform/Microsoft Foundry (unless a host sets `CLAUDE_CODE_PROVIDER_MANAGED_BY_HOST`), when signed in through a Claude apps gateway, or with feature-flag fetching off. On v2, Claude Code asks each server whether it supports the newer revision and uses it with those that do; `list_changed` notifications for those servers arrive over a held-open stream instead of polling (reopens up to 3x within 10s, then backs off up to ~6hrs); a channel server on the newer revision can't carry channel messages so it isn't registered as a channel; an MCP OAuth sign-in whose response names an unexpected issuer now fails. Override with `MCP_SDK_GENERATION=v1|v2` and `MCP_PROTOCOL_NEGOTIATION=auto|legacy`.
+
 `alwaysLoad: true` in server config: always loads all server tools at session start, bypassing tool search. Per-tool: `_meta: {"anthropic/alwaysLoad": true}`. Use sparingly — each eager tool consumes context. (v2.1.121)
 
 `headersHelper`: shell command/script path in server config that generates dynamic request headers at connection time. Outputs JSON key-value pairs to stdout; env vars `CLAUDE_CODE_MCP_SERVER_NAME`/`CLAUDE_CODE_MCP_SERVER_URL` available. Overrides static `headers`; re-runs on reconnect. Use for non-OAuth auth (Kerberos, short-lived tokens, SSO).
@@ -57,11 +59,15 @@ An MCP tool call running longer than 2 minutes now moves to the background autom
 
 `.mcp.json` supports env var expansion in `command`, `args`, `env`, `url`, and `headers`: `${VAR}` expands to the env var's value, `${VAR:-default}` falls back to `default` when unset. An unset var with no default still loads (unexpanded `${VAR}` text used as-is) but `claude mcp list` shows a missing-variable warning.
 
-A remote (HTTP/SSE) server you've used before can show `cached` status in `/mcp` (e.g. `cached 2h ago · connects on first use`) instead of connecting at startup — Claude Code reuses the prior session's tool list and connects on first actual tool call. Set `MCP_DISCOVERY_CACHE=0` to force every server to connect at startup instead. (v2.1.221)
+A remote (HTTP/SSE) server you've used before can show `cached` status in `/mcp` (e.g. `cached 2h ago · connects on first use`) instead of connecting at startup — Claude Code reuses the prior session's tool list and connects on first actual tool call. Set `MCP_DISCOVERY_CACHE=1` to force it on, or `0` to force every server to connect at startup instead. (v2.1.221) **Default flipped (v2.1.238)**: the discovery cache is now off by default unless a gradual rollout has enabled it for your account (before v2.1.238 it was on by default).
+
+`claude mcp list`/`claude mcp get` now show a disabled server as `⊘ Disabled` instead of connecting to it for a health check. (v2.1.238)
 
 Per-server `timeout` (ms, in `.mcp.json`) is a hard wall-clock cap per tool call and floors the idle-timeout window; it's distinct from `MCP_TOOL_TIMEOUT`, whose unset default is ~28 hours. HTTP/SSE/connector servers also have a separate 60s per-request timer (time to first response byte) that only a `timeout`/`MCP_TOOL_TIMEOUT` of ≥60s raises; stdio/WebSocket servers have no per-request timer.
 
 ## Plugins
+
+A url marketplace/catalog entry's `headersHelper` can mint HTTP headers (e.g. a short-lived token) for catalog and same-origin archive fetches; it runs only when you install/update that plugin, shown once before `claude plugin install`/`update` prompt `[y/N]` (or `-y` non-interactively). MCP `headersHelper` in a project `.mcp.json`, or an inline MCP server in a project/`--add-dir` agent file, now also requires that folder's trust dialog to have been accepted (including under `claude -p`); it runs without inherited credential env vars — user/managed/claude.ai-scope `headersHelper`s now run from the Claude config dir instead. (v2.1.238)
 
 **`archive` plugin source (v2.1.224)**: install a plugin from a `.zip` over HTTPS with no git or npm required, with optional SHA-256 pinning for integrity. Complements `--plugin-dir`/`--plugin-url` for local/hosted testing.
 

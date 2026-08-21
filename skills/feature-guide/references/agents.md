@@ -115,6 +115,7 @@ Limitations: **no nested teams** (teammates cannot spawn their own teammates —
 **v2.1.235**: `SendMessage` now refuses messages too large for cross-session delivery upfront, instead of silently dropping them.
 **v2.1.236**: new `notify_when_idle` field on cross-session `SendMessage` — ask another local session to send one opt-in, one-shot notice when it next goes idle, instead of polling it (macOS/Linux). `SendMessage` also now refuses further messages up front once a rapid burst would exceed what the recipient's inbox accepts, rather than reporting them sent while dropping them.
 A mailbox message counts as sent only once the write to the recipient's inbox file succeeds; a failed write (e.g. disk full, inbox dir not writable) returns an error to the sender instead of silently dropping the message. In auto mode, cross-agent messages get two extra checks before delivery: an approval claim relayed from another agent is treated as untrusted input, not confirmation from you, and each message (plain text or a structured protocol message like a shutdown request or plan-approval response) is reviewed before delivery — one the classifier blocks never reaches the recipient.
+**v2.1.238**: sending to a session that refuses inbound messages (e.g. `crossSessionInbound: "refuse"`) now reports "refused" to the sender instead of a silent success; a session whose inbox drops your message (rate limit or full queue) now tells your session instead of the message vanishing silently.
 
 ## Worktrees
 
