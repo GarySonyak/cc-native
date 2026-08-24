@@ -65,6 +65,6 @@
 - `spellcheck`: optional setting that underlines misspelled words in the prompt input as you type, using your installed `aspell`, `hunspell`, or `ispell`. (v2.1.235)
 - `ANTHROPIC_DEFAULT_MODEL` env var: sets the model new sessions start on. Unlike `ANTHROPIC_MODEL`, a later `/model` pick overrides it and persists across restarts. (v2.1.236)
 - Built-in **"Concise"** output style added to the `outputStyle` picker: Claude leads with results and skips preamble/narration while doing the work just as thoroughly. Select under Output style in `/config`. (v2.1.237)
-- `keybindingFlavor`: set to `"readline"` to make Ctrl+W in the prompt input delete back to the previous whitespace, Bash/readline-style; default `"classic"` is unchanged. (v2.1.238)
+- `keybindingFlavor`: set to `"readline"` to make Ctrl+W in the prompt input delete back to the previous whitespace, Bash/readline-style; default `"classic"` is unchanged. (v2.1.238) **Extended (v2.1.239)**: `"readline"` also matches Bash for word-boundary keys — Alt+F and Ctrl/Option+→ stop at the end of a word, Alt+D deletes to it (Ctrl+Y pastes it back), and punctuation counts as a word separator.
 
 Managed-only settings (`disable*`, `allow*Only`, `sandbox.*.allowManaged*Only`, plugin/marketplace policy keys like `pluginTrustMessage`/`strictKnownMarketplaces`/`blockedMarketplaces`/`channelsEnabled`/`allowedChannelPlugins`, `minimumVersion`, `wslInheritsWindowsSettings`, `subagentStatusLine`) intentionally excluded -- see `/en/settings#available-settings` for the full enterprise list.
