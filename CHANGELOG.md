@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.93] — 2026-08-26
+
+- Daily docs sync (run summary unavailable)
+
 ## [0.2.92] — 2026-08-24
 
 - Daily docs sync (run summary unavailable)
