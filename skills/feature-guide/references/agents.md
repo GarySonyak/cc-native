@@ -83,6 +83,8 @@ Key frontmatter fields: `name` (required), `description` (required), `model` (op
 
 `permissionMode` accepts `manual` as an alias for `default` (v2.1.200).
 
+`experimental.cacheTtl` frontmatter field: sets a per-agent prompt cache TTL, overriding the session's `subagentPromptCacheTtl` setting for just this agent. (v2.1.248)
+
 Restrict spawnable subagents: `tools: Agent(worker, researcher), Read, Bash` -- allowlist syntax.
 Manage interactively: `/agents` command. **Doc correction (v2.1.198)**: `/agents` no longer opens an interactive wizard — running it prints a reminder to ask Claude or edit `.claude/agents/`/`~/.claude/agents/` directly; frontmatter and file locations are unchanged.
 
@@ -119,6 +121,7 @@ A mailbox message counts as sent only once the write to the recipient's inbox fi
 **v2.1.238**: sending to a session that refuses inbound messages (e.g. `crossSessionInbound: "refuse"`) now reports "refused" to the sender instead of a silent success; a session whose inbox drops your message (rate limit or full queue) now tells your session instead of the message vanishing silently.
 **v2.1.239**: cross-session messaging now works on **Windows** too (previously macOS/Linux only) — `SendMessage`/`ListAgents` reach other Claude Code sessions across your machines the same way. Bug fix: `ListAgents`/`/list-agents` now also lists your live agent-team teammates (previously only subagents and other sessions appeared, so a reachable teammate looked absent); `ListAgents` also now tells a session its own addressable name.
 **v2.1.247**: cross-session peer messages now collapse by default in the transcript, with `Ctrl+O` to expand.
+**v2.1.248**: cross-session messaging (`SendMessage`/`ListAgents`) now also works on Bedrock, Vertex, and Foundry (previously Anthropic API/Claude Platform on AWS only).
 
 ## Worktrees
 

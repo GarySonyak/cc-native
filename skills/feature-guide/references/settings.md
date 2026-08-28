@@ -69,4 +69,7 @@
 - `modelPicker`: curate the `/model` picker with your own ordered list of models and custom labels. User/managed/`--settings` scope only — never merges across scopes (highest-precedence of those three wins whole); project/local settings ignore the key. Requires v2.1.242+. (v2.1.243)
 - `promptCacheTtl` / `subagentPromptCacheTtl`: set the prompt cache lifetime for the main conversation vs. for subagents/teammates and other off-main-conversation requests respectively (any settings file). An in-process teammate's requests fall outside the main conversation's cache-TTL bucket by default (5min); set `subagentPromptCacheTtl: "1h"` to extend it — API bills 1hr cache writes at a higher rate. (v2.1.243)
 
+`desktopSessionCleanupPeriodDays`: how many days before Claude Desktop/Cowork sessions are cleaned up (fixes sessions previously disappearing after a fixed 30 days). (v2.1.248)
+Server-managed settings now get startup diagnostics: a warning at launch when a managed source fails to apply, plus a plain-language explanation surfaced in `/doctor` and `/status`. (v2.1.248)
+
 Managed-only settings (`disable*`, `allow*Only`, `sandbox.*.allowManaged*Only`, plugin/marketplace policy keys like `pluginTrustMessage`/`strictKnownMarketplaces`/`blockedMarketplaces`/`channelsEnabled`/`allowedChannelPlugins`, `minimumVersion`, `wslInheritsWindowsSettings`, `subagentStatusLine`) intentionally excluded -- see `/en/settings#available-settings` for the full enterprise list.

@@ -23,7 +23,7 @@ Remote Control mode reporting (v2.1.202): the permission-mode dropdown on claude
 
 Claude Code on the web (cloud sessions) only offers **Accept edits**, **Plan**, and **Auto** — Bypass permissions isn't available. "Accept edits" there actually maps to `default` mode: the cloud sandbox pre-approves file edits regardless of mode, so the dropdown label differs from the underlying mode value. Cloud sessions ignore `defaultMode: "bypassPermissions"`/`"dontAsk"` from checked-in settings and silently start in the mode the dropdown shows instead.
 
-CLI: `--permission-mode <mode>`. Setting: `permissions.defaultMode`. Scheduled tasks: use explicit `--allowedTools` in wrapper.
+CLI: `--permission-mode <mode>`. Setting: `permissions.defaultMode`. Scheduled tasks: use explicit `--allowedTools` in wrapper. `--restricted` flag (v2.1.248): starts a locked-down session for eval harnesses/shared machines — removes built-in command/code-execution tools and `WebFetch` by default (name individual tools in `--tools` to keep them), confines file tools to the working directory, loads only managed settings + `--settings` (ignores user/project settings), and refuses `bypassPermissions` outright.
 
 **Doc update**: current live docs describe the auto mode model requirement more simply — Anthropic API: Opus 4.6 or later, or Sonnet 4.6 or later (so this now includes Opus 4.8 too); Bedrock/Vertex/Foundry/Claude apps gateway: only Sonnet 5, Opus 4.7, Opus 4.8. No plan-tier distinction is called out anymore. The Team/Enterprise/API row above may be stale for the Anthropic-API case now that newer models qualify.
 
