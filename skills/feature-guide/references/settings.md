@@ -72,4 +72,8 @@
 `desktopSessionCleanupPeriodDays`: how many days before Claude Desktop/Cowork sessions are cleaned up (fixes sessions previously disappearing after a fixed 30 days). (v2.1.248)
 Server-managed settings now get startup diagnostics: a warning at launch when a managed source fails to apply, plus a plain-language explanation surfaced in `/doctor` and `/status`. (v2.1.248)
 
+Server-managed settings that terminate sandbox TLS, route sandbox traffic through your own proxy, inject credentials, or weaken sandbox isolation now require approval before they apply. (v2.1.251)
+`ANTHROPIC_CUSTOM_HEADERS` from managed or project settings now requires approval when it sets a credential, org/tenant, routing, or API-behavior header (e.g. `Authorization`, `Host`). (v2.1.251)
+Project-level `.claude/settings.json` `env` no longer sets `CLAUDE_CONFIG_DIR`, `CLAUDE_CODE_TMPDIR`, or `TMPDIR`/`TMP`/`TEMP` — set these in your shell, user, or managed settings instead. (v2.1.251)
+
 Managed-only settings (`disable*`, `allow*Only`, `sandbox.*.allowManaged*Only`, plugin/marketplace policy keys like `pluginTrustMessage`/`strictKnownMarketplaces`/`blockedMarketplaces`/`channelsEnabled`/`allowedChannelPlugins`, `minimumVersion`, `wslInheritsWindowsSettings`, `subagentStatusLine`) intentionally excluded -- see `/en/settings#available-settings` for the full enterprise list.

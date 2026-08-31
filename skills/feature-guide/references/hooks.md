@@ -13,6 +13,7 @@
 - File: `FileChanged`
 - Worktree: `WorktreeCreate`, `WorktreeRemove`
 - Context: `PreCompact`, `PostCompact`
+- Model: `PreModelSwitch` (fires before a model switch you or a client requested is applied; can block it), `PostModelSwitch` (fires after the session's model changes, including changes Claude Code makes on its own, e.g. restoring the model on resume). Matcher = canonical name of the model being switched to (e.g. `claude-opus-5`, or a regex like `.*opus.*`). Confirmed live on the hooks reference page. (v2.1.251)
 - Stop: `Stop`, `StopFailure`
 - Display: `MessageDisplay` (v2.1.152) -- fires when assistant message text is about to be displayed; hook can transform or suppress the text before it reaches the terminal
 - Auto mode: `PermissionDenied` (v2.1.88 -- fires after auto mode classifier denial, including denials with no classifier verdict at all; return `{retry: true}` to let model retry — Claude Code ignores `retry` specifically when the classifier produced no verdict)
@@ -78,6 +79,7 @@ Browse: `/hooks`. Disable all: `disableAllHooks: true`.
 - `WorktreeCreate`: command hooks return path on stdout; HTTP hooks return `hookSpecificOutput.worktreePath`. Hook failure or missing path fails worktree creation.
 - `SessionStart`/`Setup`: `hookSpecificOutput.additionalContext` injects text into Claude's context. `SessionStart` also accepts plain stdout (single hook); `Setup` concatenates `additionalContext` from multiple hooks.
 - **`Stop`/`SubagentStop` hooks can return `hookSpecificOutput.additionalContext` (v2.1.163/164)**: these events join SessionStart/Setup/UserPromptSubmit in supporting the nested `hookSpecificOutput: { hookEventName: "...", additionalContext: "..." }` format to inject context. Note: the top-level `additionalContext` field in hook JSON output is available to all hooks (general); the nested `hookSpecificOutput.additionalContext` path is event-specific.
+- Changelog (v2.1.251) claims `SessionStart` resume hooks now also receive session-staleness and estimated re-cache-cost fields — not yet confirmed on the live hooks reference page as of this run (only a `model` field is documented for `SessionStart`); flagged as a doc lag, not withheld.
 
 ## Multiple hooks on the same event
 

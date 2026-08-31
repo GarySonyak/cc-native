@@ -71,6 +71,8 @@ A url marketplace/catalog entry's `headersHelper` can mint HTTP headers (e.g. a 
 
 Cloud sessions: plugins synced from your claude.ai account now show as `name@synced` in `/plugin` and work with `claude plugin enable/disable <name>@synced`; a synced plugin never overrides a same-named plugin you installed yourself. (v2.1.239)
 
+Plugin commands declared in a marketplace entry can no longer point outside the plugin directory — such paths are now rejected with a path-traversal error. (v2.1.251)
+
 **`archive` plugin source (v2.1.224)**: install a plugin from a `.zip` over HTTPS with no git or npm required, with optional SHA-256 pinning for integrity. Complements `--plugin-dir`/`--plugin-url` for local/hosted testing.
 
 **Marketplace `command` source (v2.1.229)**: a marketplace entry can point at a local command (e.g. run by an IDE) that prints the plugin's directory path; re-resolved every session and applied without a restart. `mode: "link"` uses the printed path in place, like a local symlink source. Constraints: `command` must be printable ASCII, ≤500 chars, no runs of 4+ spaces (so users can review it); shown once for explicit accept (`--yes` non-interactively) and every later re-run reuses only the accepted string; never installed as a dependency of another plugin. Admins can block org-wide with `disableCommandPluginSources` (also blocked by default when `allowManagedHooksOnly` is set).
