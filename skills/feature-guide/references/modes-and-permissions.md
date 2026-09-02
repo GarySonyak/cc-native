@@ -27,7 +27,7 @@ CLI: `--permission-mode <mode>`. Setting: `permissions.defaultMode`. Scheduled t
 
 **Doc update**: current live docs describe the auto mode model requirement more simply — Anthropic API: Opus 4.6 or later, or Sonnet 4.6 or later (so this now includes Opus 4.8 too); Bedrock/Vertex/Foundry/Claude apps gateway: only Sonnet 5, Opus 4.7, Opus 4.8. No plan-tier distinction is called out anymore. The Team/Enterprise/API row above may be stale for the Anthropic-API case now that newer models qualify.
 
-`defaultMode: "auto"` is ignored when set in `.claude/settings.json` or `.claude/settings.local.json` (v2.1.142+, so a repo can't grant itself auto mode) — set it in `~/.claude/settings.json` (or managed settings) instead.
+`defaultMode: "auto"` is ignored when set in `.claude/settings.json` or `.claude/settings.local.json` (v2.1.142+, so a repo can't grant itself auto mode) — set it in `~/.claude/settings.json` (or managed settings) instead. **Extended (v2.1.257)**: `defaultMode: "bypassPermissions"` from those same project/local files is now ignored too, for the same reason — set it in user/managed settings or pass `--permission-mode` instead; before v2.1.257 a project file could grant itself bypass mode.
 
 `acceptEdits` mode also auto-approves PowerShell `Set-Content`, `Add-Content`, `Clear-Content`, and `Remove-Item` (plus common aliases) on in-scope paths, mirroring its Bash filesystem-command allowlist, when the PowerShell tool is enabled.
 
@@ -115,6 +115,7 @@ Refines and extends the v2.1.200 list:
 - **Sensitive local content into outbound artifacts (v2.1.203)**: content from a sensitive local store, or a file whose name/path/type marks it sensitive, is blocked from entering a commit, push, PR/issue body, gist/paste, or package publish unless both the source and the destination are named. Covers session transcripts and conversation logs, credential/config dot-folders (SSH keys, cloud credentials, browser profiles, shell history), and user-data exports. The destination repo being private does not clear this block.
 - **Public-repo personal-data block refined (v2.1.203)**: a dotfiles repo's own subject matter is now an exception to the personal/entrusted-data block; content reaching any public surface from a private repo is blocked the same way regardless of destination visibility. Before v2.1.203, personal data was grouped with confidential material and blocked only when not part of that repo's own work.
 - **Session transcript tampering (v2.1.205)**: new default block on tampering with the session's own transcript/conversation-log files — closes a self-modification gap adjacent to the v2.1.198 "keystrokes to Claude's own tmux pane" block.
+- **Containment Escape rule (v2.1.257)**: cloud metadata-credential fetches, egress evasion, and cross-tenant reach are no longer auto-approved unless `autoMode.environment` marks them expected. Separately (same version): a one-time prompt appears before the first file read outside the session's working directories, with an option to block such reads going forward (`permissions.blockReadsOutsideWorkingDirectories`).
 
 ## Auto mode push/secrets scope widened to any branch (v2.1.211)
 

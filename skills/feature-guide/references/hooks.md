@@ -42,6 +42,8 @@ Regex on event metadata: tool name (`PreToolUse`/`PostToolUse`/`PostToolUseFailu
 
 `PreToolUse`/`PostToolUse` fire on every tool call except `EndConversation`, which skips both. Hook output (stdout/stderr shown to Claude) is capped at 10,000 characters.
 
+Exit code 2 does **not** block on `PermissionRequest` (use the JSON `decision`/`behavior` field instead — no dialog to intercept via exit code), `PostToolUse`/`PostToolUseFailure` (tool already ran), or `StopFailure` (already failed).
+
 ## Structured JSON output
 
 Universal fields on any hook's JSON output: `continue` (bool), `stopReason` (message shown when `continue: false`), `systemMessage` (warning text shown to the user), `suppressOutput` (bool), `terminalSequence`.

@@ -76,4 +76,6 @@ Server-managed settings that terminate sandbox TLS, route sandbox traffic throug
 `ANTHROPIC_CUSTOM_HEADERS` from managed or project settings now requires approval when it sets a credential, org/tenant, routing, or API-behavior header (e.g. `Authorization`, `Host`). (v2.1.251)
 Project-level `.claude/settings.json` `env` no longer sets `CLAUDE_CONFIG_DIR`, `CLAUDE_CODE_TMPDIR`, or `TMPDIR`/`TMP`/`TEMP` — set these in your shell, user, or managed settings instead. (v2.1.251)
 
+`timeFormat` / `timeZone`: control how the turn-end clock and transcript-view timestamps are rendered — 12-hour, 24-hour, 24-hour UTC, or a strftime pattern. (v2.1.257)
+
 Managed-only settings (`disable*`, `allow*Only`, `sandbox.*.allowManaged*Only`, plugin/marketplace policy keys like `pluginTrustMessage`/`strictKnownMarketplaces`/`blockedMarketplaces`/`channelsEnabled`/`allowedChannelPlugins`, `minimumVersion`, `wslInheritsWindowsSettings`, `subagentStatusLine`) intentionally excluded -- see `/en/settings#available-settings` for the full enterprise list.
