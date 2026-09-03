@@ -18,7 +18,7 @@ Servers in `.mcp.json` (project) or `~/.claude/.mcp.json` (global). Tools appear
 
 `claude mcp login <name>` / `claude mcp logout <name>`: authenticate or deauthenticate with a specific MCP server from the CLI, without opening the `/mcp` menu. `--no-browser` flag redirects auth flow to stdin — required in SSH/headless sessions. `claude mcp get`/`claude mcp remove` now suggest typo corrections and truncate long server lists. (v2.1.186)
 
-Managed MCP policy: `allowedMcpServers`/`deniedMcpServers` in managed settings restrict users to approved servers. Match by `serverName`, `serverCommand` (exact array), or `serverUrl` (wildcard `*`). Allowlist behavior: undefined=no restriction, `[]`=full lockdown, list=whitelist. Denylist takes absolute precedence over allowlist. Option 1 (`managed-mcp.json`)=exclusive control over all servers; Option 2 (allowlists/denylists)=policy overlay allowing user-added servers within constraints. Both can coexist. (v2.1.128)
+Managed MCP policy: `allowedMcpServers`/`deniedMcpServers` in managed settings restrict users to approved servers. Match by `serverName`, `serverCommand` (exact array), or `serverUrl` (wildcard `*`). Allowlist behavior: undefined=no restriction, `[]`=full lockdown, list=whitelist. Denylist takes absolute precedence over allowlist. Option 1 (`managed-mcp.json`)=exclusive control over all servers; Option 2 (allowlists/denylists)=policy overlay allowing user-added servers within constraints. Both can coexist. (v2.1.128) **Changed (v2.1.259)**: `allowedMcpServers`/`deniedMcpServers` now govern only user-added servers; new `managedMcpServers` managed setting separately lets an organization provide HTTP/SSE MCP servers to every user directly (neither found on a live mcp.txt fetch this run — changelog-sourced only, day-1 doc lag).
 
 `MCP_TOOL_TIMEOUT` env var: raises per-request fetch timeout for remote MCP servers (was previously capped at 60s regardless of this setting). Set to timeout in ms. (v2.1.142)
 
@@ -102,7 +102,7 @@ Plugin with root-level `SKILL.md` and no `skills/` subdirectory automatically su
 
 `claude plugin disable` now refuses if another enabled plugin declares a dependency on the target, displaying which plugin depends on it. Disable the dependent plugin first, then retry. (v2.1.143)
 
-`claude plugin validate`: run locally before submitting to marketplace — same checks the review pipeline runs. Use before `claude.ai/settings/plugins/submit` submissions. Prints `✔ Validation passed` (or `✔ Validation passed with warnings`); warnings don't fail validation unless `--strict` is passed, which treats them as errors.
+`claude plugin validate`: run locally before submitting to marketplace — same checks the review pipeline runs. Use before `claude.ai/settings/plugins/submit` submissions. Prints `✔ Validation passed` (or `✔ Validation passed with warnings`); warnings don't fail validation unless `--strict` is passed, which treats them as errors. `--json` (v2.1.259) prints a machine-readable validation report instead (not confirmed on a live plugins.txt fetch this run — changelog-sourced only).
 
 Community marketplace: add with `/plugin marketplace add anthropics/claude-plugins-community`, then install from it as `@claude-community`. Official marketplace (`claude-plugins-official`) is auto-available in every install.
 
