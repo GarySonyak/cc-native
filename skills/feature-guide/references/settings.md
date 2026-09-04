@@ -78,4 +78,6 @@ Project-level `.claude/settings.json` `env` no longer sets `CLAUDE_CONFIG_DIR`, 
 
 `timeFormat` / `timeZone`: control how the turn-end clock and transcript-view timestamps are rendered — 12-hour, 24-hour, 24-hour UTC, or a strftime pattern. (v2.1.257)
 
+A managed `CLAUDE.md` (`claudeMd`) pushed via server-managed settings no longer triggers the security approval dialog on its own; hooks, shell-command, sandbox, and unsafe `env` settings still require approval. (v2.1.260)
+
 Managed-only settings (`disable*`, `allow*Only`, `sandbox.*.allowManaged*Only`, plugin/marketplace policy keys like `pluginTrustMessage`/`strictKnownMarketplaces`/`blockedMarketplaces`/`channelsEnabled`/`allowedChannelPlugins`, `minimumVersion`, `wslInheritsWindowsSettings`, `subagentStatusLine`) intentionally excluded -- see `/en/settings#available-settings` for the full enterprise list.
